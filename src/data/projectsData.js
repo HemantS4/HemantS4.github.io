@@ -13,7 +13,7 @@ export const projectsData = [
     thumbnail: `${BASE_URL}images/projects/ammo-batics/Cover.png`,
 
     // Detailed project information
-    overview: 'You fire a gun. The recoil throws you backward. That\'s the whole game. Ammo-batics started as a two-week design sprint exploring what happens when shooting isn\'t about hitting targets—it\'s about moving through space. You wake up at the bottom of a bioluminescent cave with an alien pistol. The only way out is up, and every bullet counts as both ammo and movement fuel.',
+    overview: '',
 
     role: 'Game Designer, Level Designer, Programmer',
     duration: '2 Weeks',
@@ -21,85 +21,26 @@ export const projectsData = [
     platform: ['PC'],
 
     // Extended sections with detailed content and images
-    extendedSections: [
-      {
-        title: 'Design Process',
-        content: 'The design process for Ammo-batics was iterative and focused on rapid prototyping. I started by identifying the core mechanic—recoil-based movement—and built a minimal prototype to test if shooting could feel good as a movement tool rather than a combat mechanic. Through playtesting, I identified key pain points like unpredictable trajectories and soft-lock scenarios, which led to the addition of trajectory previews and the transition from finite to regenerating ammo in V2.',
-        image: 'Design process.png'
-      },
-      {
-        title: 'Core Loop',
-        content: 'The core loop revolves around **Explore → Learn → Bypass → Unlock**. Players explore interconnected rooms, learn new movement techniques through environmental challenges, bypass previously inaccessible areas using their skills, and unlock shortcuts or new abilities. Each cycle reinforces mastery while opening new paths, creating a satisfying sense of progression.',
-        image: 'Core Loop.png'
-      },
-      {
-        title: 'Level Design - V1 Prototype (5 Levels)',
-        content: 'V1 consisted of 5 linear levels designed using the **"Teach → Test → Twist"** structure:\n\n**Level 1 — The Fall & First Steps:** Tutorial level introducing basic movement and recoil hop. Single target opens first door with no hazards, focusing on clarity and player understanding.\n\n**Level 2 — Bank Shot:** Target behind a wall teaches ricochet mechanics off ceiling/wall. Short vertical chimney requiring down-shot recoil lift with safe floors for iteration.\n\n**Level 3 — Cadence & Moving Platforms:** Introduces timed doors and moving platforms. Players learn shot rhythm: move → aim → shoot → stabilize. Misses cost time, not lives.\n\n**Level 4 — Routing with Limited Ammo:** Three targets split across the room where order matters. Finite ammo creates light planning—waste bullets and you reset. First hint of multi-path routing.\n\n**Level 5 — Capstone Chain:** Blends all skills: bank shot → double recoil climb → door run. Big "aha" finale once the chain clicks, with no lethal hazards yet.',
-        image: '1.png'
-      },
-      {
-        title: 'Level Design - Continued',
-        content: 'Each level was designed with clear visual language and fair telegraphing. The progression from Level 1 to Level 5 follows a careful difficulty curve that introduces mechanics one at a time before combining them in creative ways. The compact arenas ensure players always understand their goals, while the safe iteration spaces encourage experimentation without harsh punishment.',
-        image: '3.png'
-      },
-      {
-        title: 'Level Design - Final Levels',
-        content: 'The later levels increase complexity through multi-target puzzles and timed sequences. Level 4 introduces resource management with finite ammo, teaching players to plan their shots. Level 5 serves as a capstone that validates mastery of all techniques learned throughout the journey, with vertical climbs and precise timing challenges.',
-        image: '4.png'
-      },
-      {
-        title: 'Level Design - Advanced Techniques',
-        content: 'The V1 levels also introduced advanced movement opportunities for skilled players. Wide rooms with mid-platforms teach recoil hops, while narrow corridors demand precise timing and cadence. These design patterns carried forward into V2, forming the foundation for the Metroidvania-style interconnected map.',
-        image: '5.png'
-      },
-      {
-        title: 'Movement Mechanics',
-        content: 'The game features layered movement tech that players gradually master: **Recoil Hops** for basic vertical movement, **Ricochets** off angled surfaces for momentum preservation, and **Wall Bounces** for advanced traversal. A laser trajectory preview shows exactly where you\'ll land after firing, making recoil feel responsive and predictable. This removed the frustration of guesswork while preserving the skill ceiling.',
-        image: '2.png'
-      },
-      {
-        title: 'V2 Design - Metroidvania Evolution',
-        content: 'V2 pivoted from linear levels to a paper-based **Metroidvania map** with interconnected rooms, checkpoints, shortcuts, and optional hard-mode routes. The biggest change: **regenerating ammo with slot upgrades** instead of finite bullets. This solved the soft-lock problem—players could no longer trap themselves by running out of ammo. Instead, progression became about cooldown management and strategic ammo slot expansion.',
-        image: 'MIniMap.png'
-      },
-      {
-        title: 'Obstacles & Hazards',
-        content: 'The V2 design introduces a variety of obstacles that challenge player skill:\n\n**Seed Shooter:** Primary enemy that shoots seeds in slow arcs; exploitable for timing and can be used as moving platforms. Teaches spatial awareness and rhythm-based movement.\n\n**Spikes:** Static hazards placed strategically to punish careless movement. Force players to use precise recoil angles.\n\n**Lava Pits:** Environmental hazards with telegraphed danger zones. Players must time recoil hops carefully to avoid falling in.\n\n**Crumble Tiles:** Platforms that collapse after a short delay, creating urgency in movement decisions.\n\nAll hazards feature fair telegraphs—visual or audio cues that signal danger before it hits. The goal is challenging but never unfair.'
-      },
-      {
-        title: 'Beat Chart & Pacing',
-        content: 'The beat chart maps emotional peaks and valleys across the player journey. Early game: **Discovery** (low-stress exploration). Mid-game: **Challenge** (spike in difficulty as techniques layer). Late game: **Mastery** (high-intensity gauntlets requiring perfect execution). Checkpoints are strategically placed before difficulty spikes to prevent frustration, while shortcuts reward skilled players with faster routes.'
-      },
-      {
-        title: 'Future Prospects',
-        content: 'Future updates would expand enemy variety with the **Vine Lash** (telegraphed line hazard), **Moss Pod** (spawns temporary platforms when shot), and **Spore Spreader** (releases redirectable spore clouds). Additional features include **speed-run modes**, **challenge rooms** with leaderboards, and **customizable weapon skins** for player expression. The V2 map structure provides a foundation for modular expansion with new zones and abilities.'
-      }
-    ],
+    extendedSections: [],
 
-    challenges: [
-      'Making recoil feel responsive without being unpredictable—players needed to know exactly where they\'d land',
-      'Teaching layered movement tech (recoil hops, ricochets, wall bounces) without overwhelming new players',
-      'Solving the soft-lock problem: finite ammo meant players could trap themselves and had to restart entire levels'
-    ],
+    challenges: [],
 
-    solutions: [
-      'Added laser trajectory preview showing exactly where you\'ll land after firing',
-      'Designed 5 levels using "Teach → Test → Twist" structure: learn one thing, use it, then combine it',
-      'V2 switched to regenerating ammo with slot upgrades—no more soft-locks, just cooldown management',
-      'Built a Metroidvania-style map on paper with checkpoints, shortcuts, and optional hard-mode routes'
-    ],
+    solutions: [],
 
-    features: [
-      'Precision shooting mechanics with physics-based recoil',
-      'Interconnected rooms with multiple traversal routes',
-      'Quick respawns and fair checkpoints',
-      'Explore → Learn → Bypass → Unlock progression cycle',
-      'Recoil-powered movement system',
-      'Laser trajectory preview for predictable movement',
-      'Regenerating ammo with upgradeable slots'
-    ],
+    features: [],
 
-    gallery: [],
+    gallery: [
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 1.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 2.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 4.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 5.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 6.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 8.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 9.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 10.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 11.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 12.png`
+    ],
 
     videoUrl: 'https://www.youtube.com/embed/oXmuplxd0LM',
 

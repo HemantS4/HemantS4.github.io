@@ -7,7 +7,7 @@
   padding: 2rem var(--sidebar-width) 8rem calc(var(--sidebar-width) + 2rem);
   position: relative;
   z-index: 10;
-  max-width: 1800px;
+  max-width: 2400px;
   margin: 0 auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -27,12 +27,14 @@
 
 /* Image-only layout - no padding for seamless image display */
 .project-content-scroll.image-only-layout {
-  padding: 4rem 4rem 0 4rem;
+  padding: 4rem 0 0 0;
 }
 
 .project-content-scroll.image-only-layout .project-hero-content {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
 }
 
 /* Content Blocks */

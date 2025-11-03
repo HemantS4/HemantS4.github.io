@@ -1,0 +1,64 @@
+/* Frame 10 with GIFs overlay */
+.frame10-wrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.frame10-base {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.frame10-gifs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.gif-box-10 {
+  position: absolute;
+  overflow: hidden;
+}
+
+.gif-box-10 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Box 1 - Left: 222px, Top: 388px, Size: 191x193 */
+.gif-box-10-left {
+  left: 17.93%;
+  top: 55.91%;
+  width: 15.43%;
+  height: 27.81%;
+}
+
+/* Box 2 - Middle: 524px, Top: 388px, Size: 191x193 */
+.gif-box-10-middle {
+  left: 42.33%;
+  top: 55.91%;
+  width: 15.43%;
+  height: 27.81%;
+}
+
+/* Box 3 - Right: 826px, Top: 388px, Size: 191x193 */
+.gif-box-10-right {
+  left: 66.72%;
+  top: 55.91%;
+  width: 15.43%;
+  height: 27.81%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gif-box-10 img {
+    object-fit: contain;
+  }
+}

@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getProjectById, getAdjacentProjects } from '../data/projectsData'
 import Sidebar from './Sidebar'
 import { BarChart, ProgressBars, StatsGrid, DonutChart } from './ResearchCharts'
+import Frame9WithGifs from './Frame9WithGifs'
+import Frame10WithGifs from './Frame10WithGifs'
 import '../styles/ProjectDetail.css'
 
 export default function ProjectDetail() {
@@ -334,22 +336,44 @@ export default function ProjectDetail() {
           {project.gallery && project.gallery.length > 0 && (
             <div className="content-block gallery-block">
               {project.overview && <h2 className="block-title">Gallery</h2>}
-              {project.gallery.map((image, index) => (
-                <div
-                  key={index}
-                  className="gallery-image-block"
-                  onClick={project.overview ? () => openLightbox(image, index) : undefined}
-                >
-                  <img
-                    src={image}
-                    alt={`${project.title} Screenshot ${index + 1}`}
-                    onError={(e) => {
-                      e.target.src = `https://via.placeholder.com/800x450/1a1a2e/ff7849?text=Screenshot+${index + 1}`
-                    }}
-                  />
-                  {project.overview && <div className="image-caption">Click to enlarge</div>}
-                </div>
-              ))}
+              {project.gallery.map((image, index) => {
+                // Check if this is Frame 9 or Frame 10 in ammo-batics project
+                const isFrame9 = project.id === 'ammo-batics' && image.includes('Frame 9.png')
+                const isFrame10 = project.id === 'ammo-batics' && image.includes('Frame 10.png')
+
+                if (isFrame9) {
+                  return (
+                    <div key={index} className="gallery-image-block">
+                      <Frame9WithGifs />
+                    </div>
+                  )
+                }
+
+                if (isFrame10) {
+                  return (
+                    <div key={index} className="gallery-image-block">
+                      <Frame10WithGifs />
+                    </div>
+                  )
+                }
+
+                return (
+                  <div
+                    key={index}
+                    className="gallery-image-block"
+                    onClick={project.overview ? () => openLightbox(image, index) : undefined}
+                  >
+                    <img
+                      src={image}
+                      alt={`${project.title} Screenshot ${index + 1}`}
+                      onError={(e) => {
+                        e.target.src = `https://via.placeholder.com/800x450/1a1a2e/ff7849?text=Screenshot+${index + 1}`
+                      }}
+                    />
+                    {project.overview && <div className="image-caption">Click to enlarge</div>}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>
