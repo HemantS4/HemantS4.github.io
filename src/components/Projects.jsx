@@ -8,6 +8,7 @@ export default function Projects({ scrollProgress }) {
   const [selectedProject, setSelectedProject] = useState(null)
   const [globalTilt, setGlobalTilt] = useState({ x: 0, y: 0 })
   const [isMobile, setIsMobile] = useState(false)
+  const [glowingProject, setGlowingProject] = useState(null)
   const projectsRef = useRef(null)
 
   // Detect mobile viewport
@@ -25,15 +26,35 @@ export default function Projects({ scrollProgress }) {
     const handleGlobalMouseMove = (e) => {
       if (projectsRef.current) {
         const rect = projectsRef.current.getBoundingClientRect()
-        const mouseX = (e.clientX - rect.left) / rect.width // 0 to 1
-        const mouseY = (e.clientY - rect.top) / rect.height // 0 to 1
+        const mouseX = e.clientX - rect.left
+        const mouseY = e.clientY - rect.top
 
-        setGlobalTilt({
-          mouseX,
-          mouseY,
-          baseTiltX: (mouseY - 0.5) * -20,
-          baseTiltY: (mouseX - 0.5) * 20
-        })
+        // Check if cursor is within the projects section bounds
+        const isInsideSection = mouseX >= 0 && mouseX <= rect.width &&
+                                mouseY >= 0 && mouseY <= rect.height
+
+        if (isInsideSection) {
+          // Normalize to 0-1 range
+          const normalizedX = mouseX / rect.width
+          const normalizedY = mouseY / rect.height
+
+          setGlobalTilt({
+            mouseX: normalizedX,
+            mouseY: normalizedY,
+            baseTiltX: (normalizedY - 0.5) * -20,
+            baseTiltY: (normalizedX - 0.5) * 20,
+            isInside: true
+          })
+        } else {
+          // Reset to facing forward when cursor leaves
+          setGlobalTilt({
+            mouseX: 0.5,
+            mouseY: 0.5,
+            baseTiltX: 0,
+            baseTiltY: 0,
+            isInside: false
+          })
+        }
       }
     }
 
@@ -54,6 +75,28 @@ export default function Projects({ scrollProgress }) {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [selectedProject])
 
+  // Random glow effect to invite interaction
+  useEffect(() => {
+    const selectRandomProject = () => {
+      const randomIndex = Math.floor(Math.random() * projects.length)
+      setGlowingProject(projects[randomIndex].id)
+
+      // Remove glow after 3 seconds
+      setTimeout(() => {
+        setGlowingProject(null)
+      }, 5000)
+    }
+
+    // Start the cycle after 2 seconds, then repeat every 8 seconds
+    const initialTimeout = setTimeout(selectRandomProject, 4000)
+    const interval = setInterval(selectRandomProject, 6000)
+
+    return () => {
+      clearTimeout(initialTimeout)
+      clearInterval(interval)
+    }
+  }, [])
+
   const projects = projectsData
 
 
@@ -73,23 +116,23 @@ export default function Projects({ scrollProgress }) {
   const projectPhase = 1
   const aboutPhase = 0
 
-  // 3-4-3 Grid layout - static positions with cursor-based rotation only
+  // 4x2 Grid layout - 4 cards per row with even spacing
   const card3DPositions = [
-    // Row 1 - Top (3 cards evenly spaced)
-    { x: 16, y: 20, z: 15 },  // 1
-    { x: 50, y: 20, z: 18 },  // 2
-    { x: 84, y: 20, z: 12 },  // 3
+    // Row 1 - Top (4 cards evenly spaced)
+    { x: 12.5, y: 25, z: 15 },  // 1
+    { x: 37.5, y: 25, z: 18 },  // 2
+    { x: 62.5, y: 25, z: 16 },  // 3
+    { x: 87.5, y: 25, z: 14 },  // 4
 
-    // Row 2 - Middle (4 cards evenly distributed with consistent spacing)
-    { x: 12, y: 55, z: 16 },  // 4
-    { x: 37, y: 55, z: 14 },  // 5
-    { x: 63, y: 55, z: 17 },  // 6
-    { x: 88, y: 55, z: 13 },  // 7
+    // Row 2 - Bottom (4 cards evenly spaced with large gap from top row)
+    { x: 12.5, y: 70, z: 17 },  // 5
+    { x: 37.5, y: 70, z: 13 },  // 6
+    { x: 62.5, y: 70, z: 15 },  // 7
+    { x: 87.5, y: 70, z: 16 },  // 8
 
-    // Row 3 - Bottom (3 cards with consistent gap)
-    { x: 25, y: 90, z: 10 },  // 8 (artwork will be here)
-    { x: 50, y: 90, z: 11 },  // 9 (if needed)
-    { x: 75, y: 90, z: 12 }   // 10 (if needed)
+    // Extra positions (if needed for future projects)
+    { x: 50, y: 95, z: 10 },    // 9
+    { x: 50, y: 95, z: 11 }     // 10
   ]
 
   const getCardStyle = (index) => {
@@ -211,7 +254,7 @@ export default function Projects({ scrollProgress }) {
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className={`project-card project-floating ${selectedProject === project.id ? 'selected' : ''} ${hoveredProject === project.id ? 'hovered' : ''}`}
+            className={`project-card project-floating ${selectedProject === project.id ? 'selected' : ''} ${hoveredProject === project.id ? 'hovered' : ''} ${glowingProject === project.id ? 'glowing' : ''}`}
             style={getCardStyle(index)}
             onMouseEnter={() => setHoveredProject(project.id)}
             onMouseLeave={() => setHoveredProject(null)}

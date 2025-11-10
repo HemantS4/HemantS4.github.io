@@ -422,6 +422,50 @@
   transform: scale(1.08);
 }
 
+/* Glowing effect - inviting interaction */
+.project-card.glowing {
+  animation: projectGlow 3s ease-in-out;
+  border-color: var(--color-primary);
+}
+
+@keyframes projectGlow {
+  0% {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 120, 73, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(255, 120, 73, 0.6),
+      0 0 60px rgba(136, 85, 255, 0.4),
+      0 0 80px rgba(255, 120, 73, 0.3),
+      inset 0 0 30px rgba(255, 120, 73, 0.15);
+    border-color: var(--color-primary);
+  }
+  100% {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 120, 73, 0.3);
+  }
+}
+
+.project-card.glowing .project-title {
+  animation: textGlow 3s ease-in-out;
+}
+
+@keyframes textGlow {
+  0% {
+    color: var(--color-text);
+    text-shadow: none;
+  }
+  50% {
+    color: var(--color-primary);
+    text-shadow: 0 0 15px rgba(255, 120, 73, 0.6);
+  }
+  100% {
+    color: var(--color-text);
+    text-shadow: none;
+  }
+}
+
 /* Selected (clicked) effect - full zoom and highlight */
 .project-card.selected {
   border-color: var(--color-primary);
@@ -956,6 +1000,12 @@
   animation: floatTool5 6s ease-in-out infinite;
 }
 
+.tool-badge:nth-child(6) {
+  top: 50%;
+  right: 0%;
+  animation: floatTool6 7s ease-in-out infinite;
+}
+
 @keyframes floatTool1 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(10px, -15px); }
@@ -979,6 +1029,11 @@
 @keyframes floatTool5 {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(18px, 5px); }
+}
+
+@keyframes floatTool6 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-18px, 8px); }
 }
 
 .tool-badge::before {
@@ -1039,6 +1094,10 @@
 
 .tool-badge[data-category="Dev"]:hover {
   border-color: #4caf50;
+}
+
+.tool-badge[data-category="Tech"]:hover {
+  border-color: #00ffaa;
 }
 
 /* Resume Button */
@@ -1404,6 +1463,11 @@
   .tool-badge:nth-child(5) {
     top: 48%;
     left: -2%;
+  }
+
+  .tool-badge:nth-child(6) {
+    top: 48%;
+    right: -2%;
   }
 
   .tool-name {

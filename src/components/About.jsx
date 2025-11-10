@@ -6,7 +6,8 @@ export default function About() {
     { name: 'Blender', category: '3D' },
     { name: 'Photoshop', category: 'Adobe' },
     { name: 'Figma', category: 'Design' },
-    { name: 'Unreal', category: 'Engine' }
+    { name: 'Unreal', category: 'Engine' },
+    { name: 'AI', category: 'Tech' }
   ]
 
   const handleResumeClick = () => {

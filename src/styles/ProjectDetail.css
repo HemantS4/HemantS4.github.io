@@ -772,6 +772,39 @@
   color: var(--color-text);
 }
 
+.lightbox-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.lightbox-nav-area {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.2s ease;
+}
+
+.lightbox-nav-area.left {
+  left: 0;
+  cursor: w-resize;
+}
+
+.lightbox-nav-area.right {
+  right: 0;
+  cursor: e-resize;
+}
+
+.lightbox-nav-area:hover {
+  background: linear-gradient(to right, rgba(255, 120, 73, 0.1), transparent);
+}
+
+.lightbox-nav-area.right:hover {
+  background: linear-gradient(to left, rgba(255, 120, 73, 0.1), transparent);
+}
+
 /* Loading State */
 .loading {
   min-height: 100vh;

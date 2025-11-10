@@ -3,24 +3,22 @@ const BASE_URL = import.meta.env.BASE_URL || '/';
 
 export const projectsData = [
   {
-    id: 'ammo-batics',
-    title: 'Ammo-batics',
-    category: '2D Platformer',
+    id: 'pack-less',
+    title: 'Pack-less',
+    category: 'Product Design & System Design',
     year: '2025',
-    description: 'A 2D momentum-centric platformer where every shot fired becomes a movement decision.',
-    shortDescription: '2D shooter platformer focusing on Level Design',
-    tools: ['Unity', 'Photoshop', 'C#'],
-    thumbnail: `${BASE_URL}images/projects/ammo-batics/Cover.png`,
+    description: 'A comprehensive product and system design project focusing on market analysis and strategic design',
+    shortDescription: 'Product design with SWOT analysis and market research',
+    tools: ['Figma', 'Market Research', 'SWOT Analysis'],
+    thumbnail: `${BASE_URL}images/projects/Pack-less/pack-1.png`,
 
-    // Detailed project information
     overview: '',
 
-    role: 'Game Designer, Level Designer, Programmer',
+    role: 'Product Designer, System Designer',
     duration: '2 Weeks',
-    teamSize: 'Solo Project',
-    platform: ['PC'],
+    teamSize: 'Multidisciplinary Team',
+    platform: ['Product Design'],
 
-    // Extended sections with detailed content and images
     extendedSections: [],
 
     challenges: [],
@@ -30,23 +28,22 @@ export const projectsData = [
     features: [],
 
     gallery: [
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 1.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 2.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 4.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 5.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 6.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 8.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 9.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 10.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 11.png`,
-      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 12.png`
+      `${BASE_URL}images/projects/Pack-less/pack-1.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-2.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-3.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-4.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-5.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-6.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-7.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-8.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-9.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-10.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-11.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-12.png`
     ],
 
-    videoUrl: 'https://www.youtube.com/embed/oXmuplxd0LM',
-
     links: {
-      itchIo: 'https://hemants4.itch.io/ammo-batics',
-      gdd: `${BASE_URL}ammobatics_gdd.html`
+      ppt: `${BASE_URL}images/projects/Pack-less/DM_Research.pdf`
     }
   },
 
@@ -109,6 +106,97 @@ export const projectsData = [
 
     links: {
       gdd: `${BASE_URL}Gamification_gdd.html`
+    }
+  },
+
+  {
+    id: 'moti',
+    title: 'Moti',
+    category: 'Indie Game',
+    year: '2025',
+    description: 'A cozy indie dog experience game',
+    shortDescription: 'Cozy dog companion experience',
+    tools: ['Unity', 'C#', 'Blender'],
+    thumbnail: `${BASE_URL}images/projects/Moti/moti 1.png`,
+
+    overview: '',
+
+    role: 'System Designer, Developer',
+    duration: '3 Weeks',
+    teamSize: '3 Person Team',
+    platform: ['PC'],
+
+    extendedSections: [],
+
+    challenges: [],
+
+    solutions: [],
+
+    features: [],
+
+    gallery: [
+      `${BASE_URL}images/projects/Moti/moti 1.png`,
+      `${BASE_URL}images/projects/Moti/moti 2.png`,
+      `${BASE_URL}images/projects/Moti/moti 3.png`,
+      `${BASE_URL}images/projects/Moti/moti 4.png`,
+      `${BASE_URL}images/projects/Moti/moti 5.png`,
+      `${BASE_URL}images/projects/Moti/moti 6.png`,
+      `${BASE_URL}images/projects/Moti/moti 7.png`,
+      `${BASE_URL}images/projects/Moti/moti 8.png`,
+      `${BASE_URL}images/projects/Moti/moti 9.png`,
+      `${BASE_URL}images/projects/Moti/moti 10.png`
+    ],
+
+    videoUrl: 'https://www.youtube.com/embed/YOUR_VIDEO_ID',
+
+    links: {}
+  },
+
+  {
+    id: 'ammo-batics',
+    title: 'Ammo-batics',
+    category: '2D Platformer',
+    year: '2025',
+    description: 'A 2D momentum-centric platformer where every shot fired becomes a movement decision.',
+    shortDescription: '2D shooter platformer focusing on Level Design',
+    tools: ['Unity', 'Photoshop', 'C#'],
+    thumbnail: `${BASE_URL}images/projects/ammo-batics/Cover.png`,
+
+    // Detailed project information
+    overview: '',
+
+    role: 'Game Designer, Level Designer, Programmer',
+    duration: '2 Weeks',
+    teamSize: 'Solo Project',
+    platform: ['PC'],
+
+    // Extended sections with detailed content and images
+    extendedSections: [],
+
+    challenges: [],
+
+    solutions: [],
+
+    features: [],
+
+    gallery: [
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 1.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 2.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 4.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 5.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 6.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 8.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 9.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 10.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 11.png`,
+      `${BASE_URL}images/projects/ammo-batics/Slides/Frame 12.png`
+    ],
+
+    videoUrl: 'https://www.youtube.com/embed/oXmuplxd0LM',
+
+    links: {
+      itchIo: 'https://hemants4.itch.io/ammo-batics',
+      gdd: `${BASE_URL}ammobatics_gdd.html`
     }
   },
 
@@ -388,94 +476,6 @@ Field research: kids engage most when they feel in control. Pause anytime. Skip 
   },
 
   {
-    id: 'moti',
-    title: 'Moti',
-    category: 'Indie Game',
-    year: '2025',
-    description: 'A cozy indie dog experience game',
-    shortDescription: 'Cozy dog companion experience',
-    tools: ['Unity', 'C#', 'Blender'],
-    thumbnail: `${BASE_URL}images/projects/Moti/moti 1.png`,
-
-    overview: '',
-
-    role: 'System Designer, Developer',
-    duration: '3 Weeks',
-    teamSize: '3 Person Team',
-    platform: ['PC'],
-
-    extendedSections: [],
-
-    challenges: [],
-
-    solutions: [],
-
-    features: [],
-
-    gallery: [
-      `${BASE_URL}images/projects/Moti/moti 1.png`,
-      `${BASE_URL}images/projects/Moti/moti 2.png`,
-      `${BASE_URL}images/projects/Moti/moti 3.png`,
-      `${BASE_URL}images/projects/Moti/moti 4.png`,
-      `${BASE_URL}images/projects/Moti/moti 5.png`,
-      `${BASE_URL}images/projects/Moti/moti 6.png`,
-      `${BASE_URL}images/projects/Moti/moti 7.png`,
-      `${BASE_URL}images/projects/Moti/moti 8.png`,
-      `${BASE_URL}images/projects/Moti/moti 9.png`,
-      `${BASE_URL}images/projects/Moti/moti 10.png`
-    ],
-
-    videoUrl: 'https://www.youtube.com/embed/YOUR_VIDEO_ID',
-
-    links: {}
-  },
-
-  {
-    id: 'pack-less',
-    title: 'Pack-less',
-    category: 'Product Design & System Design',
-    year: '2025',
-    description: 'A comprehensive product and system design project focusing on market analysis and strategic design',
-    shortDescription: 'Product design with SWOT analysis and market research',
-    tools: ['Figma', 'Market Research', 'SWOT Analysis'],
-    thumbnail: `${BASE_URL}images/projects/Pack-less/pack-1.png`,
-
-    overview: '',
-
-    role: 'Product Designer, System Designer',
-    duration: '2 Weeks',
-    teamSize: 'Multidisciplinary Team',
-    platform: ['Product Design'],
-
-    extendedSections: [],
-
-    challenges: [],
-
-    solutions: [],
-
-    features: [],
-
-    gallery: [
-      `${BASE_URL}images/projects/Pack-less/pack-1.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-2.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-3.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-4.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-5.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-6.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-7.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-8.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-9.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-10.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-11.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-12.png`
-    ],
-
-    links: {
-      ppt: `${BASE_URL}images/projects/Pack-less/DM_Research.pdf`
-    }
-  },
-
-  {
     id: 'spring-twilight',
     title: 'Spring Twilight',
     category: 'Experimental Game',
@@ -607,6 +607,7 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
       {
         title: '3D Artwork',
         content: `A collection of 3D models created using Blender, featuring character designs, environment pieces, and product visualizations.`,
+        video: `${BASE_URL}images/artworks/3D/0000-0480.mp4`,
         images: [
           `${BASE_URL}images/artworks/3D/whale1.png`,
           `${BASE_URL}images/artworks/3D/Whale2.png`,
@@ -637,14 +638,7 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
     solutions: [],
     features: [],
 
-    gallery: [
-      `${BASE_URL}images/artworks/3D/whale1.png`,
-      `${BASE_URL}images/artworks/3D/Whale2.png`,
-      `${BASE_URL}images/artworks/3D/POT.png`,
-      `${BASE_URL}images/artworks/Untitled_Artwork(1).png`,
-      `${BASE_URL}images/artworks/Untitled_Artwork(2).png`,
-      `${BASE_URL}images/artworks/Untitled_Artwork(7).png`
-    ],
+    gallery: [],
 
     links: {}
   }

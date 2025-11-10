@@ -14,6 +14,7 @@ export default function ProjectDetail() {
   const [adjacentProjects, setAdjacentProjects] = useState(null)
   const [selectedImage, setSelectedImage] = useState(null)
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
+  const [currentGallery, setCurrentGallery] = useState(null)
   const [activeSection, setActiveSection] = useState('projects')
 
   useEffect(() => {
@@ -32,29 +33,33 @@ export default function ProjectDetail() {
     setSelectedImageIndex(null)
   }, [projectId, navigate])
 
-  const openLightbox = (image, index) => {
+  const openLightbox = (image, index, gallery = null) => {
     setSelectedImage(image)
     setSelectedImageIndex(index)
+    setCurrentGallery(gallery || project.gallery)
   }
 
   const closeLightbox = () => {
     setSelectedImage(null)
     setSelectedImageIndex(null)
+    setCurrentGallery(null)
   }
 
   const goToPreviousImage = () => {
+    const gallery = currentGallery || project.gallery
     if (selectedImageIndex > 0) {
       const newIndex = selectedImageIndex - 1
       setSelectedImageIndex(newIndex)
-      setSelectedImage(project.gallery[newIndex])
+      setSelectedImage(gallery[newIndex])
     }
   }
 
   const goToNextImage = () => {
-    if (selectedImageIndex < project.gallery.length - 1) {
+    const gallery = currentGallery || project.gallery
+    if (selectedImageIndex < gallery.length - 1) {
       const newIndex = selectedImageIndex + 1
       setSelectedImageIndex(newIndex)
-      setSelectedImage(project.gallery[newIndex])
+      setSelectedImage(gallery[newIndex])
     }
   }
 
@@ -290,6 +295,38 @@ export default function ProjectDetail() {
                       />
                     </div>
                   )}
+                  {section.images && section.images.length > 0 && (
+                    <div className="section-gallery">
+                      {section.images.map((image, imgIndex) => (
+                        <div
+                          key={imgIndex}
+                          className="gallery-image-block"
+                          onClick={() => openLightbox(image, imgIndex, section.images)}
+                        >
+                          <img
+                            src={image}
+                            alt={`${section.title} ${imgIndex + 1}`}
+                            onError={(e) => {
+                              e.target.src = `https://via.placeholder.com/800x450/1a1a2e/ff7849?text=Image+${imgIndex + 1}`
+                            }}
+                          />
+                          <div className="image-caption">Click to enlarge</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {section.video && (
+                    <div className="video-container">
+                      <video
+                        controls
+                        preload="metadata"
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      >
+                        <source src={section.video} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  )}
                 </div>
               ))}
             </>
@@ -428,7 +465,7 @@ export default function ProjectDetail() {
             )}
 
             {/* Next Button */}
-            {selectedImageIndex < project.gallery.length - 1 && (
+            {selectedImageIndex < (currentGallery || project.gallery).length - 1 && (
               <button className="lightbox-next" onClick={goToNextImage}>
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                   <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -436,11 +473,32 @@ export default function ProjectDetail() {
               </button>
             )}
 
-            <img src={selectedImage} alt="Full size" />
+            {/* Clickable image areas for navigation */}
+            <div className="lightbox-image-wrapper">
+              {/* Left click area */}
+              {selectedImageIndex > 0 && (
+                <div
+                  className="lightbox-nav-area left"
+                  onClick={goToPreviousImage}
+                  title="Previous image"
+                />
+              )}
+
+              {/* Right click area */}
+              {selectedImageIndex < (currentGallery || project.gallery).length - 1 && (
+                <div
+                  className="lightbox-nav-area right"
+                  onClick={goToNextImage}
+                  title="Next image"
+                />
+              )}
+
+              <img src={selectedImage} alt="Full size" />
+            </div>
 
             {/* Image Counter */}
             <div className="lightbox-counter">
-              {selectedImageIndex + 1} / {project.gallery.length}
+              {selectedImageIndex + 1} / {(currentGallery || project.gallery).length}
             </div>
           </div>
         </div>
