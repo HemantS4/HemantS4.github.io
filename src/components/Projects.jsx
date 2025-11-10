@@ -6,13 +6,9 @@ export default function Projects({ scrollProgress }) {
   const navigate = useNavigate()
   const [hoveredProject, setHoveredProject] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [globalTilt, setGlobalTilt] = useState({ x: 0, y: 0 })
-  const [sectionProgress, setSectionProgress] = useState(1)
-  const [time, setTime] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const projectsRef = useRef(null)
-  const animationRef = useRef(null)
 
   // Detect mobile viewport
   useEffect(() => {
@@ -45,34 +41,6 @@ export default function Projects({ scrollProgress }) {
     return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
   }, [])
 
-  useEffect(() => {
-    const startTime = Date.now()
-    let lastUpdate = 0
-    const fps = 30 // Reduced to 30 FPS for better performance
-    const interval = 1000 / fps
-
-    const animate = (timestamp) => {
-      if (!lastUpdate) lastUpdate = timestamp
-      const delta = timestamp - lastUpdate
-
-      // Only update if enough time has passed
-      if (delta >= interval) {
-        const currentTime = (Date.now() - startTime) / 1000
-        setTime(currentTime)
-        lastUpdate = timestamp - (delta % interval)
-      }
-
-      animationRef.current = requestAnimationFrame(animate)
-    }
-
-    animationRef.current = requestAnimationFrame(animate)
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current)
-      }
-    }
-  }, [])
 
   // Click outside to unzoom
   useEffect(() => {
@@ -88,24 +56,6 @@ export default function Projects({ scrollProgress }) {
 
   const projects = projectsData
 
-  const handleMouseMove = (e, projectId) => {
-    const card = e.currentTarget
-    const rect = card.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    // Calculate tilt based on mouse position
-    const centerX = rect.width / 2
-    const centerY = rect.height / 2
-    const tiltX = ((y - centerY) / centerY) * -10 // Invert for natural tilt
-    const tiltY = ((x - centerX) / centerX) * 10
-
-    setMousePosition({ x, y, tiltX, tiltY })
-  }
-
-  const handleMouseLeave = () => {
-    setMousePosition({ x: 0, y: 0, tiltX: 0, tiltY: 0 })
-  }
 
   const handleProjectClick = (e, projectId) => {
     e.stopPropagation()
@@ -123,23 +73,22 @@ export default function Projects({ scrollProgress }) {
   const projectPhase = 1
   const aboutPhase = 0
 
-  // 3-4-2 Grid layout with consistent spacing between all tiles
-  // Card width is 360px (25% of 1400px container), so using consistent gaps
+  // 3-4-2 Grid layout - static positions with cursor-based rotation only
   const card3DPositions = [
     // Row 1 - Top (3 cards evenly spaced)
-    { x: 16, y: 25, z: 15, rotSpeed: 0.08, phaseX: 0, phaseY: 0, amplitudeX: 1.0, amplitudeY: 1.0 },       // Top-left
-    { x: 50, y: 25, z: 18, rotSpeed: 0.09, phaseX: 2.1, phaseY: 3.5, amplitudeX: 1.0, amplitudeY: 1.0 },  // Top-center
-    { x: 84, y: 25, z: 12, rotSpeed: 0.085, phaseX: 4.2, phaseY: 1.8, amplitudeX: 1.0, amplitudeY: 1.0 }, // Top-right
+    { x: 16, y: 25, z: 15 },  // Top-left
+    { x: 50, y: 25, z: 18 },  // Top-center
+    { x: 84, y: 25, z: 12 },  // Top-right
 
     // Row 2 - Middle (4 cards evenly distributed with consistent spacing)
-    { x: 12, y: 65, z: 16, rotSpeed: 0.095, phaseX: 1.3, phaseY: 5.2, amplitudeX: 1.0, amplitudeY: 1.0 }, // Mid-far-left
-    { x: 37, y: 65, z: 14, rotSpeed: 0.09, phaseX: 5.5, phaseY: 4.1, amplitudeX: 1.0, amplitudeY: 1.0 },  // Mid-left
-    { x: 63, y: 65, z: 17, rotSpeed: 0.08, phaseX: 6.2, phaseY: 1.5, amplitudeX: 1.0, amplitudeY: 1.0 },  // Mid-right
-    { x: 88, y: 65, z: 13, rotSpeed: 0.087, phaseX: 3.8, phaseY: 5.7, amplitudeX: 1.0, amplitudeY: 1.0 }, // Mid-far-right
+    { x: 12, y: 65, z: 16 },  // Mid-far-left
+    { x: 37, y: 65, z: 14 },  // Mid-left
+    { x: 63, y: 65, z: 17 },  // Mid-right
+    { x: 88, y: 65, z: 13 },  // Mid-far-right
 
     // Row 3 - Bottom (2 cards centered with consistent gap)
-    { x: 33, y: 95, z: 10, rotSpeed: 0.075, phaseX: 3.7, phaseY: 2.4, amplitudeX: 1.0, amplitudeY: 1.0 }, // Bottom-left
-    { x: 67, y: 95, z: 11, rotSpeed: 0.09, phaseX: 2.5, phaseY: 4.3, amplitudeX: 1.0, amplitudeY: 1.0 }   // Bottom-right
+    { x: 33, y: 95, z: 10 },  // Bottom-left
+    { x: 67, y: 95, z: 11 }   // Bottom-right
   ]
 
   const getCardStyle = (index) => {
@@ -165,14 +114,6 @@ export default function Projects({ scrollProgress }) {
         transition: 'opacity 0.3s ease'
       }
     }
-
-    // Dynamic floating animation - each card moves in its own pattern
-    const floatY = Math.sin(time * pos.rotSpeed + pos.phaseY) * pos.amplitudeY
-    const floatX = Math.cos(time * pos.rotSpeed * 0.7 + pos.phaseX) * pos.amplitudeX
-
-    // Gentle rotation - subtle tilt
-    const rotateXAnim = Math.sin(time * 0.2 + index) * 4
-    const rotateYAnim = Math.cos(time * 0.18 + index * 1.2) * 3
 
     let x, y, z, scale, opacity, rotateX, rotateY, rotateZ, zIndex
 
@@ -201,9 +142,9 @@ export default function Projects({ scrollProgress }) {
       rotateZ = 0
       zIndex = 10
     } else {
-      // Floating in 3D space with dynamic movement in their own positions
-      x = pos.x + floatX
-      y = pos.y + floatY
+      // Static positions - only rotate based on cursor
+      x = pos.x
+      y = pos.y
       z = pos.z
       scale = 0.85
       opacity = projectPhase
@@ -219,20 +160,16 @@ export default function Projects({ scrollProgress }) {
         // Distance multiplier: farther cards rotate more (1 + distance)
         const distanceMultiplier = 1 + distance * 1.5
 
-        // Calculate angle towards cursor
-        const angleTowardsCursor = Math.atan2(distY, distX) * (180 / Math.PI)
-
         // Apply distance-amplified tilt that points towards cursor
-        rotateX = rotateXAnim + globalTilt.baseTiltX * distanceMultiplier
-        rotateY = rotateYAnim + globalTilt.baseTiltY * distanceMultiplier
+        rotateX = globalTilt.baseTiltX * distanceMultiplier
+        rotateY = globalTilt.baseTiltY * distanceMultiplier
       } else {
-        rotateX = rotateXAnim
-        rotateY = rotateYAnim
+        rotateX = 0
+        rotateY = 0
       }
       rotateZ = 0
 
       // Ensure all cards have proper z-index with larger separation
-      // Give each card a distinct z-index based on its index
       zIndex = 300 + (index * 50)
     }
 
@@ -253,7 +190,7 @@ export default function Projects({ scrollProgress }) {
       zIndex: zIndex,
       transition: isSelected
         ? 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, filter 0.3s ease'
-        : 'none' // No transition for smooth floating animation
+        : 'transform 0.15s ease-out' // Smooth cursor-based rotation
     }
   }
 
@@ -261,7 +198,7 @@ export default function Projects({ scrollProgress }) {
     <section id="projects" className="projects" ref={projectsRef}>
       <div className="section-header">
         <h2 className="section-title">Latest Projects</h2>
-        <p className="section-subtitle">Floating in 3D space - Hover to highlight, Click to explore</p>
+        <p className="section-subtitle">Hover to highlight, Click to explore</p>
       </div>
 
       <div className="projects-grid"
@@ -276,11 +213,7 @@ export default function Projects({ scrollProgress }) {
             className={`project-card project-floating ${selectedProject === project.id ? 'selected' : ''} ${hoveredProject === project.id ? 'hovered' : ''}`}
             style={getCardStyle(index)}
             onMouseEnter={() => setHoveredProject(project.id)}
-            onMouseLeave={() => {
-              setHoveredProject(null)
-              handleMouseLeave()
-            }}
-            onMouseMove={(e) => handleMouseMove(e, project.id)}
+            onMouseLeave={() => setHoveredProject(null)}
             onClick={(e) => handleProjectClick(e, project.id)}
           >
             {/* Project Image */}
