@@ -37,12 +37,13 @@ function MoonModel({ meshRef, scrollProgress, mousePosition }) {
   const gltf = useGLTF(modelPath)
   const modelRef = useRef()
   const targetScale = useRef(3.0)
+  const targetRotation = useRef(0)
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
     if (!modelRef.current) return
 
-    // Rotate on Y-axis based on scroll
+    // Direct smooth rotation based on scroll with idle animation
     modelRef.current.rotation.y = scrollProgress * Math.PI * 6 + time * 0.08
     modelRef.current.rotation.x = 0
     modelRef.current.rotation.z = 0
@@ -87,6 +88,7 @@ function MoonSphere({ mousePosition, scrollProgress, clicked, onMoonClick }) {
   const meshRef = useRef()
   const targetScale = useRef(3.0)
   const targetOpacity = useRef(0.8)
+  const targetRotation = useRef(0)
   const [modelExists, setModelExists] = useState(null)
 
   // Check if model exists on mount
@@ -345,7 +347,7 @@ function MoonSphere({ mousePosition, scrollProgress, clicked, onMoonClick }) {
         moonMaterial.uniforms.time.value = time
       }
 
-      // Rotate primarily on Y-axis based on scroll - smooth continuous rotation
+      // Direct smooth rotation based on scroll with idle animation
       meshRef.current.rotation.y = scrollProgress * Math.PI * 6 + time * 0.08
 
       // Keep X and Z at 0 for clean Y-axis rotation

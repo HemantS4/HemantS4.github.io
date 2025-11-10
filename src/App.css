@@ -1,6 +1,7 @@
 .app {
   position: relative;
   min-height: 100vh;
+  width: 100%;
 }
 
 /* 3D Canvas Background */
@@ -12,9 +13,9 @@
   height: 100%;
   z-index: 0;
   opacity: 1;
-  will-change: transform;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+  contain: strict;
 }
 
 /* Sidebar Styles */
@@ -95,8 +96,15 @@
 }
 
 .nav-item.active .nav-dot {
+  width: 12px;
+  height: 12px;
   background: var(--color-primary);
-  box-shadow: 0 0 10px var(--color-primary);
+  box-shadow: 0 0 15px var(--color-primary), 0 0 30px rgba(255, 120, 73, 0.5);
+}
+
+.nav-item.active .nav-label {
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .nav-label {
@@ -136,8 +144,8 @@
   margin-left: var(--sidebar-width);
   position: relative;
   z-index: 10;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  width: calc(100% - var(--sidebar-width));
 }
 
 /* Hero Section */
@@ -151,6 +159,9 @@
   padding: 4rem 6rem;
   position: relative;
   z-index: 20;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: visible;
 }
 
 .hero-content {
@@ -283,21 +294,26 @@
 .projects {
   min-height: 100vh;
   height: 100vh;
-  padding: 6rem;
+  padding: 3rem 6rem 6rem 6rem;
   background: transparent;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   perspective: 2000px;
   perspective-origin: 50% 50%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: visible;
+  z-index: 10;
 }
 
 .section-header {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   text-align: center;
   position: relative;
   z-index: 5;
+  padding-top: 0;
 }
 
 .section-title {
@@ -327,10 +343,12 @@
 .projects-grid {
   position: relative;
   width: 100%;
-  height: 80vh;
+  min-height: 70vh;
+  height: auto;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+  padding-bottom: 4rem;
   z-index: 10;
   transform-style: preserve-3d;
   perspective: 1500px;
@@ -341,15 +359,18 @@
 .project-floating {
   position: absolute !important;
   width: 360px;
-  max-width: 90vw; /* Increased from 85vw for better mobile support */
-  max-height: 85vh; /* Prevent vertical overflow */
+  max-width: 90vw;
+  max-height: 85vh;
   transform-style: preserve-3d;
-  will-change: transform, opacity;
   pointer-events: auto;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden; /* Ensure content doesn't overflow card bounds */
+  overflow: hidden;
+  visibility: visible;
+  display: block;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
 }
 
 .project-card {
@@ -363,10 +384,11 @@
   min-height: 320px;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
+  transform: translateZ(0);
 }
 
 .project-card::before {
@@ -383,7 +405,7 @@
   opacity: 0.1;
 }
 
-/* Hover effect - subtle visual feedback only */
+/* Hover effect - subtle interactivity without pop-out */
 .project-card.hovered {
   border-color: var(--color-primary);
   box-shadow:
@@ -393,6 +415,11 @@
 
 .project-card.hovered .project-title {
   color: var(--color-primary);
+  transform: translateX(5px);
+}
+
+.project-card.hovered .project-image img {
+  transform: scale(1.08);
 }
 
 /* Selected (clicked) effect - full zoom and highlight */
@@ -442,8 +469,7 @@
 .projects-grid:has(.project-card.selected) .project-card:not(.selected) {
   opacity: 0.3;
   filter: blur(2px);
-  transition: all 0.4s ease;
-  transform: scale(0.95) !important;
+  transition: opacity 0.4s ease, filter 0.4s ease;
 }
 
 /* See All Button */
@@ -754,10 +780,14 @@
 .about {
   min-height: 100vh;
   height: 100vh;
-  padding: 6rem;
+  padding: 3rem 6rem 6rem 6rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  flex-direction: column;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: visible;
 }
 
 .about-content {
@@ -766,6 +796,7 @@
   gap: 4rem;
   max-width: 1400px;
   width: 100%;
+  margin-top: 2rem;
 }
 
 .about-intro {
