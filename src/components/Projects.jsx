@@ -73,22 +73,23 @@ export default function Projects({ scrollProgress }) {
   const projectPhase = 1
   const aboutPhase = 0
 
-  // 3-4-2 Grid layout - static positions with cursor-based rotation only
+  // 3-4-3 Grid layout - static positions with cursor-based rotation only
   const card3DPositions = [
     // Row 1 - Top (3 cards evenly spaced)
-    { x: 16, y: 25, z: 15 },  // Top-left
-    { x: 50, y: 25, z: 18 },  // Top-center
-    { x: 84, y: 25, z: 12 },  // Top-right
+    { x: 16, y: 20, z: 15 },  // 1
+    { x: 50, y: 20, z: 18 },  // 2
+    { x: 84, y: 20, z: 12 },  // 3
 
     // Row 2 - Middle (4 cards evenly distributed with consistent spacing)
-    { x: 12, y: 65, z: 16 },  // Mid-far-left
-    { x: 37, y: 65, z: 14 },  // Mid-left
-    { x: 63, y: 65, z: 17 },  // Mid-right
-    { x: 88, y: 65, z: 13 },  // Mid-far-right
+    { x: 12, y: 55, z: 16 },  // 4
+    { x: 37, y: 55, z: 14 },  // 5
+    { x: 63, y: 55, z: 17 },  // 6
+    { x: 88, y: 55, z: 13 },  // 7
 
-    // Row 3 - Bottom (2 cards centered with consistent gap)
-    { x: 33, y: 95, z: 10 },  // Bottom-left
-    { x: 67, y: 95, z: 11 }   // Bottom-right
+    // Row 3 - Bottom (3 cards with consistent gap)
+    { x: 25, y: 90, z: 10 },  // 8 (artwork will be here)
+    { x: 50, y: 90, z: 11 },  // 9 (if needed)
+    { x: 75, y: 90, z: 12 }   // 10 (if needed)
   ]
 
   const getCardStyle = (index) => {
@@ -260,17 +261,6 @@ export default function Projects({ scrollProgress }) {
           </div>
         ))}
       </div>
-
-      {/* See All Button */}
-      <button
-        className="see-all-button"
-        onClick={() => navigate('/all-projects')}
-      >
-        <span className="see-all-text">See All Projects</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
     </section>
   )
 }
