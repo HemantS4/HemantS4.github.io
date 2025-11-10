@@ -203,6 +203,8 @@ export default function ProjectDetail() {
               <div className="links-inline">
                 {Object.entries(project.links).map(([platform, url]) => {
                   const isGDD = platform === 'gdd' || platform === 'conceptGdd' || platform === 'gameGdd';
+                  const isPPT = platform === 'ppt';
+                  const isDocument = isGDD || isPPT;
 
                   let linkText;
                   if (platform === 'gdd') {
@@ -211,6 +213,8 @@ export default function ProjectDetail() {
                     linkText = 'View Concept & Research GDD';
                   } else if (platform === 'gameGdd') {
                     linkText = 'View Game Systems GDD';
+                  } else if (platform === 'ppt') {
+                    linkText = 'Packless - PPT';
                   } else {
                     linkText = platform.charAt(0).toUpperCase() + platform.slice(1).replace(/([A-Z])/g, ' $1');
                   }
@@ -221,16 +225,16 @@ export default function ProjectDetail() {
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={isGDD ? 'link-button gdd-button' : 'link-button'}
+                      className={isDocument ? 'link-button gdd-button' : 'link-button'}
                     >
-                      {isGDD && (
+                      {isDocument && (
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                       {linkText}
-                      {!isGDD && (
+                      {!isDocument && (
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>

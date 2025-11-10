@@ -1,13 +1,29 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 export default function Hero() {
   const titleRef = useRef(null)
+  const heroRef = useRef(null)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const letters = titleRef.current.querySelectorAll('.letter')
     letters.forEach((letter, index) => {
       letter.style.animationDelay = `${index * 0.05}s`
     })
+  }, [])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect()
+        const x = (e.clientX - rect.left) / rect.width - 0.5
+        const y = (e.clientY - rect.top) / rect.height - 0.5
+        setMousePosition({ x: x * 20, y: y * 20 })
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
   const splitText = (text, className = '') => {
@@ -26,10 +42,16 @@ export default function Hero() {
   }
 
   return (
-    <section id="home" className="hero">
-      <div className="hero-content">
+    <section id="home" className="hero" ref={heroRef}>
+      <div
+        className="hero-content"
+        style={{
+          transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
+          transition: 'transform 0.3s ease-out'
+        }}
+      >
         <div className="hero-name" style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '1rem', fontWeight: '600' }}>
-          
+
         </div>
         <h1 ref={titleRef} className="hero-title">
           {splitText('Hi, I am ', 'small-text')}

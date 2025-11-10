@@ -53,91 +53,28 @@ export const projectsData = [
   {
     id: 'flowlog',
     title: 'Momentum',
-    category: 'UX/UI & Gamification',
+    category: 'UX/UI, Gamification & AI Integration',
     year: '2025',
-    description: 'A gamified documentation app that makes capturing ideas effortless and rewarding.',
-    shortDescription: 'Gamified documentation app with AI assistance',
-    tools: ['Figma', 'Adobe Creative Suite', 'Notion'],
+    description: 'A gamified documentation app that makes capturing ideas effortless and rewarding with AI-powered assistance.',
+    shortDescription: 'Gamified documentation app with AI integration',
+    tools: ['Figma', 'Adobe Creative Suite', 'Notion', 'AI Integration'],
     thumbnail: `${BASE_URL}images/projects/flowlog/1.png`,
 
-    overview: 'Most people stop journaling after three days. I wanted to know why. Momentum came out of interviews with 20+ students and professionals who all said the same thing: "I want to document my life, but it feels like homework." So I designed an app that treats documentation like a game—XP for entries, streaks for consistency, AI that organizes everything automatically. Two-week research sprint, full UI/UX prototype in Figma, grounded in Octalysis gamification framework and Self-Determination Theory.',
+    overview: '',
 
     // Extended sections for detailed project page
-    extendedSections: [
-      {
-        title: 'The Problem',
-        content: `I interviewed 20+ people about why they quit journaling. Three patterns emerged: 78% said it takes too long (5+ minutes felt like a chore), 65% said they got no feedback or sense of progress, and 82% wanted gamification or AI to make it easier. The friction isn't lack of desire—it's bad UX.`
-      },
-      {
-        title: 'How It Works',
-        content: '',
-        image: 'Howitworks.png'
-      },
-      {
-        title: 'Who It\'s For',
-        content: '',
-        image: 'Who It is for.png'
-      },
-      {
-        title: 'Gamification Framework',
-        content: '',
-        image: 'Framework.png'
-      },
-      {
-        title: 'What I Learned',
-        content: `Four critical insights emerged:
-
-**1. Reducing Friction = Retention**
-Simple capture methods (voice, photo, quick text) were the #1 driver for daily use. Every extra tap or screen reduces engagement.
-
-**2. Gamification Builds Habits**
-Streaks and challenges proved crucial for consistency. Users responded to visible progress markers that celebrated effort, not perfection.
-
-**3. AI Adds Value, Not Complexity**
-Users loved AI summaries and insights that revealed patterns in their entries. However, they rejected AI-written entries, preferring authentic self-expression with AI as a supportive tool.
-
-**4. Personalization = Connection**
-Customizable themes, avatars, and visual styles made the documentation space feel "theirs," increasing emotional investment and long-term retention.`
-      },
-      {
-        title: 'The Momentum Loop',
-        content: '',
-        image: 'The momentum loop.png'
-      }
-    ],
+    extendedSections: [],
 
     role: 'UX/UI Designer, Product Designer, Researcher',
     duration: '2 Weeks',
     teamSize: 'Solo Design Project',
     platform: ['iOS', 'Android', 'Web'],
 
-    challenges: [
-      'Making gamification feel motivating, not manipulative—how do you reward consistency without creating anxiety?',
-      'AI had to help organize, not write—users rejected any AI-generated content as "inauthentic"',
-      'Balancing speed (under 2 mins) with depth (rich reflection tools) without overwhelming the UI',
-      'Streaks are powerful but dangerous—miss one day and people give up forever. How to fix that?'
-    ],
+    challenges: [],
 
-    solutions: [
-      'Used Octalysis Framework to emphasize "White Hat" drives (accomplishment, empowerment) over "Black Hat" (scarcity, loss)',
-      'Built voice-to-text, photo-first entry, and hardware shortcuts (volume button triggers app)',
-      'Added "Streak Freeze" (1 free skip per week) and grace periods—missed days = rest days, not failures',
-      'AI formats, tags, and summarizes—but never writes entries. Users keep full creative control',
-      'Designed XP for effort (entries, tags) not quality—no perfectionism paralysis'
-    ],
+    solutions: [],
 
-    features: [
-      'Quick capture through text, voice-to-text, or images (< 2 mins)',
-      'AI-powered formatting, summarization, and auto-tagging',
-      'XP system with levels, badges, and streak tracking',
-      'Weekly vibe charts and monthly AI-generated reflections',
-      'Unlockable themes and fonts for personalization',
-      'Micro-prompts and "Spin the Wheel" creative challenges',
-      'Hardware trigger shortcuts for instant capture',
-      'Privacy-first design with intentional sharing options',
-      'Resurfaced entries to encourage reflection',
-      'Evolving visual metaphors (growing plants, scrapbooks)'
-    ],
+    features: [],
 
     // Research data for visualizations
     researchData: {
@@ -157,14 +94,15 @@ Customizable themes, avatars, and visual styles made the documentation space fee
     },
 
     gallery: [
-      `${BASE_URL}images/projects/flowlog/1.png`,
-      `${BASE_URL}images/projects/flowlog/2.png`,
-      `${BASE_URL}images/projects/flowlog/3.png`,
-      `${BASE_URL}images/projects/flowlog/4.png`,
-      `${BASE_URL}images/projects/flowlog/5.png`,
-      `${BASE_URL}images/projects/flowlog/6.png`,
-      `${BASE_URL}images/projects/flowlog/7.png`,
-      `${BASE_URL}images/projects/flowlog/8.png`
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 1.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 2.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 3.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 4.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 5.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 6.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 7.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 8.png`,
+      `${BASE_URL}images/projects/flowlog/Slides/Frame 9.png`
     ],
 
     videoUrl: 'https://www.youtube.com/embed/qCtC_vci1G0',
@@ -263,11 +201,11 @@ Customizable themes, avatars, and visual styles made the documentation space fee
   {
     id: 'dp2-motor-play',
     title: 'DP2 — AR Motor-Play',
-    category: 'Applied Game',
+    category: 'Applied Game & Machine Learning',
     year: '2025 (Ongoing)',
-    description: 'An applied AR game concept for autistic children with motor coordination support.',
-    shortDescription: 'AR therapeutic game for ASD + DCD (Ongoing)',
-    tools: ['Unity', 'AR Foundation', 'Figma', 'Research Methods', 'UX Design'],
+    description: 'An applied AR game concept for autistic children with motor coordination support powered by machine learning models.',
+    shortDescription: 'AR therapeutic game with ML for ASD + DCD (Ongoing)',
+    tools: ['Unity', 'AR Foundation', 'Machine Learning', 'Figma', 'Research Methods', 'UX Design'],
     thumbnail: `${BASE_URL}images/projects/dp2-motor-play/thumbnail.jpg`,
 
     overview: `I spent weeks watching kids with autism use motor-skill apps. Most apps were either too boring (clinical) or too chaotic (overstimulating). None adapted to individual needs. DP2 is my attempt to fix that: an AR game where kids pop bubbles, step on floor pads, and catch floating objects—while a friendly mascot mirrors their movements on-screen. Built on research with N=12 field observations, 15+ app reviews, and frameworks from OT/SLP experts. Still in development.`,
@@ -490,6 +428,51 @@ Field research: kids engage most when they feel in control. Pause anytime. Skip 
     videoUrl: 'https://www.youtube.com/embed/YOUR_VIDEO_ID',
 
     links: {}
+  },
+
+  {
+    id: 'pack-less',
+    title: 'Pack-less',
+    category: 'Product Design & System Design',
+    year: '2025',
+    description: 'A comprehensive product and system design project focusing on market analysis and strategic design',
+    shortDescription: 'Product design with SWOT analysis and market research',
+    tools: ['Figma', 'Market Research', 'SWOT Analysis'],
+    thumbnail: `${BASE_URL}images/projects/Pack-less/pack-1.png`,
+
+    overview: '',
+
+    role: 'Product Designer, System Designer',
+    duration: '2 Weeks',
+    teamSize: 'Multidisciplinary Team',
+    platform: ['Product Design'],
+
+    extendedSections: [],
+
+    challenges: [],
+
+    solutions: [],
+
+    features: [],
+
+    gallery: [
+      `${BASE_URL}images/projects/Pack-less/pack-1.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-2.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-3.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-4.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-5.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-6.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-7.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-8.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-9.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-10.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-11.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-12.png`
+    ],
+
+    links: {
+      ppt: `${BASE_URL}images/projects/Pack-less/DM_Research.pdf`
+    }
   },
 
   {

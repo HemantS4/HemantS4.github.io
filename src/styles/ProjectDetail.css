@@ -530,8 +530,8 @@
 }
 
 .gallery-block:not(:has(h2)) .gallery-image-block {
-  width: 100%;
-  margin: 0;
+  width: 85%;
+  margin: 0 auto;
   border: none;
   border-radius: 0;
   display: block;

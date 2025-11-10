@@ -1,12 +1,16 @@
 /* Contact Section */
 .contact-section {
   position: relative;
-  padding: 8rem 2rem 6rem calc(var(--sidebar-width) + 4rem);
+  padding: 3rem 2rem 6rem calc(var(--sidebar-width) + 4rem);
   min-height: 100vh;
+  height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background: transparent;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: visible;
 }
 
 .contact-container {
@@ -18,8 +22,9 @@
 /* Header */
 .contact-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   animation: fadeInUp 0.8s ease-out;
+  padding-top: 0;
 }
 
 .contact-title {
