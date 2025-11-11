@@ -567,6 +567,58 @@
   }
 }
 
+/* View Artwork Button */
+.view-artwork-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+.view-artwork-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, rgba(255, 120, 73, 0.15), rgba(146, 230, 167, 0.15));
+  border: 2px solid rgba(255, 120, 73, 0.3);
+  border-radius: 30px;
+  color: var(--color-text);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.view-artwork-btn:hover {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border-color: var(--color-primary);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 120, 73, 0.4);
+}
+
+.view-artwork-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.view-artwork-btn:hover svg {
+  transform: translateX(3px) translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .view-artwork-container {
+    margin-top: 2rem;
+  }
+
+  .view-artwork-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
 .project-spotlight {
   position: absolute;
   width: 300px;

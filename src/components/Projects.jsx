@@ -97,7 +97,7 @@ export default function Projects({ scrollProgress }) {
     }
   }, [])
 
-  const projects = projectsData
+  const projects = projectsData.filter(project => !project.isHidden)
 
 
   const handleProjectClick = (e, projectId) => {
@@ -303,6 +303,19 @@ export default function Projects({ scrollProgress }) {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* View Artwork Button */}
+      <div className="view-artwork-container">
+        <button
+          className="view-artwork-btn"
+          onClick={() => navigate('/project/artwork')}
+        >
+          <span>View Artwork</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
     </section>
   )

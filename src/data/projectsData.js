@@ -587,6 +587,36 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
     }
   },
   {
+    id: 'nmt-app',
+    title: 'App for NMT',
+    category: 'UI/UX & Research',
+    year: '2025',
+    description: 'A UI/UX and research-centric application project focused on user experience design and research methodologies.',
+    shortDescription: 'UI/UX and research-focused application',
+    tools: ['Figma', 'User Research', 'Prototyping', 'UX Design'],
+    thumbnail: `${BASE_URL}images/projects/nmt-app/thumbnail.png`,
+
+    overview: '',
+
+    role: 'UX/UI Designer, Researcher',
+    duration: 'Ongoing',
+    teamSize: '3 Person Team (with Sairaj and Tejas)',
+    platform: ['Mobile', 'Web'],
+
+    extendedSections: [],
+
+    challenges: [],
+
+    solutions: [],
+
+    features: [],
+
+    gallery: [],
+
+    links: {}
+  },
+
+  {
     id: 'artwork',
     title: 'Artwork',
     category: '3D & 2D Art',
@@ -595,6 +625,7 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
     shortDescription: 'Collection of 3D models and 2D illustrations',
     tools: ['Blender', 'Procreate', 'Photoshop'],
     thumbnail: `${BASE_URL}images/artworks/3D/whale1.png`,
+    isHidden: true,
 
     overview: 'A diverse portfolio of digital artwork including 3D character models, environment pieces, and 2D illustrations.',
 
