@@ -532,6 +532,7 @@
 .gallery-block:not(:has(h2)) .gallery-image-block {
   width: 85%;
   margin: 0 auto;
+  margin-bottom: 0;
   border: none;
   border-radius: 0;
   display: block;
