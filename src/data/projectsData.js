@@ -627,7 +627,7 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
       `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear 13.png`,
       `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear 14.png`,
       `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear 15.png`,
-      `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear 16.png`,
+      `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear 16 (2).png`,
       `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear 17.png`
     ],
 
