@@ -297,6 +297,51 @@ Field research: kids engage most when they feel in control. Pause anytime. Skip 
   },
 
   {
+    id: 'pack-less',
+    title: 'Pack-less',
+    category: 'Product Design & System Design',
+    year: '2025',
+    description: 'A comprehensive product and system design project focusing on market analysis and strategic design',
+    shortDescription: 'Product design with SWOT analysis and market research',
+    tools: ['Figma', 'Market Research', 'SWOT Analysis'],
+    thumbnail: `${BASE_URL}images/projects/Pack-less/pack-1.png`,
+
+    overview: '',
+
+    role: 'Product Designer, System Designer',
+    duration: '2 Weeks',
+    teamSize: 'Multidisciplinary Team',
+    platform: ['Product Design'],
+
+    extendedSections: [],
+
+    challenges: [],
+
+    solutions: [],
+
+    features: [],
+
+    gallery: [
+      `${BASE_URL}images/projects/Pack-less/pack-1.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-2.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-3.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-4.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-5.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-6.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-7.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-8.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-9.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-10.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-11.png`,
+      `${BASE_URL}images/projects/Pack-less/pack-12.png`
+    ],
+
+    links: {
+      ppt: `${BASE_URL}images/projects/Pack-less/DM_Research.pdf`
+    }
+  },
+
+  {
     id: 'ammo-batics',
     title: 'Ammo-batics',
     category: '2D Platformer',
@@ -341,51 +386,6 @@ Field research: kids engage most when they feel in control. Pause anytime. Skip 
     links: {
       itchIo: 'https://hemants4.itch.io/ammo-batics',
       gdd: `${BASE_URL}ammobatics_gdd.html`
-    }
-  },
-
-  {
-    id: 'pack-less',
-    title: 'Pack-less',
-    category: 'Product Design & System Design',
-    year: '2025',
-    description: 'A comprehensive product and system design project focusing on market analysis and strategic design',
-    shortDescription: 'Product design with SWOT analysis and market research',
-    tools: ['Figma', 'Market Research', 'SWOT Analysis'],
-    thumbnail: `${BASE_URL}images/projects/Pack-less/pack-1.png`,
-
-    overview: '',
-
-    role: 'Product Designer, System Designer',
-    duration: '2 Weeks',
-    teamSize: 'Multidisciplinary Team',
-    platform: ['Product Design'],
-
-    extendedSections: [],
-
-    challenges: [],
-
-    solutions: [],
-
-    features: [],
-
-    gallery: [
-      `${BASE_URL}images/projects/Pack-less/pack-1.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-2.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-3.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-4.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-5.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-6.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-7.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-8.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-9.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-10.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-11.png`,
-      `${BASE_URL}images/projects/Pack-less/pack-12.png`
-    ],
-
-    links: {
-      ppt: `${BASE_URL}images/projects/Pack-less/DM_Research.pdf`
     }
   },
 
