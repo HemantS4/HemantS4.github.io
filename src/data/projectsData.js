@@ -656,7 +656,7 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
       {
         title: '3D Artwork',
         content: `A collection of 3D models created using Blender, featuring character designs, environment pieces, and product visualizations.`,
-        video: `${BASE_URL}images/artworks/3D/0000-0480.mp4`,
+        video: `${BASE_URL}images/artworks/3D/0001-0030.mp4`,
         images: [
           `${BASE_URL}images/artworks/3D/whale1.png`,
           `${BASE_URL}images/artworks/3D/Whale2.png`,
@@ -665,7 +665,14 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
           `${BASE_URL}images/artworks/3D/Screenshot 2025-08-10 205226.png`,
           `${BASE_URL}images/artworks/3D/Screenshot 2024-03-31 150415.png`,
           `${BASE_URL}images/artworks/3D/camera2.jpg`,
-          `${BASE_URL}images/artworks/3D/3.jpg`
+          `${BASE_URL}images/artworks/3D/camera.jpg`,
+          `${BASE_URL}images/artworks/3D/3.jpg`,
+          `${BASE_URL}images/artworks/3D/0004.jpg`,
+          `${BASE_URL}images/artworks/3D/12.jpg`,
+          `${BASE_URL}images/artworks/3D/chainsaw.jpg`,
+          `${BASE_URL}images/artworks/3D/IMG_0644.jpg`,
+          `${BASE_URL}images/artworks/3D/IMG_0647.PNG`,
+          `${BASE_URL}images/artworks/3D/IMG_0648.PNG`
         ]
       },
       {
@@ -678,7 +685,15 @@ The cohesive visual and sound design serves the theme, creating an atmosphere of
           `${BASE_URL}images/artworks/Untitled_Artwork(7).png`,
           `${BASE_URL}images/artworks/Untitled_Artwork(8).png`,
           `${BASE_URL}images/artworks/Untitled_Artwork (12).png`,
-          `${BASE_URL}images/artworks/Untitled_Artwork.png`
+          `${BASE_URL}images/artworks/Untitled_Artwork.png`,
+          `${BASE_URL}images/artworks/Untitled_Artwork.jpg`,
+          `${BASE_URL}images/artworks/Untitled_Artwork (2).jpg`,
+          `${BASE_URL}images/artworks/Untitled_Artwork (3).jpg`,
+          `${BASE_URL}images/artworks/Untitled_Artwork (4).jpg`,
+          `${BASE_URL}images/artworks/Untitled_Artwork (5).jpg`,
+          `${BASE_URL}images/artworks/Banana_king-2.png`,
+          `${BASE_URL}images/artworks/IMG_0420.PNG`,
+          `${BASE_URL}images/artworks/IMG_0473.jpg`
         ]
       }
     ],
