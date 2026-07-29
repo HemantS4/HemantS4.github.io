@@ -27,6 +27,11 @@ export default function ProjectDetail() {
       return
     }
 
+    if (projectData.externalPage) {
+      window.location.replace(projectData.externalPage)
+      return
+    }
+
     setProject(projectData)
     setAdjacentProjects(getAdjacentProjects(projectId))
     setSelectedImage(null)

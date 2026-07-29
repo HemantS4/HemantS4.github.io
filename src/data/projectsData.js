@@ -400,6 +400,7 @@ Research shows users with this combination engage 3x more than those using tradi
     shortDescription: 'Card game exploring water\'s dual nature',
     tools: ['Adobe Illustrator', 'Photoshop', 'InDesign', 'Figma', 'Tabletop Simulator'],
     thumbnail: `${BASE_URL}images/projects/flow-and-hold/Frame-19.png`,
+    externalPage: `${BASE_URL}flow-and-hold.html`,
 
     overview: 'Water exists in a constant state of duality - it can be contained yet flows freely, held yet always seeking escape. Flow & Hold challenges players to think beyond traditional boundaries and explore the philosophical nature of water through strategic card gameplay. This innovative card game redefines the existing binary of contain and continuum, creating a unique gaming experience that mirrors water\'s fundamental properties through elegant mechanics and thoughtful design.',
 
@@ -543,6 +544,7 @@ Research shows users with this combination engage 3x more than those using tradi
     shortDescription: 'AR therapeutic game with ML for ASD + DCD (ongoing)',
     tools: ['Unity', 'AR Foundation', 'Machine Learning', 'Figma', 'Research Methods', 'UX Design'],
     thumbnail: `${BASE_URL}images/projects/dp2-motor-play/thumbnail.jpg`,
+    externalPage: `${BASE_URL}pico-play.html`,
 
     overview: `I spent weeks watching kids with autism use motor-skill apps. Most apps were either too boring (clinical) or too chaotic (overstimulating). None adapted to individual needs. DP2 is my attempt to fix that: an AR game where kids pop bubbles, step on floor pads, and catch floating objects—while a friendly mascot mirrors their movements on-screen. Built on research with N=12 field observations, 15+ app reviews, and frameworks from OT/SLP experts. Still in development.`,
 

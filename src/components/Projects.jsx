@@ -104,8 +104,13 @@ export default function Projects({ scrollProgress }) {
     e.stopPropagation()
 
     if (selectedProject === projectId) {
-      // If already selected, navigate to detail page
-      navigate(`/project/${projectId}`)
+      // If already selected, navigate to detail page (or external HTML)
+      const project = projectsData.find(p => p.id === projectId)
+      if (project?.externalPage) {
+        window.location.href = project.externalPage
+      } else {
+        navigate(`/project/${projectId}`)
+      }
     } else {
       // First click: zoom in
       setSelectedProject(projectId)

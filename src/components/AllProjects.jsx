@@ -108,6 +108,47 @@ export default function AllProjects() {
 
         <div className="all-projects-grid">
           {filteredProjects.map((project, index) => (
+            project.externalPage ? (
+            <a
+              key={project.id}
+              href={project.externalPage}
+              className="all-project-card"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="all-project-image">
+                <img
+                  src={project.thumbnail}
+                  alt={project.title}
+                  onError={(e) => {
+                    e.target.src = `https://via.placeholder.com/600x400/1a1a2e/ff7849?text=${encodeURIComponent(project.title)}`
+                  }}
+                />
+                <div className="all-project-overlay">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="view-icon">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div className="all-project-info">
+                <div className="all-project-meta">
+                  <span className="all-project-category">{project.category}</span>
+                  <span className="all-project-year">{project.year}</span>
+                </div>
+                <h3 className="all-project-title">{project.title}</h3>
+                <p className="all-project-description">{project.shortDescription || project.description}</p>
+
+                <div className="all-project-tools">
+                  {project.tools.slice(0, 3).map((tool, i) => (
+                    <span key={i} className="all-tool-tag">{tool}</span>
+                  ))}
+                  {project.tools.length > 3 && (
+                    <span className="all-tool-tag more">+{project.tools.length - 3}</span>
+                  )}
+                </div>
+              </div>
+            </a>
+            ) : (
             <Link
               key={project.id}
               to={`/project/${project.id}`}
@@ -147,6 +188,7 @@ export default function AllProjects() {
                 </div>
               </div>
             </Link>
+            )
           ))}
         </div>
 
