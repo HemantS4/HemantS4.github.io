@@ -41,7 +41,7 @@
 .filter-tab {
   padding: 0.75rem 1.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 120, 73, 0.3);
+  border: 1px solid rgba(242, 177, 52, 0.3);
   border-radius: 30px;
   color: var(--color-text);
   font-size: 0.95rem;
@@ -52,7 +52,7 @@
 }
 
 .filter-tab:hover {
-  background: rgba(255, 120, 73, 0.1);
+  background: rgba(242, 177, 52, 0.1);
   border-color: var(--color-primary);
 }
 
@@ -60,7 +60,7 @@
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   border-color: var(--color-primary);
   color: var(--color-bg);
-  box-shadow: 0 4px 16px rgba(255, 120, 73, 0.3);
+  box-shadow: 0 4px 16px rgba(242, 177, 52, 0.3);
 }
 
 /* Projects Grid */
@@ -73,8 +73,8 @@
 
 /* Project Cards */
 .all-project-card {
-  background: rgba(15, 15, 35, 0.6);
-  border: 1px solid rgba(255, 120, 73, 0.2);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(242, 177, 52, 0.2);
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -89,8 +89,8 @@
 .all-project-card:hover {
   transform: translateY(-8px);
   border-color: var(--color-primary);
-  box-shadow: 0 20px 60px rgba(255, 120, 73, 0.3);
-  background: rgba(15, 15, 35, 0.8);
+  box-shadow: 0 20px 60px rgba(242, 177, 52, 0.3);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /* Image */
@@ -119,7 +119,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255, 120, 73, 0.8), rgba(146, 230, 167, 0.6));
+  background: linear-gradient(135deg, rgba(242, 177, 52, 0.8), rgba(47, 158, 143, 0.6));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,8 +201,8 @@
 
 .all-tool-tag {
   padding: 0.4rem 0.9rem;
-  background: rgba(255, 120, 73, 0.1);
-  border: 1px solid rgba(255, 120, 73, 0.3);
+  background: rgba(242, 177, 52, 0.1);
+  border: 1px solid rgba(242, 177, 52, 0.3);
   border-radius: 16px;
   font-size: 0.8rem;
   color: var(--color-accent);
@@ -211,13 +211,13 @@
 }
 
 .all-project-card:hover .all-tool-tag {
-  background: rgba(255, 120, 73, 0.2);
+  background: rgba(242, 177, 52, 0.2);
   border-color: var(--color-primary);
 }
 
 .all-tool-tag.more {
-  background: rgba(146, 230, 167, 0.1);
-  border-color: rgba(146, 230, 167, 0.3);
+  background: rgba(47, 158, 143, 0.1);
+  border-color: rgba(47, 158, 143, 0.3);
   color: var(--color-accent);
 }
 
@@ -279,7 +279,7 @@
 .artworks-section {
   margin-top: 6rem;
   padding-top: 4rem;
-  border-top: 2px solid rgba(255, 120, 73, 0.2);
+  border-top: 2px solid rgba(242, 177, 52, 0.2);
 }
 
 .artworks-header {
@@ -318,17 +318,17 @@
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid rgba(255, 120, 73, 0.2);
+  border: 2px solid rgba(242, 177, 52, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
   animation: fadeInScale 0.6s ease-out forwards;
-  background: rgba(15, 15, 35, 0.6);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .artwork-item:hover {
   transform: translateY(-8px) scale(1.02);
   border-color: var(--color-primary);
-  box-shadow: 0 20px 60px rgba(255, 120, 73, 0.3);
+  box-shadow: 0 20px 60px rgba(242, 177, 52, 0.3);
 }
 
 .artwork-item img {
@@ -348,7 +348,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255, 120, 73, 0.85), rgba(146, 230, 167, 0.7));
+  background: linear-gradient(135deg, rgba(242, 177, 52, 0.85), rgba(47, 158, 143, 0.7));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -417,7 +417,7 @@
   position: absolute;
   top: -50px;
   right: 0;
-  background: rgba(255, 120, 73, 0.2);
+  background: rgba(242, 177, 52, 0.2);
   border: 2px solid var(--color-primary);
   border-radius: 50%;
   width: 48px;
@@ -445,7 +445,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 120, 73, 0.2);
+  background: rgba(242, 177, 52, 0.2);
   border: 2px solid var(--color-primary);
   border-radius: 50%;
   width: 56px;
@@ -471,7 +471,7 @@
 .artwork-next:hover {
   background: var(--color-primary);
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 8px 24px rgba(255, 120, 73, 0.4);
+  box-shadow: 0 8px 24px rgba(242, 177, 52, 0.4);
 }
 
 .artwork-prev svg,
@@ -485,7 +485,7 @@
   bottom: -50px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 120, 73, 0.2);
+  background: rgba(242, 177, 52, 0.2);
   border: 2px solid var(--color-primary);
   border-radius: 24px;
   padding: 0.5rem 1.5rem;

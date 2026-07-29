@@ -50,7 +50,7 @@ class ErrorBoundary extends React.Component {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(180deg, #0a0a1e 0%, #1a1a3e 100%)',
+          background: 'linear-gradient(180deg, #FBF3E7 0%, #F3E8D6 100%)',
           zIndex: 0
         }} />
       )

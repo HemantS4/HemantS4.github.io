@@ -674,8 +674,8 @@ export default function Scene3D({ scrollProgress: externalScrollProgress }) {
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}
       >
-        <color attach="background" args={['#050510']} />
-        <fog attach="fog" args={['#050510', 10, 100]} />
+        <color attach="background" args={['#FBF3E7']} />
+        <fog attach="fog" args={['#FBF3E7', 10, 100]} />
 
         <ambientLight intensity={0.3} />
 
