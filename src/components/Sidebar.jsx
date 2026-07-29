@@ -1,66 +1,76 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function Sidebar({ activeSection, setActiveSection }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'projects', label: 'Projects' },
     { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'contact', label: 'Contact' },
   ]
 
-  const scrollToSection = (id) => {
-    // If we're on a project detail page, navigate home first
+  useEffect(() => {
+    if (menuOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  const goToSection = (id) => {
+    setMenuOpen(false)
     if (location.pathname !== '/') {
       navigate('/')
-      // Wait for navigation, then scroll
       setTimeout(() => {
         setActiveSection(id)
-        const element = document.getElementById(id)
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' })
-        }
-      }, 100)
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }, 80)
     } else {
       setActiveSection(id)
-      const element = document.getElementById(id)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-top">
-        <div className="logo">
-          <h2>HS</h2>
-          <span>Hemant Sharma</span>
-        </div>
-      </div>
+    <header className="topnav">
+      <button
+        type="button"
+        className="topnav-brand"
+        onClick={() => goToSection('home')}
+        aria-label="Go to top"
+      >
+        <span className="topnav-brand-mark">HS</span>
+        <span className="topnav-brand-name">Hemant Sharma</span>
+      </button>
 
-      <nav className="sidebar-nav">
+      <nav className={`topnav-links ${menuOpen ? 'open' : ''}`}>
         {navItems.map((item) => (
           <button
             key={item.id}
-            className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-            onClick={() => scrollToSection(item.id)}
+            type="button"
+            className={`topnav-link ${activeSection === item.id ? 'active' : ''}`}
+            onClick={() => goToSection(item.id)}
           >
-            <span className="nav-dot"></span>
-            <span className="nav-label">{item.label}</span>
+            {item.label}
           </button>
         ))}
       </nav>
 
-      <div className="sidebar-footer">
-        <div className="social-links">
-          <a href="#" aria-label="LinkedIn">LI</a>
-          <a href="#" aria-label="Instagram">IG</a>
-        </div>
-      </div>
-    </aside>
+      <button
+        type="button"
+        className={`topnav-toggle ${menuOpen ? 'open' : ''}`}
+        aria-label="Toggle menu"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen(v => !v)}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
   )
 }

@@ -1,16 +1,15 @@
 /* Contact Section */
 .contact-section {
   position: relative;
-  padding: 3rem 2rem 6rem calc(var(--sidebar-width) + 4rem);
-  min-height: 100vh;
-  height: 100vh;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+  min-height: auto;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   background: transparent;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   overflow: visible;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .contact-container {
@@ -54,32 +53,21 @@
   animation: fadeInScale 1s ease-out;
 }
 
-/* Floating Card Base */
+/* Card base */
 .contact-form-card,
 .contact-info-card {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(242, 177, 52, 0.2);
-  border-radius: 24px;
-  padding: 3rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: float 6s ease-in-out infinite;
-}
-
-.contact-form-card {
-  animation-delay: 0s;
-}
-
-.contact-info-card {
-  animation-delay: 0.5s;
+  background: var(--color-surface);
+  border: 1px solid rgba(32, 35, 43, 0.08);
+  border-radius: 22px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .contact-form-card:hover,
 .contact-info-card:hover {
-  transform: translateY(-10px);
-  border-color: var(--color-primary);
-  box-shadow: 0 30px 80px rgba(242, 177, 52, 0.3);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-lg);
 }
 
 /* Float Animation */
