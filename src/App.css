@@ -490,7 +490,7 @@
 
 .project-card.selected .project-description {
   opacity: 1;
-  color: #ffffff;
+  color: var(--color-ink);
 }
 
 .project-card.selected .project-category-badge {
