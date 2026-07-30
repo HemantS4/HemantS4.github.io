@@ -62,6 +62,7 @@ export const projectsData = [
     shortDescription: 'Gamified documentation app with AI integration',
     tools: ['Figma', 'Adobe Creative Suite', 'Notion', 'AI Integration'],
     thumbnail: `${BASE_URL}images/projects/flowlog/1.png`,
+    externalPage: `${BASE_URL}momentum.html`,
 
     overview: 'Documentation doesn\'t have to feel like a chore. Momentum transforms the act of capturing ideas into a rewarding experience by combining gamification principles with AI assistance. Users face two major barriers: the task takes too long (78%) and there\'s no feedback (65%). By implementing token-based rewards, real-time AI suggestions, and a clear progress system, Momentum makes documentation feel like progress, not punishment.',
 
