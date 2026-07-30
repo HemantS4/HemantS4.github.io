@@ -538,7 +538,7 @@ Research shows users with this combination engage 3x more than those using tradi
 
   {
     id: 'dp2-motor-play',
-    title: 'DP2 – AR Motor-Play',
+    title: 'Pico Play',
     category: 'Applied Game & Machine Learning',
     year: '2025',
     description: 'An applied AR game concept for autistic children with motor coordination support powered by machine learning models.',
