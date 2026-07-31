@@ -19,6 +19,12 @@ export default function Sidebar({ activeSection, setActiveSection }) {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   const goToSection = (id) => {
     setMenuOpen(false)
     if (location.pathname !== '/') {
@@ -36,41 +42,49 @@ export default function Sidebar({ activeSection, setActiveSection }) {
   }
 
   return (
-    <header className="topnav">
-      <button
-        type="button"
-        className="topnav-brand"
-        onClick={() => goToSection('home')}
-        aria-label="Go to top"
-      >
-        <span className="topnav-brand-mark">HS</span>
-        <span className="topnav-brand-name">Hemant Sharma</span>
-      </button>
+    <>
+      <header className="topnav">
+        <button
+          type="button"
+          className={`topnav-toggle ${menuOpen ? 'open' : ''}`}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(v => !v)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-      <nav className={`topnav-links ${menuOpen ? 'open' : ''}`}>
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`topnav-link ${activeSection === item.id ? 'active' : ''}`}
-            onClick={() => goToSection(item.id)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
+        <button
+          type="button"
+          className="topnav-brand"
+          onClick={() => goToSection('home')}
+          aria-label="Go to top"
+        >
+          <span className="topnav-brand-mark">HS</span>
+          <span className="topnav-brand-name">Hemant Sharma</span>
+        </button>
 
-      <button
-        type="button"
-        className={`topnav-toggle ${menuOpen ? 'open' : ''}`}
-        aria-label="Toggle menu"
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen(v => !v)}
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </header>
+        <nav className={`topnav-links ${menuOpen ? 'open' : ''}`}>
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`topnav-link ${activeSection === item.id ? 'active' : ''}`}
+              onClick={() => goToSection(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      <div
+        className={`topnav-scrim ${menuOpen ? 'open' : ''}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+    </>
   )
 }
