@@ -34,7 +34,7 @@ export default function Contact() {
       from_email: formData.email,
       subject: formData.subject,
       message: formData.message,
-      to_email: 'agarwal665a@gmail.com'
+      to_email: 'sharmah677@gmail.com'
     }
 
     try {
@@ -175,7 +175,7 @@ export default function Contact() {
               </div>
               <div className="info-text">
                 <h4>Email</h4>
-                <p>agarwal665a@gmail.com</p>
+                <p><a href="mailto:sharmah677@gmail.com" className="contact-email">sharmah677@gmail.com</a></p>
               </div>
             </div>
 

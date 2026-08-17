@@ -4,10 +4,10 @@
   min-height: 100vh;
   background: transparent;
   color: var(--color-text);
-  padding: 2rem var(--sidebar-width) 8rem calc(var(--sidebar-width) + 2rem);
+  padding: calc(72px + 2rem) clamp(1rem, 4vw, 3rem) 6rem;
   position: relative;
   z-index: 10;
-  max-width: 2400px;
+  max-width: 1600px;
   margin: 0 auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -19,7 +19,7 @@
   backdrop-filter: blur(20px);
   border: 1px solid rgba(242, 177, 52, 0.2);
   border-radius: 24px;
-  padding: 4rem;
+  padding: clamp(1.5rem, 4vw, 4rem);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   min-height: 100vh;
   /* Removed max-height and overflow to allow natural page scrolling */
@@ -27,14 +27,14 @@
 
 /* Image-only layout - no padding for seamless image display */
 .project-content-scroll.image-only-layout {
-  padding: 4rem 0 0 0;
+  padding: clamp(1.5rem, 4vw, 4rem) 0 0 0;
 }
 
 .project-content-scroll.image-only-layout .project-hero-content {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  padding-left: 4rem;
-  padding-right: 4rem;
+  padding-left: clamp(1.5rem, 4vw, 4rem);
+  padding-right: clamp(1.5rem, 4vw, 4rem);
 }
 
 /* Content Blocks */
@@ -75,23 +75,23 @@
 /* Back Button */
 .back-button {
   position: fixed;
-  top: 2rem;
-  left: 2rem;
+  top: calc(72px + 1rem);
+  left: clamp(1rem, 3vw, 2rem);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--color-text);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.25rem;
   border: 1px solid rgba(242, 177, 52, 0.3);
   border-radius: 30px;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 90;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .back-button:hover {
@@ -407,14 +407,14 @@
 }
 
 .image-banner-block .block-image {
-  margin: 0 -4rem;
-  width: calc(100% + 8rem);
+  margin: 0 calc(-1 * clamp(1.5rem, 4vw, 4rem));
+  width: calc(100% + 2 * clamp(1.5rem, 4vw, 4rem));
   border: none;
   border-radius: 0;
   overflow: hidden;
   box-shadow: none;
   background: linear-gradient(135deg, rgba(242, 177, 52, 0.05) 0%, rgba(255, 255, 255, 0.3) 100%);
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   transition: all 0.4s ease;
 }
 
@@ -605,22 +605,25 @@
   margin-bottom: 2rem;
 }
 
+.gallery-block {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.gallery-block > h2 {
+  grid-column: 1 / -1;
+}
+
 .gallery-image-block {
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
   border-radius: 12px;
   overflow: hidden;
   border: 2px solid rgba(242, 177, 52, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-block;
-  width: 23%;
-  margin-right: 2%;
   vertical-align: top;
-}
-
-.gallery-image-block:nth-child(4n) {
-  margin-right: 0;
 }
 
 /* Vertical stacked gallery with no gaps (for image-only projects) */
@@ -629,6 +632,7 @@
   margin-bottom: 0;
   padding: 0;
   border: none;
+  display: block;
 }
 
 .gallery-block:not(:has(h2)) .gallery-image-block {
@@ -933,22 +937,42 @@
   color: var(--color-primary);
 }
 
-/* Responsive */
+/* Responsive - tablet */
+@media (max-width: 1024px) {
+  .section-content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .section-image {
+    position: static;
+    top: auto;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .block-image.small-image {
+    max-width: 80%;
+  }
+}
+
+/* Responsive - mobile */
 @media (max-width: 768px) {
   .project-detail {
-    padding: 2rem 1rem 3rem 1rem;
+    padding: calc(64px + 1rem) 0.75rem 3rem;
   }
 
   .project-content-scroll {
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 16px;
   }
 
   .back-button {
-    top: 1rem;
-    left: 1rem;
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
+    top: calc(64px + 0.5rem);
+    left: 0.75rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
   }
 
   .back-button:hover {
@@ -959,8 +983,17 @@
     font-size: 2.5rem;
   }
 
+  .project-tagline {
+    font-size: 1.1rem;
+  }
+
   .info-cards-inline {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .info-card-inline {
+    padding: 1rem;
   }
 
   .features-list {
@@ -978,6 +1011,8 @@
 
   .project-navigation {
     grid-template-columns: 1fr;
+    margin-top: 3rem;
+    padding-top: 2rem;
   }
 
   .nav-project {
@@ -987,13 +1022,17 @@
 
   .nav-thumbnail {
     width: 100%;
-    height: 200px;
+    height: 180px;
   }
 
-  /* Stack images on mobile */
-  .gallery-image-block {
-    width: 100%;
-    margin-right: 0;
+  .project-navigation .nav-title {
+    font-size: 1.2rem;
+  }
+
+  /* Gallery becomes single column on narrow screens */
+  .gallery-block {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .mixed-block .block-image {
@@ -1003,48 +1042,60 @@
     display: block;
   }
 
-  /* Stack side-by-side layout on mobile */
-  .section-content-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .links-block {
+    padding: 1.25rem;
   }
 
-  .section-image {
-    position: static;
-    top: auto;
+  .link-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .gdd-button {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .lightbox {
+    padding: 0.5rem;
   }
 
   .lightbox-prev,
   .lightbox-next {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 
   .lightbox-prev {
-    left: 10px;
+    left: 6px;
   }
 
   .lightbox-next {
-    right: 10px;
+    right: 6px;
   }
 
   .lightbox-counter {
-    bottom: 20px;
-    font-size: 0.9rem;
+    bottom: 12px;
+    font-size: 0.85rem;
+    padding: 0.35rem 1rem;
   }
 
   .lightbox-close {
-    top: 10px;
-    right: 10px;
+    top: 6px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
   }
 
   .floating-lanterns .lantern {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
   }
 
   .gif-background-block {
-    padding: 2rem 1.5rem !important;
+    padding: 2rem 1.25rem !important;
     min-height: 300px;
   }
 
@@ -1055,7 +1106,30 @@
 
   .gif-background-block .text-content {
     font-size: 0.95rem;
-    padding: 1.5rem;
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-detail {
+    padding: calc(64px + 0.75rem) 0.5rem 2rem;
+  }
+
+  .project-content-scroll {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .info-cards-inline {
+    grid-template-columns: 1fr;
+  }
+
+  .project-title-large {
+    font-size: 2rem;
+  }
+
+  .block-title {
+    font-size: 1.3rem;
   }
 }
 

@@ -4,7 +4,7 @@ export default function Footer() {
   const [copied, setCopied] = useState(false)
 
   const handleEmailClick = () => {
-    navigator.clipboard.writeText('agarwal665a@gmail.com')
+    navigator.clipboard.writeText('sharmah677@gmail.com')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -63,7 +63,7 @@ export default function Footer() {
             </a>
           </div>
 
-          <p className="email-text">agarwal665a@gmail.com</p>
+          <p className="email-text">sharmah677@gmail.com</p>
         </div>
 
         <div className="footer-grid">
@@ -81,15 +81,14 @@ export default function Footer() {
             <h4>Resources</h4>
             <ul>
               <li><a href={`${import.meta.env.BASE_URL}Resume.pdf`} target="_blank" rel="noopener noreferrer">Resume</a></li>
-              <li><a href="#">Portfolio PDF</a></li>
             </ul>
           </div>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2025 Game Designer Portfolio. All rights reserved.</p>
-        <p>Designed with Three.js & React</p>
+        <p>&copy; {new Date().getFullYear()} Hemant Sharma. All rights reserved.</p>
+        <p>Built with React & Vite</p>
       </div>
     </footer>
   )

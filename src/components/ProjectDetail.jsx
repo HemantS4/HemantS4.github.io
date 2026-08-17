@@ -19,7 +19,7 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     // Scroll to top when project changes
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'instant' })
 
     const projectData = getProjectById(projectId)
     if (!projectData) {
