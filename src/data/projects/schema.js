@@ -17,6 +17,7 @@
  * @property {string} [ppt]         — Slides / PDF
  * @property {string} [live]        — Live product URL
  * @property {string} [repo]        — Source code URL
+ * @property {string} [itchIo]      — itch.io page URL
  */
 
 /**

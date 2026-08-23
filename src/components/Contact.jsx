@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import emailjs from '@emailjs/browser'
-import '../styles/Contact.css'
+import styles from '../styles/Contact.module.css'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -56,21 +56,21 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="contact-section">
-      <div className="contact-container">
-        <div className="contact-header">
-          <h2 className="contact-title">Get In Touch</h2>
-          <p className="contact-subtitle">
+    <section id="contact" className={styles.contactSection}>
+      <div className={styles.contactContainer}>
+        <div className={styles.contactHeader}>
+          <h2 className={styles.contactTitle}>Get In Touch</h2>
+          <p className={styles.contactSubtitle}>
             Have a project in mind or want to collaborate? I'd love to hear from you!
           </p>
         </div>
 
-        <div className="contact-content">
+        <div className={styles.contactContent}>
           {/* Contact Form Card */}
-          <div className="contact-form-card">
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-row">
-                <div className="form-group">
+          <div className={styles.contactFormCard}>
+            <form className={styles.contactForm} onSubmit={handleSubmit}>
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
                   <label htmlFor="name">Name</label>
                   <input
                     type="text"
@@ -83,7 +83,7 @@ export default function Contact() {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className={styles.formGroup}>
                   <label htmlFor="email">Email</label>
                   <input
                     type="email"
@@ -97,7 +97,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="form-group">
+              <div className={styles.formGroup}>
                 <label htmlFor="subject">Subject</label>
                 <input
                   type="text"
@@ -110,7 +110,7 @@ export default function Contact() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className={styles.formGroup}>
                 <label htmlFor="message">Message</label>
                 <textarea
                   id="message"
@@ -124,7 +124,7 @@ export default function Contact() {
               </div>
 
               {submitStatus === 'success' && (
-                <div className="form-message success">
+                <div className={`${styles.formMessage} ${styles.success}`}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -133,7 +133,7 @@ export default function Contact() {
               )}
 
               {submitStatus === 'error' && (
-                <div className="form-message error">
+                <div className={`${styles.formMessage} ${styles.error}`}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
                     <path d="M12 8v4M12 16h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -144,12 +144,12 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="submit-button"
+                className={styles.submitButton}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <span className="button-spinner"></span>
+                    <span className={styles.buttonSpinner}></span>
                     Sending...
                   </>
                 ) : (
@@ -165,43 +165,43 @@ export default function Contact() {
           </div>
 
           {/* Contact Info Card */}
-          <div className="contact-info-card">
-            <div className="info-item">
-              <div className="info-icon email-icon">
+          <div className={styles.contactInfoCard}>
+            <div className={styles.infoItem}>
+              <div className={styles.infoIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M22 6l-10 7L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <div className="info-text">
+              <div className={styles.infoText}>
                 <h4>Email</h4>
-                <p><a href="mailto:sharmah677@gmail.com" className="contact-email">sharmah677@gmail.com</a></p>
+                <p><a href="mailto:sharmah677@gmail.com">sharmah677@gmail.com</a></p>
               </div>
             </div>
 
-            <div className="info-item">
-              <div className="info-icon location-icon">
+            <div className={styles.infoItem}>
+              <div className={styles.infoIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <div className="info-text">
+              <div className={styles.infoText}>
                 <h4>Location</h4>
                 <p>Available for Remote Work</p>
               </div>
             </div>
 
-            <div className="info-item">
-              <div className="info-icon social-icon">
+            <div className={styles.infoItem}>
+              <div className={styles.infoIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <div className="info-text">
+              <div className={styles.infoText}>
                 <h4>Social</h4>
-                <div className="social-links-list">
+                <div className={styles.socialLinksList}>
                   <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                   <span>•</span>
                   <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>

@@ -1,4 +1,16 @@
 /* ============================================================
+   Global site chrome.
+
+   This file intentionally stays as global CSS (not a module). It
+   styles the shared shell — top nav, hero, projects grid, about,
+   footer, section headers, CTA buttons — whose classes are used
+   inside components that have no per-component CSS file.
+
+   Component-scoped styles live in `../styles/*.module.css` and are
+   imported by their component as CSS Modules. If a rule below
+   starts to feel "component-specific," lift it into that
+   component's own module file.
+   ============================================================
    Base layout
    ============================================================ */
 .app {

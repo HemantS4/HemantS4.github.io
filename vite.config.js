@@ -5,6 +5,14 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/', // User site deploys to root
+  css: {
+    modules: {
+      // Access CSS Module classes as camelCase in JS.
+      // Example: .project-card in .module.css → styles.projectCard in JSX.
+      localsConvention: 'camelCaseOnly',
+      generateScopedName: '[name]__[local]__[hash:base64:4]',
+    },
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

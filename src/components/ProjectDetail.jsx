@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getProjectById, getAdjacentProjects } from '../data/projectsData'
 import Sidebar from './Sidebar'
 import { BarChart, ProgressBars, StatsGrid, DonutChart } from './ResearchCharts'
-import '../styles/ProjectDetail.css'
+import styles from '../styles/ProjectDetail.module.css'
 
 export default function ProjectDetail() {
   const { projectId } = useParams()
@@ -102,7 +102,7 @@ export default function ProjectDetail() {
   }
 
   if (!project) {
-    return <div className="loading">Loading project...</div>
+    return <div className={styles.loading}>Loading project...</div>
   }
 
   return (
@@ -111,47 +111,47 @@ export default function ProjectDetail() {
 
       {/* Floating Lanterns for Spring Twilight */}
       {project.id === 'spring-twilight' && (
-        <div className="floating-lanterns">
-          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className="lantern lantern-1" alt="" />
-          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className="lantern lantern-2" alt="" />
-          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className="lantern lantern-3" alt="" />
-          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className="lantern lantern-4" alt="" />
+        <div className={styles.floatingLanterns}>
+          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className={`${styles.lantern} ${styles.lantern1}`} alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className={`${styles.lantern} ${styles.lantern2}`} alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className={`${styles.lantern} ${styles.lantern3}`} alt="" />
+          <img src={`${import.meta.env.BASE_URL}images/projects/spring-twilight/Floating-Lantern.gif`} className={`${styles.lantern} ${styles.lantern4}`} alt="" />
         </div>
       )}
 
       {/* Fixed Back Button Overlay */}
-      <Link to="/" className="back-button">
+      <Link to="/" className={styles.backButton}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
         Back to Portfolio
       </Link>
 
-      <div className="project-detail">
+      <div className={styles.projectDetail}>
         {/* Single Scrollable Container */}
-        <div className={`project-content-scroll ${!project.overview ? 'image-only-layout' : ''}`}>
+        <div className={`${styles.projectContentScroll} ${!project.overview ? styles.imageOnlyLayout : ''}`}>
           {/* Hero Section */}
-          <div className="project-hero-content">
-            <div className="project-meta">
-              <span className="project-category">{project.category}</span>
-              <span className="project-year">{project.year}</span>
+          <div className={styles.projectHeroContent}>
+            <div className={styles.projectMeta}>
+              <span className={styles.projectCategory}>{project.category}</span>
+              <span className={styles.projectYear}>{project.year}</span>
             </div>
 
-            <h1 className="project-title-large">{project.title}</h1>
-            <p className="project-tagline">{project.description}</p>
+            <h1 className={styles.projectTitleLarge}>{project.title}</h1>
+            <p className={styles.projectTagline}>{project.description}</p>
 
-            <div className="project-tools-list">
+            <div className={styles.projectToolsList}>
               {project.tools.map((tool, index) => (
-                <span key={index} className="tool-badge">{tool}</span>
+                <span key={index} className={styles.toolBadge}>{tool}</span>
               ))}
             </div>
           </div>
 
           {/* Video Showcase */}
           {project.videoUrl && (
-            <div className="content-block video-block">
-              <h2 className="block-title">Gameplay Video</h2>
-              <div className="video-container">
+            <div className={`${styles.contentBlock} ${styles.videoBlock}`}>
+              <h2 className={styles.blockTitle}>Gameplay Video</h2>
+              <div className={styles.videoContainer}>
                 {project.videoUrl.includes('youtube.com') || project.videoUrl.includes('youtu.be') ? (
                   <iframe
                     src={project.videoUrl}
@@ -176,39 +176,39 @@ export default function ProjectDetail() {
           )}
 
           {/* Quick Info Cards */}
-          <div className="content-block info-cards-block">
-            <div className="info-cards-inline">
-              <div className="info-card-inline">
-                <span className="info-label">Role</span>
-                <span className="info-value">{project.role}</span>
+          <div className={styles.contentBlock}>
+            <div className={styles.infoCardsInline}>
+              <div className={styles.infoCardInline}>
+                <span className={styles.infoLabel}>Role</span>
+                <span className={styles.infoValue}>{project.role}</span>
               </div>
-              <div className="info-card-inline">
-                <span className="info-label">Duration</span>
-                <span className="info-value">{project.duration}</span>
+              <div className={styles.infoCardInline}>
+                <span className={styles.infoLabel}>Duration</span>
+                <span className={styles.infoValue}>{project.duration}</span>
               </div>
-              <div className="info-card-inline">
-                <span className="info-label">Team Size</span>
-                <span className="info-value">{project.teamSize}</span>
+              <div className={styles.infoCardInline}>
+                <span className={styles.infoLabel}>Team Size</span>
+                <span className={styles.infoValue}>{project.teamSize}</span>
               </div>
-              <div className="info-card-inline">
-                <span className="info-label">Platform</span>
-                <span className="info-value">{project.platform.join(', ')}</span>
+              <div className={styles.infoCardInline}>
+                <span className={styles.infoLabel}>Platform</span>
+                <span className={styles.infoValue}>{project.platform.join(', ')}</span>
               </div>
             </div>
           </div>
 
           {/* Overview */}
           {project.overview && (
-            <div className="content-block text-block">
-              <h2 className="block-title">Overview</h2>
-              <p className="text-content">{project.overview}</p>
+            <div className={`${styles.contentBlock} ${styles.textBlock}`}>
+              <h2 className={styles.blockTitle}>Overview</h2>
+              <p className={styles.textContent}>{project.overview}</p>
             </div>
           )}
 
           {/* Links */}
           {project.links && Object.keys(project.links).length > 0 && (
-            <div className="content-block links-block">
-              <div className="links-inline">
+            <div className={`${styles.contentBlock} ${styles.linksBlock}`}>
+              <div className={styles.linksInline}>
                 {Object.entries(project.links).map(([platform, url]) => {
                   const isGDD = platform === 'gdd' || platform === 'conceptGdd' || platform === 'gameGdd';
                   const isPPT = platform === 'ppt';
@@ -256,8 +256,8 @@ export default function ProjectDetail() {
 
           {/* Research Data Visualizations */}
           {project.researchData && project.id !== 'flowlog' && (
-            <div className="content-block research-block">
-              <h2 className="block-title">Research & Insights</h2>
+            <div className={`${styles.contentBlock} ${styles.researchBlock}`}>
+              <h2 className={styles.blockTitle}>Research & Insights</h2>
 
               {/* DP2 specific charts */}
               {project.id === 'dp2-motor-play' && (
@@ -278,21 +278,21 @@ export default function ProjectDetail() {
               {project.extendedSections.map((section, index) => (
                 <div
                   key={index}
-                  className={`content-block extended-section ${section.image ? 'has-image' : ''} ${section.backgroundGif ? 'gif-background-block' : ''}`}
+                  className={`${styles.contentBlock} ${styles.extendedSection} ${section.image ? styles.hasImage : ''} ${section.backgroundGif ? styles.gifBackgroundBlock : ''}`}
                   style={section.backgroundGif ? {
                     backgroundImage: `url(${import.meta.env.BASE_URL}images/projects/${project.id.replace(/-/g, '-')}/${section.backgroundGif})`
                   } : {}}
                 >
-                  <h2 className="block-title">{section.title}</h2>
+                  <h2 className={styles.blockTitle}>{section.title}</h2>
                   {section.image ? (
-                    <div className="section-content-grid">
-                      <div className="section-text">
+                    <div className={styles.sectionContentGrid}>
+                      <div className={styles.sectionText}>
                         {section.content && (
-                          <div className="text-content">{renderMarkdown(section.content)}</div>
+                          <div className={styles.textContent}>{renderMarkdown(section.content)}</div>
                         )}
                       </div>
-                      <div className="section-image">
-                        <div className={`block-image ${section.image === 'Howitworks.png' ? 'small-image' : ''}`}>
+                      <div className={styles.sectionImage}>
+                        <div className={`${styles.blockImage} ${section.image === 'Howitworks.png' ? styles.smallImage : ''}`}>
                           <img
                             src={`${import.meta.env.BASE_URL}images/projects/${project.id.replace(/-/g, '-')}/${section.image}`}
                             alt={section.title}
@@ -306,16 +306,16 @@ export default function ProjectDetail() {
                   ) : (
                     <>
                       {section.content && (
-                        <div className="text-content">{renderMarkdown(section.content)}</div>
+                        <div className={styles.textContent}>{renderMarkdown(section.content)}</div>
                       )}
                     </>
                   )}
                   {section.images && section.images.length > 0 && (
-                    <div className="section-gallery">
+                    <div>
                       {section.images.map((image, imgIndex) => (
                         <div
                           key={imgIndex}
-                          className="gallery-image-block"
+                          className={styles.galleryImageBlock}
                           onClick={() => openLightbox(image, imgIndex, section.images)}
                         >
                           <img
@@ -325,13 +325,13 @@ export default function ProjectDetail() {
                               e.target.src = `https://via.placeholder.com/800x450/1a1a2e/ff7849?text=Image+${imgIndex + 1}`
                             }}
                           />
-                          <div className="image-caption">Click to enlarge</div>
+                          <div className={styles.imageCaption}>Click to enlarge</div>
                         </div>
                       ))}
                     </div>
                   )}
                   {section.video && (
-                    <div className="video-container">
+                    <div className={styles.videoContainer}>
                       <video
                         controls
                         preload="metadata"
@@ -349,11 +349,11 @@ export default function ProjectDetail() {
 
           {/* Features */}
           {project.features && project.features.length > 0 && (
-            <div className="content-block features-block">
-              <h2 className="block-title">Key Features</h2>
-              <div className="features-list">
+            <div className={styles.contentBlock}>
+              <h2 className={styles.blockTitle}>Key Features</h2>
+              <div className={styles.featuresList}>
                 {project.features.map((feature, index) => (
-                  <div key={index} className="feature-item">
+                  <div key={index} className={styles.featureItem}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path d="M20 6L9 17L4 12" stroke="#ff7849" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -366,9 +366,9 @@ export default function ProjectDetail() {
 
           {/* Challenges */}
           {project.challenges && project.challenges.length > 0 && (
-            <div className="content-block text-block">
-              <h2 className="block-title">Challenges</h2>
-              <ul className="styled-list challenges-list">
+            <div className={`${styles.contentBlock} ${styles.textBlock}`}>
+              <h2 className={styles.blockTitle}>Challenges</h2>
+              <ul className={`${styles.styledList} ${styles.challengesList}`}>
                 {project.challenges.map((challenge, index) => (
                   <li key={index}>{challenge}</li>
                 ))}
@@ -378,9 +378,9 @@ export default function ProjectDetail() {
 
           {/* Solutions */}
           {project.solutions && project.solutions.length > 0 && (
-            <div className="content-block text-block">
-              <h2 className="block-title">Solutions</h2>
-              <ul className="styled-list solutions-list">
+            <div className={`${styles.contentBlock} ${styles.textBlock}`}>
+              <h2 className={styles.blockTitle}>Solutions</h2>
+              <ul className={`${styles.styledList} ${styles.solutionsList}`}>
                 {project.solutions.map((solution, index) => (
                   <li key={index}>{solution}</li>
                 ))}
@@ -390,12 +390,12 @@ export default function ProjectDetail() {
 
           {/* Gallery Images interspersed */}
           {project.gallery && project.gallery.length > 0 && (
-            <div className="content-block gallery-block">
-              {project.overview && <h2 className="block-title">Gallery</h2>}
+            <div className={`${styles.contentBlock} ${styles.galleryBlock}`}>
+              {project.overview && <h2 className={styles.blockTitle}>Gallery</h2>}
               {project.gallery.map((image, index) => (
                 <div
                   key={index}
-                  className="gallery-image-block"
+                  className={styles.galleryImageBlock}
                   onClick={project.overview ? () => openLightbox(image, index) : undefined}
                 >
                   <img
@@ -405,7 +405,7 @@ export default function ProjectDetail() {
                       e.target.src = `https://via.placeholder.com/800x450/1a1a2e/ff7849?text=Screenshot+${index + 1}`
                     }}
                   />
-                  {project.overview && <div className="image-caption">Click to enlarge</div>}
+                  {project.overview && <div className={styles.imageCaption}>Click to enlarge</div>}
                 </div>
               ))}
             </div>
@@ -414,35 +414,35 @@ export default function ProjectDetail() {
 
       {/* Navigation to Other Projects */}
       {adjacentProjects && (
-        <section className="project-navigation">
+        <section className={styles.projectNavigation}>
           <Link
             to={`/project/${adjacentProjects.previous.id}`}
-            className="nav-project prev-project"
+            className={`${styles.navProject} ${styles.prevProject}`}
           >
-            <img src={adjacentProjects.previous.thumbnail} alt={adjacentProjects.previous.title} className="nav-thumbnail" />
-            <div className="nav-content">
-              <span className="nav-label">Previous Project</span>
-              <span className="nav-title">{adjacentProjects.previous.title}</span>
+            <img src={adjacentProjects.previous.thumbnail} alt={adjacentProjects.previous.title} className={styles.navThumbnail} />
+            <div className={styles.navContent}>
+              <span className={styles.navLabel}>Previous Project</span>
+              <span className={styles.navTitle}>{adjacentProjects.previous.title}</span>
             </div>
           </Link>
           <Link
             to={`/project/${adjacentProjects.next.id}`}
-            className="nav-project next-project"
+            className={styles.navProject}
           >
-            <div className="nav-content">
-              <span className="nav-label">Next Project</span>
-              <span className="nav-title">{adjacentProjects.next.title}</span>
+            <div className={styles.navContent}>
+              <span className={styles.navLabel}>Next Project</span>
+              <span className={styles.navTitle}>{adjacentProjects.next.title}</span>
             </div>
-            <img src={adjacentProjects.next.thumbnail} alt={adjacentProjects.next.title} className="nav-thumbnail" />
+            <img src={adjacentProjects.next.thumbnail} alt={adjacentProjects.next.title} className={styles.navThumbnail} />
           </Link>
         </section>
       )}
 
       {/* Image Lightbox */}
       {selectedImage && (
-        <div className="lightbox" onClick={closeLightbox}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close" onClick={closeLightbox}>
+        <div className={styles.lightbox} onClick={closeLightbox}>
+          <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.lightboxClose} onClick={closeLightbox}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -450,7 +450,7 @@ export default function ProjectDetail() {
 
             {/* Previous Button */}
             {selectedImageIndex > 0 && (
-              <button className="lightbox-prev" onClick={goToPreviousImage}>
+              <button className={styles.lightboxPrev} onClick={goToPreviousImage}>
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                   <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -459,7 +459,7 @@ export default function ProjectDetail() {
 
             {/* Next Button */}
             {selectedImageIndex < (currentGallery || project.gallery).length - 1 && (
-              <button className="lightbox-next" onClick={goToNextImage}>
+              <button className={styles.lightboxNext} onClick={goToNextImage}>
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                   <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -467,11 +467,11 @@ export default function ProjectDetail() {
             )}
 
             {/* Clickable image areas for navigation */}
-            <div className="lightbox-image-wrapper">
+            <div className={styles.lightboxImageWrapper}>
               {/* Left click area */}
               {selectedImageIndex > 0 && (
                 <div
-                  className="lightbox-nav-area left"
+                  className={`${styles.lightboxNavArea} ${styles.left}`}
                   onClick={goToPreviousImage}
                   title="Previous image"
                 />
@@ -480,7 +480,7 @@ export default function ProjectDetail() {
               {/* Right click area */}
               {selectedImageIndex < (currentGallery || project.gallery).length - 1 && (
                 <div
-                  className="lightbox-nav-area right"
+                  className={`${styles.lightboxNavArea} ${styles.right}`}
                   onClick={goToNextImage}
                   title="Next image"
                 />
@@ -490,7 +490,7 @@ export default function ProjectDetail() {
             </div>
 
             {/* Image Counter */}
-            <div className="lightbox-counter">
+            <div className={styles.lightboxCounter}>
               {selectedImageIndex + 1} / {(currentGallery || project.gallery).length}
             </div>
           </div>

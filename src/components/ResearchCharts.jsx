@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/ResearchCharts.css'
+import styles from '../styles/ResearchCharts.module.css'
 
 // Simple bar chart component
 export const BarChart = ({ data, title, height = 320 }) => {
@@ -11,13 +11,13 @@ export const BarChart = ({ data, title, height = 320 }) => {
   const unit = data[0]?.unit || '%'
 
   return (
-    <div className="chart-container">
-      {title && <h4 className="chart-title">{title}</h4>}
-      <div className="bar-chart" style={{ height: `${height}px` }}>
+    <div className={styles.chartContainer}>
+      {title && <h4 className={styles.chartTitle}>{title}</h4>}
+      <div className={styles.barChart} style={{ height: `${height}px` }}>
         {data.map((item, index) => (
-          <div key={index} className="bar-item">
+          <div key={index} className={styles.barItem}>
             <div
-              className="bar"
+              className={styles.bar}
               style={{
                 height: `${(item.value / maxValue) * 100}%`,
                 background: item.color
@@ -25,9 +25,9 @@ export const BarChart = ({ data, title, height = 320 }) => {
                   : 'linear-gradient(to top, #ff7849, #ffb347)'
               }}
             >
-              <span className="bar-value">{item.value}{item.unit || unit}</span>
+              <span className={styles.barValue}>{item.value}{item.unit || unit}</span>
             </div>
-            <span className="bar-label">{item.label}</span>
+            <span className={styles.barLabel}>{item.label}</span>
           </div>
         ))}
       </div>
@@ -42,18 +42,18 @@ export const ProgressBars = ({ data, title }) => {
   }
 
   return (
-    <div className="chart-container progress-bars-container">
-      {title && <h4 className="chart-title">{title}</h4>}
-      <div className="progress-bars">
+    <div className={`${styles.chartContainer} ${styles.progressBarsContainer}`}>
+      {title && <h4 className={styles.chartTitle}>{title}</h4>}
+      <div className={styles.progressBars}>
         {data.map((item, index) => (
-          <div key={index} className="progress-item">
-            <div className="progress-header">
-              <span className="progress-label">{item.label}</span>
-              <span className="progress-value">{item.value}{item.unit || '%'}</span>
+          <div key={index} className={styles.progressItem}>
+            <div className={styles.progressHeader}>
+              <span className={styles.progressLabel}>{item.label}</span>
+              <span className={styles.progressValue}>{item.value}{item.unit || '%'}</span>
             </div>
-            <div className="progress-bar-bg">
+            <div className={styles.progressBarBg}>
               <div
-                className="progress-bar-fill"
+                className={styles.progressBarFill}
                 style={{
                   width: `${item.value}%`,
                   backgroundColor: item.color || '#ff7849'
@@ -74,14 +74,14 @@ export const StatsGrid = ({ stats, columns = 3 }) => {
   }
 
   return (
-    <div className="stats-grid" style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
+    <div className={styles.statsGrid} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
       {stats.map((stat, index) => (
-        <div key={index} className="stat-card">
-          <div className="stat-value" style={{ color: stat.color || '#ff7849' }}>
+        <div key={index} className={styles.statCard}>
+          <div className={styles.statValue} style={{ color: stat.color || '#ff7849' }}>
             {stat.value}
           </div>
-          <div className="stat-label">{stat.label}</div>
-          {stat.description && <div className="stat-description">{stat.description}</div>}
+          <div className={styles.statLabel}>{stat.label}</div>
+          {stat.description && <div className={styles.statDescription}>{stat.description}</div>}
         </div>
       ))}
     </div>
@@ -111,10 +111,10 @@ export const DonutChart = ({ data, title, centerLabel }) => {
   })
 
   return (
-    <div className="chart-container donut-container">
-      {title && <h4 className="chart-title">{title}</h4>}
-      <div className="donut-chart-wrapper">
-        <svg className="donut-chart" viewBox="0 0 200 200">
+    <div className={`${styles.chartContainer} ${styles.donutContainer}`}>
+      {title && <h4 className={styles.chartTitle}>{title}</h4>}
+      <div className={styles.donutChartWrapper}>
+        <svg className={styles.donutChart} viewBox="0 0 200 200">
           <g transform="translate(100, 100)">
             {segments.map((segment, index) => {
               const startAngle = (segment.startAngle - 90) * (Math.PI / 180)
@@ -139,26 +139,26 @@ export const DonutChart = ({ data, title, centerLabel }) => {
                   key={index}
                   d={pathData}
                   fill={segment.color || `hsl(${index * 40}, 70%, 60%)`}
-                  className="donut-segment"
+                  className={styles.donutSegment}
                 />
               )
             })}
             {centerLabel && (
-              <text className="donut-center-text" textAnchor="middle" dy="0.3em">
+              <text className={styles.donutCenterText} textAnchor="middle" dy="0.3em">
                 {centerLabel}
               </text>
             )}
           </g>
         </svg>
-        <div className="donut-legend">
+        <div className={styles.donutLegend}>
           {segments.map((segment, index) => (
-            <div key={index} className="legend-item">
+            <div key={index} className={styles.legendItem}>
               <span
-                className="legend-color"
+                className={styles.legendColor}
                 style={{ backgroundColor: segment.color || `hsl(${index * 40}, 70%, 60%)` }}
               />
-              <span className="legend-label">{segment.label}</span>
-              <span className="legend-value">{segment.percentage}%</span>
+              <span className={styles.legendLabel}>{segment.label}</span>
+              <span className={styles.legendValue}>{segment.percentage}%</span>
             </div>
           ))}
         </div>
@@ -170,15 +170,15 @@ export const DonutChart = ({ data, title, centerLabel }) => {
 // Timeline visualization
 export const Timeline = ({ events, title }) => {
   return (
-    <div className="chart-container timeline-container">
-      {title && <h4 className="chart-title">{title}</h4>}
-      <div className="timeline">
+    <div className={`${styles.chartContainer} ${styles.timelineContainer}`}>
+      {title && <h4 className={styles.chartTitle}>{title}</h4>}
+      <div className={styles.timeline}>
         {events.map((event, index) => (
-          <div key={index} className="timeline-event">
-            <div className="timeline-marker" style={{ backgroundColor: event.color || '#ff7849' }} />
-            <div className="timeline-content">
-              <div className="timeline-label">{event.label}</div>
-              <div className="timeline-description">{event.description}</div>
+          <div key={index} className={styles.timelineEvent}>
+            <div className={styles.timelineMarker} style={{ backgroundColor: event.color || '#ff7849' }} />
+            <div className={styles.timelineContent}>
+              <div className={styles.timelineLabel}>{event.label}</div>
+              <div className={styles.timelineDescription}>{event.description}</div>
             </div>
           </div>
         ))}
@@ -190,22 +190,22 @@ export const Timeline = ({ events, title }) => {
 // Comparison table
 export const ComparisonTable = ({ data, title }) => {
   return (
-    <div className="chart-container comparison-table-container">
-      {title && <h4 className="chart-title">{title}</h4>}
-      <div className="comparison-table">
-        <div className="comparison-row comparison-header">
-          <div className="comparison-cell"></div>
+    <div className={`${styles.chartContainer} ${styles.comparisonTableContainer}`}>
+      {title && <h4 className={styles.chartTitle}>{title}</h4>}
+      <div className={styles.comparisonTable}>
+        <div className={`${styles.comparisonRow} ${styles.comparisonHeader}`}>
+          <div className={styles.comparisonCell}></div>
           {data.columns.map((col, index) => (
-            <div key={index} className="comparison-cell">{col}</div>
+            <div key={index} className={styles.comparisonCell}>{col}</div>
           ))}
         </div>
         {data.rows.map((row, rowIndex) => (
-          <div key={rowIndex} className="comparison-row">
-            <div className="comparison-cell comparison-row-label">{row.label}</div>
+          <div key={rowIndex} className={styles.comparisonRow}>
+            <div className={`${styles.comparisonCell} ${styles.comparisonRowLabel}`}>{row.label}</div>
             {row.values.map((value, colIndex) => (
-              <div key={colIndex} className="comparison-cell">
+              <div key={colIndex} className={styles.comparisonCell}>
                 {typeof value === 'boolean' ? (
-                  <span className={`check-mark ${value ? 'yes' : 'no'}`}>
+                  <span className={`${styles.checkMark} ${value ? styles.yes : styles.no}`}>
                     {value ? '✓' : '✗'}
                   </span>
                 ) : (
