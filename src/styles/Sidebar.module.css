@@ -1,0 +1,164 @@
+/* ============================================================
+   Top navigation bar (Sidebar component)
+
+   Locally scoped via CSS Modules. Access class names from JS as
+   camelCase: styles.topnav, styles.topnavBrand, styles.open, etc.
+   ============================================================ */
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--topnav-height);
+  padding: 0 clamp(1rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(251, 243, 231, 0.88);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--border-hairline);
+  z-index: var(--z-nav);
+}
+
+.topnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+}
+
+.topnav-brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--weight-bold);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.topnav-brand-name {
+  font-weight: var(--weight-semi);
+  font-size: 1.05rem;
+}
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.topnav-link {
+  background: transparent;
+  border: 0;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  font-size: 0.95rem;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.topnav-link:hover {
+  color: var(--color-ink);
+  background: rgba(32, 35, 43, 0.06);
+}
+
+.topnav-link.active {
+  color: var(--color-ink);
+  background: rgba(32, 35, 43, 0.10);
+  font-weight: var(--weight-semi);
+}
+
+.topnav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid rgba(32, 35, 43, 0.12);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+}
+
+.topnav-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--color-ink);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.topnav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.topnav-toggle.open span:nth-child(2) { opacity: 0; }
+.topnav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .topnav { height: 64px; }
+  .topnav-brand-name { display: none; }
+  .topnav-toggle { display: inline-flex; order: -1; }
+  .topnav-brand { margin-right: auto; }
+
+  .topnav-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(32, 35, 43, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 99;
+  }
+  .topnav-scrim.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .topnav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(78vw, 320px);
+    background: var(--color-bg);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 5rem clamp(1rem, 4vw, 1.5rem) 2rem;
+    gap: 0.4rem;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    pointer-events: none;
+    border-right: 1px solid var(--border-hairline);
+    box-shadow: 20px 0 40px -20px rgba(32, 35, 43, 0.2);
+    z-index: 101;
+    overflow-y: auto;
+  }
+  .topnav-links.open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .topnav-link {
+    font-size: 1.05rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    text-align: left;
+    justify-content: flex-start;
+  }
+}

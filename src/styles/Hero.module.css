@@ -1,0 +1,77 @@
+/* ============================================================
+   Hero component styles.
+   Scoped via CSS Modules. Global section shell (max-width,
+   padding, centering) still comes from App.css via .hero.
+   ============================================================ */
+.hero {
+  min-height: calc(100vh - var(--topnav-height));
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-top: clamp(3rem, 8vw, 5rem);
+}
+
+.hero-content {
+  max-width: 780px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: var(--weight-semi);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  color: var(--color-ink);
+  line-height: 1.05;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title-small {
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+  color: var(--color-ink-muted);
+  font-weight: var(--weight-medium);
+}
+
+.hero-title-name {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  color: var(--color-ink);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  color: var(--color-ink-muted);
+  margin-bottom: 2.5rem;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  .hero-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* CTA buttons stay global — target them via :global here so mobile
+     stacking is enforced even though the class is not in this module. */
+  .hero-cta-row :global(.cta-button) { justify-content: center; }
+}

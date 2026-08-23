@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from '../styles/Footer.module.css'
 
 export default function Footer() {
   const [copied, setCopied] = useState(false)
@@ -10,27 +11,27 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-main">
-          <h2 className="footer-title">Let's Create Something Amazing</h2>
-          <p className="footer-subtitle">
+    <footer className={styles.footer}>
+      <div className={styles.footerContent}>
+        <div className={styles.footerMain}>
+          <h2 className={styles.footerTitle}>Let's Create Something Amazing</h2>
+          <p className={styles.footerSubtitle}>
             I'm always interested in hearing about new projects and opportunities.
           </p>
 
           {/* Social Icons */}
-          <div className="social-icons">
+          <div className={styles.socialIcons}>
             {/* Email */}
             <button
               onClick={handleEmailClick}
-              className="social-icon email-icon"
+              className={`${styles.socialIcon} ${styles.emailIcon}`}
               title="Copy email to clipboard"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M22 6l-10 7L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              {copied && <span className="copy-tooltip">Copied!</span>}
+              {copied && <span className={styles.copyTooltip}>Copied!</span>}
             </button>
 
             {/* LinkedIn */}
@@ -38,7 +39,7 @@ export default function Footer() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="social-icon"
+              className={styles.socialIcon}
               title="LinkedIn"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -52,7 +53,7 @@ export default function Footer() {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="social-icon"
+              className={styles.socialIcon}
               title="Instagram"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -63,11 +64,11 @@ export default function Footer() {
             </a>
           </div>
 
-          <p className="email-text">sharmah677@gmail.com</p>
+          <p className={styles.emailText}>sharmah677@gmail.com</p>
         </div>
 
-        <div className="footer-grid">
-          <div className="footer-column">
+        <div className={styles.footerGrid}>
+          <div className={styles.footerColumn}>
             <h4>Navigation</h4>
             <ul>
               <li><a href="#home">Home</a></li>
@@ -77,7 +78,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="footer-column">
+          <div className={styles.footerColumn}>
             <h4>Resources</h4>
             <ul>
               <li><a href={`${import.meta.env.BASE_URL}Resume.pdf`} target="_blank" rel="noopener noreferrer">Resume</a></li>
@@ -86,7 +87,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="footer-bottom">
+      <div className={styles.footerBottom}>
         <p>&copy; {new Date().getFullYear()} Hemant Sharma. All rights reserved.</p>
         <p>Built with React & Vite</p>
       </div>

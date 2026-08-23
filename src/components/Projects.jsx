@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { projectsData } from '../data/projectsData'
+import styles from '../styles/Projects.module.css'
 
 export default function Projects() {
   const navigate = useNavigate()
@@ -22,15 +23,15 @@ export default function Projects() {
         <p className="section-subtitle">A selection of work in game design, UX research, and product</p>
       </div>
 
-      <div className="projects-grid">
+      <div className={styles.projectsGrid}>
         {projects.map((project) => (
           <button
             type="button"
             key={project.id}
-            className="project-card"
+            className={styles.projectCard}
             onClick={() => openProject(project)}
           >
-            <div className="project-image">
+            <div className={styles.projectImage}>
               <img
                 src={project.thumbnail}
                 alt={project.title}
@@ -40,19 +41,19 @@ export default function Projects() {
                 }}
               />
             </div>
-            <div className="project-info">
-              <div className="project-meta-row">
-                <span className="project-category">{project.category}</span>
-                <span className="project-year">{project.year}</span>
+            <div className={styles.projectInfo}>
+              <div className={styles.projectMetaRow}>
+                <span className={styles.projectCategory}>{project.category}</span>
+                <span className={styles.projectYear}>{project.year}</span>
               </div>
-              <h3 className="project-title">{project.title}</h3>
-              <p className="project-blurb">{project.shortDescription || project.description}</p>
-              <div className="project-tools">
+              <h3 className={styles.projectTitle}>{project.title}</h3>
+              <p className={styles.projectBlurb}>{project.shortDescription || project.description}</p>
+              <div className={styles.projectTools}>
                 {project.tools.slice(0, 4).map((tool, i) => (
-                  <span key={i} className="tool-tag">{tool}</span>
+                  <span key={i} className={styles.toolTag}>{tool}</span>
                 ))}
                 {project.tools.length > 4 && (
-                  <span className="tool-tag more">+{project.tools.length - 4}</span>
+                  <span className={`${styles.toolTag} ${styles.more}`}>+{project.tools.length - 4}</span>
                 )}
               </div>
             </div>
@@ -60,10 +61,10 @@ export default function Projects() {
         ))}
       </div>
 
-      <div className="view-artwork-container">
+      <div className={styles.viewArtworkContainer}>
         <button
           type="button"
-          className="view-artwork-btn"
+          className={styles.viewArtworkBtn}
           onClick={() => navigate('/project/artwork')}
         >
           <span>View Artwork</span>

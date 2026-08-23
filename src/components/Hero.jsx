@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from '../styles/Hero.module.css'
 
 export default function Hero() {
   const scrollToProjects = () => {
@@ -7,17 +8,17 @@ export default function Hero() {
   }
 
   return (
-    <section id="home" className="hero">
-      <div className="hero-content">
-        <p className="hero-eyebrow">Portfolio · 2025</p>
-        <h1 className="hero-title">
-          <span className="hero-title-small">Hi, I&rsquo;m</span>
-          <span className="hero-title-name">Hemant Sharma</span>
+    <section id="home" className={styles.hero}>
+      <div className={styles.heroContent}>
+        <p className={styles.heroEyebrow}>Portfolio · 2025</p>
+        <h1 className={styles.heroTitle}>
+          <span className={styles.heroTitleSmall}>Hi, I&rsquo;m</span>
+          <span className={styles.heroTitleName}>Hemant Sharma</span>
         </h1>
-        <p className="hero-subtitle">
+        <p className={styles.heroSubtitle}>
           Biologist turned game designer, bringing life to play.
         </p>
-        <div className="hero-cta-row">
+        <div className={styles.heroCtaRow}>
           <button type="button" className="cta-button" onClick={scrollToProjects}>
             <span>View my work</span>
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { navItems } from '../config/sections'
+import styles from '../styles/Sidebar.module.css'
 
 export default function Sidebar({ activeSection, setActiveSection }) {
   const navigate = useNavigate()
@@ -37,10 +38,10 @@ export default function Sidebar({ activeSection, setActiveSection }) {
 
   return (
     <>
-      <header className="topnav">
+      <header className={styles.topnav}>
         <button
           type="button"
-          className={`topnav-toggle ${menuOpen ? 'open' : ''}`}
+          className={`${styles.topnavToggle} ${menuOpen ? styles.open : ''}`}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(v => !v)}
@@ -52,20 +53,20 @@ export default function Sidebar({ activeSection, setActiveSection }) {
 
         <button
           type="button"
-          className="topnav-brand"
+          className={styles.topnavBrand}
           onClick={() => goToSection('home')}
           aria-label="Go to top"
         >
-          <span className="topnav-brand-mark">HS</span>
-          <span className="topnav-brand-name">Hemant Sharma</span>
+          <span className={styles.topnavBrandMark}>HS</span>
+          <span className={styles.topnavBrandName}>Hemant Sharma</span>
         </button>
 
-        <nav className={`topnav-links ${menuOpen ? 'open' : ''}`}>
+        <nav className={`${styles.topnavLinks} ${menuOpen ? styles.open : ''}`}>
           {navItems.map((item) => (
             <button
               key={item.id}
               type="button"
-              className={`topnav-link ${activeSection === item.id ? 'active' : ''}`}
+              className={`${styles.topnavLink} ${activeSection === item.id ? styles.active : ''}`}
               onClick={() => goToSection(item.id)}
             >
               {item.label}
@@ -75,7 +76,7 @@ export default function Sidebar({ activeSection, setActiveSection }) {
       </header>
 
       <div
-        className={`topnav-scrim ${menuOpen ? 'open' : ''}`}
+        className={`${styles.topnavScrim} ${menuOpen ? styles.open : ''}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
       />
