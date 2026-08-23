@@ -45,12 +45,16 @@
   margin: 0 auto;
 }
 
-/* Content Grid */
+/* Content — single centered info card (form removed) */
 .contact-content {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 3rem;
+  display: flex;
+  justify-content: center;
   animation: fadeInScale 1s ease-out;
+}
+
+.contact-content .contact-info-card {
+  width: 100%;
+  max-width: 560px;
 }
 
 /* Card base */
