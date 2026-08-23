@@ -119,11 +119,11 @@ export default function ProjectDetail() {
         </div>
       )}
 
-      {/* Fixed Back Button Overlay */}
+      {/* Back to Portfolio — matches the standalone HTML project pages
+          (pico-play, momentum, flow-and-hold): amber bullet + label,
+          no capsule background. */}
       <Link to="/" className={styles.backButton}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <span className={styles.backButtonBullet} aria-hidden="true"></span>
         Back to Portfolio
       </Link>
 
