@@ -36,7 +36,7 @@ export default function Footer() {
 
             {/* LinkedIn */}
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/hemant-sharma-71247a150/"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.socialIcon}

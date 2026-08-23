@@ -50,7 +50,7 @@ export default function Contact() {
               <div className={styles.infoText}>
                 <h4>Social</h4>
                 <div className={styles.socialLinksList}>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  <a href="https://www.linkedin.com/in/hemant-sharma-71247a150/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                   <span>•</span>
                   <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
                 </div>
