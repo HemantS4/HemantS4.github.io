@@ -1,0 +1,158 @@
+/* ============================================================
+   Design tokens — the single source of truth for the site's look.
+
+   Change a value here, and it propagates everywhere. Component
+   CSS files should reference these via var(--token-name); avoid
+   hardcoding colors, spacing, or font sizes in components.
+
+   Groups:
+     1. Color         — surfaces, ink, accents, semantic
+     2. Typography    — families, scale, weights, line-heights
+     3. Spacing       — 4px-based scale
+     4. Radii         — corner rounding
+     5. Shadows       — elevation
+     6. Motion        — durations + easing
+     7. Layout        — sidebar/nav sizes
+     8. Legacy        — aliases kept for old CSS; safe to remove
+                        once no rule references them
+   ============================================================ */
+
+:root {
+  /* -------- 1. Color -------- */
+  --color-bg:          #FBF3E7;   /* page background (cream) */
+  --color-bg-alt:      #F3E8D6;   /* alt section background */
+  --color-bg-dark:     #20232B;   /* inverted background */
+  --color-surface:     #FFFFFF;   /* cards */
+  --color-surface-alt: #EEE3D2;   /* muted cards */
+
+  --color-ink:         #20232B;   /* primary text / headings */
+  --color-ink-soft:    #42465A;   /* secondary text */
+  --color-ink-muted:   #7A7F8F;   /* tertiary text */
+  --color-ink-faint:   #9A9EAC;   /* placeholder / disabled */
+  --color-text:        #20232B;   /* alias of --color-ink */
+  --color-text-inverse:#FBF3E7;   /* text on dark backgrounds */
+
+  --color-primary:     #F2B134;   /* amber — CTAs, highlights */
+  --color-secondary:   #F2B134;   /* (currently same as primary) */
+  --color-accent:      #2F9E8F;   /* teal — secondary accent */
+  --color-accent-deep: #1F7A70;
+  --color-blue:        #26305C;   /* deep blue — links / trust */
+  --color-blue-soft:   #6FA1C9;
+
+  --color-success:     #2F9E8F;
+  --color-warning:     #F2B134;
+  --color-error:       #C4483A;
+
+  --color-primary-glow: rgba(242, 177, 52, 0.35);
+  --color-accent-glow:  rgba(47, 158, 143, 0.28);
+
+  --border-hairline:   rgba(32, 35, 43, 0.08);
+  --border-soft:       rgba(32, 35, 43, 0.10);
+  --border-strong:     rgba(32, 35, 43, 0.20);
+
+  /* -------- 2. Typography -------- */
+  --font-heading: 'Fredoka', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Type scale (fluid where useful, static otherwise) */
+  --text-xs:    0.75rem;   /* 12px */
+  --text-sm:    0.875rem;  /* 14px */
+  --text-base:  1rem;      /* 16px */
+  --text-md:    1.125rem;  /* 18px */
+  --text-lg:    1.25rem;   /* 20px */
+  --text-xl:    1.5rem;    /* 24px */
+  --text-2xl:   2rem;      /* 32px */
+  --text-3xl:   clamp(2.25rem, 4vw, 3rem);
+  --text-4xl:   clamp(2.75rem, 6vw, 4.5rem);
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+  --weight-black:   800;
+
+  --leading-tight: 1.15;
+  --leading-snug:  1.35;
+  --leading-body:  1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:  0.04em;
+
+  /* -------- 3. Spacing (4px base) -------- */
+  --space-0:  0;
+  --space-1:  0.25rem;   /* 4px  */
+  --space-2:  0.5rem;    /* 8px  */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* Content container widths */
+  --container-narrow: 720px;
+  --container-base:   960px;
+  --container-wide:   1200px;
+  --container-max:    1440px;
+
+  /* -------- 4. Radii -------- */
+  --radius-xs:  4px;
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  18px;
+  --radius-xl:  28px;
+  --radius-2xl: 40px;
+  --radius-pill: 999px;
+
+  /* Legacy card radii, kept as aliases */
+  --card-radius:    var(--radius-xl);
+  --card-radius-sm: var(--radius-lg);
+
+  /* -------- 5. Shadows -------- */
+  --shadow-xs:      0 1px 2px rgba(32, 35, 43, 0.04);
+  --shadow-sm:      0 4px 12px -6px rgba(32, 35, 43, 0.10);
+  --shadow-md:      0 12px 30px -18px rgba(32, 35, 43, 0.20);
+  --shadow-lg:      0 20px 45px -25px rgba(32, 35, 43, 0.28);
+  --shadow-xl:      0 30px 70px -20px rgba(32, 35, 43, 0.30);
+  --shadow-focus:   0 0 0 3px var(--color-primary-glow);
+
+  /* Legacy card shadows */
+  --shadow-card:    var(--shadow-lg);
+  --shadow-card-lg: var(--shadow-xl);
+
+  /* -------- 6. Motion -------- */
+  --duration-fast:   120ms;
+  --duration-base:   240ms;
+  --duration-slow:   400ms;
+  --duration-slower: 600ms;
+
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-out-soft: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Legacy alias */
+  --transition: var(--ease-out-soft);
+
+  /* -------- 7. Layout -------- */
+  --sidebar-width: 100px;
+  --topnav-height: 72px;
+  --z-nav:      100;
+  --z-overlay:  200;
+  --z-modal:    300;
+
+  /* -------- 8. Legacy aliases (kept for old CSS files) -------- */
+  --color-orange-glow: var(--color-primary-glow);
+  --color-purple:      var(--color-accent);
+  --color-purple-glow: var(--color-accent-glow);
+
+  --game-card-bg:     var(--color-surface);
+  --game-card-border: var(--border-soft);
+  --game-highlight:   linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  --game-glow:        var(--shadow-lg);
+}

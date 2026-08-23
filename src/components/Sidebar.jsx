@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { navItems } from '../config/sections'
 
 export default function Sidebar({ activeSection, setActiveSection }) {
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
-
-  const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' },
-  ]
 
   useEffect(() => {
     if (menuOpen) document.body.style.overflow = 'hidden'

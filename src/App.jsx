@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
-import Hero from './components/Hero'
-import Projects from './components/Projects'
-import About from './components/About'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
 import ProjectDetail from './components/ProjectDetail'
+import { homepageSections, observedSectionIds } from './config/sections'
 import './App.css'
 
 function HomePage({ activeSection, setActiveSection }) {
@@ -14,11 +10,9 @@ function HomePage({ activeSection, setActiveSection }) {
     <>
       <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
       <main className="main-content">
-        <Hero />
-        <Projects />
-        <About />
-        <Contact />
-        <Footer />
+        {homepageSections.map(({ component: Section }, i) => (
+          <Section key={i} />
+        ))}
       </main>
     </>
   )
@@ -38,7 +32,7 @@ function AppContent() {
       },
       { threshold: 0.4 }
     )
-    ;['home', 'projects', 'about', 'contact'].forEach((id) => {
+    observedSectionIds.forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
