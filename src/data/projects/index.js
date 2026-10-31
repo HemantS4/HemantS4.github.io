@@ -6,7 +6,7 @@
 // set `isHidden: true` on the project object.
 
 import { project as nmt_app       } from './nmt-app.js'
-import { project as flowlog       } from './flowlog.js'
+import { project as ozhukku       } from './ozhukku.js'
 import { project as introsense    } from './introsense.js'
 import { project as neurosense    } from './neurosense.js'
 import { project as pack_less     } from './pack-less.js'
@@ -21,7 +21,7 @@ import { project as artwork       } from './artwork.js'
 /** @type {Project[]} */
 export const projectsData = [
   nmt_app,
-  flowlog,
+  ozhukku,
   introsense,
   neurosense,
   pack_less,

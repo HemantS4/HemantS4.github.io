@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ozhukku Case Study</title>
+<meta name="description" content="Ozhukku: a map-based console for a district flood control room, designed around the 2018 Kerala floods. UX case study by Hemant Sharma.">
+<meta property="og:image" content="/images/projects/ozhukku/thumbnail.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Schibsted+Grotesk:wght@500;700;800&family=Manjari:wght@400;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
+/* Layout: white documentary page, real photos carry the mood, one rescue-orange accent. */
+:root{
+  --bg:#ffffff; --bg2:#f2f3f4; --ink:#121417; --ink2:#525a64; --ink3:#8a929c;
+  --line:#e2e4e7; --accent:#e8541a; --accentInk:#b23c0c; --blue:#1f5fad; --dark:#121417;
+  --head:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --body:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",Verdana,sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,Menlo,monospace;
+  --ml:"Manjari","Noto Sans Malayalam",sans-serif;
+  --wrap:min(1120px,100%);
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 18px/1.65 var(--body);-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{width:var(--wrap);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+section{padding-block:clamp(64px,9vw,120px)}
+.alt{background:var(--bg2)}
+.darkband{background:var(--dark);color:#fff}
+h1,h2,h3,h4{font-family:var(--head);letter-spacing:-.015em;text-wrap:balance}
+h2{font-size:clamp(32px,4.2vw,52px);font-weight:800;line-height:1.05;max-width:20ch;margin-bottom:20px}
+h3{font-size:24px;font-weight:700;line-height:1.2}
+.lab{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--accentInk);margin-bottom:14px}
+.darkband .lab{color:#ff8a4c}
+.lead{font-size:clamp(19px,1.6vw,22px);color:var(--ink2);max-width:62ch}
+.darkband .lead{color:#c9ced4}
+p+p{margin-top:14px}
+.small{font-size:14px;color:var(--ink3)}
+.cap{font-size:14px;color:var(--ink2);margin-top:10px;line-height:1.45}
+.cap i{font-style:normal;color:var(--ink3)}
+.darkband .cap{color:#aab1b9}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:#fff;z-index:41}
+.top .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.back{display:inline-flex;align-items:center;gap:8px;font-family:"Fredoka",var(--head);font-weight:600;font-size:17px;text-decoration:none;white-space:nowrap}
+.back span{width:10px;height:10px;border-radius:50%;background:#f2b134}
+.nav{display:flex;gap:6px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{font-family:var(--head);font-weight:500;font-size:14px;text-decoration:none;padding:7px 14px;border-radius:99px;background:var(--ink);color:#fff;white-space:nowrap}
+.nav a:hover{background:var(--accent)}
+
+/* hero */
+.hero{padding-block:clamp(48px,7vw,88px) 0}
+.hero .ml{font-family:var(--ml);font-size:28px;color:var(--accentInk);line-height:1}
+.hero h1{font-size:clamp(64px,11vw,140px);font-weight:800;line-height:.92;letter-spacing:-.035em;margin:10px 0 22px}
+.hero .one{font-size:clamp(20px,2vw,26px);line-height:1.4;max-width:34em}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px;border-top:1px solid var(--line);padding-top:20px}
+.meta dt{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.meta dd{font-size:16px;line-height:1.4;margin-top:4px}
+.video{margin-top:48px;border-radius:14px;overflow:hidden;background:#0f1113;box-shadow:0 30px 80px rgba(18,20,23,.18);position:relative}
+.video video{width:100%;aspect-ratio:1280/800}
+.vbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px}
+
+/* story */
+.story{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+.story .q{font-family:var(--head);font-weight:700;font-size:clamp(26px,2.8vw,36px);line-height:1.2}
+.story p{color:var(--ink2)}
+.story p strong{color:var(--ink);font-weight:700}
+.glance{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.glance div{border-top:3px solid var(--ink);padding-top:16px}
+.glance div:nth-child(3){border-color:var(--accent)}
+.glance h3{margin-bottom:8px}
+.glance p{color:var(--ink2);font-size:17px}
+
+/* photos */
+.hero-photo{position:relative;margin-top:40px}
+.hero-photo img{width:100%;border-radius:10px;aspect-ratio:16/8;object-fit:cover}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px}
+.nums b{display:block;font-family:var(--head);font-weight:800;font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-.02em}
+.nums span{font-size:16px;color:var(--ink2)}
+.dup{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;margin-top:48px;padding:28px;border-radius:12px;background:var(--bg2)}
+.dup b{font-family:var(--head);font-weight:800;font-size:clamp(56px,7vw,88px);color:var(--accent);line-height:1}
+.obs{display:grid;gap:56px;margin-top:48px}
+.ob{display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,4vw,56px);align-items:center}
+.ob:nth-child(even){grid-template-columns:5fr 7fr}
+.ob:nth-child(even) figure{order:2}
+.ob img{border-radius:10px;width:100%;aspect-ratio:16/10;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.ob:hover img{filter:none}
+.ob .n{font-family:var(--head);font-weight:800;font-size:56px;color:var(--line);line-height:1;-webkit-text-stroke:1.5px var(--ink3)}
+.ob h3{margin:6px 0 10px}
+.ob p{color:var(--ink2)}
+.ob .so{margin-top:14px;font-size:16px;border-left:3px solid var(--accent);padding-left:12px;color:var(--ink)}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:40px}
+.strip img{border-radius:8px;aspect-ratio:4/3;object-fit:cover;width:100%}
+
+/* research */
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
+.alt .card{background:#fff}
+.card h3{font-size:20px;margin-bottom:6px}
+.card p{font-size:16px;color:var(--ink2)}
+.card .src{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:12px}
+.fails{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:32px}
+.fails div{padding:20px 20px 20px 0;border-bottom:1px solid var(--line)}
+.fails h4{font-size:19px;margin-bottom:4px}
+.fails p{font-size:16px;color:var(--ink2)}
+.ins{list-style:none;counter-reset:i;margin-top:28px;border-top:1px solid var(--line)}
+.ins li{counter-increment:i;display:grid;grid-template-columns:44px 1fr 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.ins li::before{content:counter(i);font-family:var(--head);font-weight:800;font-size:22px;color:var(--accent)}
+.ins b{font-weight:700}
+.ins span{color:var(--ink2);font-size:16px}
+.persona{border-top:3px solid var(--ink);padding-top:16px}
+.persona small{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.persona h3{margin:4px 0 12px}
+.persona dt{font-weight:700;font-size:15px}
+.persona dd{color:var(--ink2);font-size:16px;margin-bottom:10px}
+.princ{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:24px 28px;margin-top:28px}
+.princ li b{display:block;font-family:var(--head);font-size:19px;margin-bottom:4px}
+.princ li span{font-size:16px;color:var(--ink2)}
+
+/* what is it */
+.what{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,5vw,64px);align-items:center}
+.answer{font-family:var(--head);font-weight:700;font-size:clamp(24px,2.4vw,30px);line-height:1.25;margin-bottom:16px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.layer{border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center}
+.layer b{font-family:var(--head);font-size:17px}
+.layer span{font-size:15px}
+.l1{background:var(--ink);color:#fff}
+.l1 span{color:#c9ced4}
+.l2{background:#fff;border:2px solid var(--accent)}
+.l3{background:#e7eaee;color:var(--ink)}
+.inputs{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.inputs i{font-style:normal;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:4px 12px}
+.l1 .inputs i{background:#24282d;border-color:#3a3f45;color:#fff}
+.arrow{font-family:var(--mono);font-size:13px;color:var(--ink3);text-align:center}
+
+/* flow */
+.flow{display:grid;gap:14px;margin-top:32px}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.node{font-family:var(--head);font-weight:700;font-size:16px;background:#fff;border:1.5px solid var(--ink);border-radius:10px;padding:10px 14px}
+.node.start{background:var(--ink);color:#fff}
+.edge{font-family:var(--mono);font-size:13px;color:var(--ink2);display:inline-flex;align-items:center;gap:6px}
+.edge::after{content:"→";font-family:var(--head);font-size:20px;color:var(--accent)}
+.edge em{font-style:normal;background:#fff;border:1px dashed var(--ink3);border-radius:6px;padding:2px 8px}
+
+/* interactive prototype */
+.proto{margin-top:32px}
+.ptabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.ptabs button{font:500 15px var(--head);border:1.5px solid var(--ink);background:#fff;color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer}
+.ptabs button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.pscreen{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(18,20,23,.16);background:#f1f0ec}
+.pscreen img{width:100%;aspect-ratio:1440/900;object-fit:cover}
+.pscreen.wall img{aspect-ratio:1920/1080}
+.hs{position:absolute;border:0;background:rgba(232,84,26,.0);border-radius:8px;cursor:pointer;box-shadow:0 0 0 2px rgba(232,84,26,.0);transition:box-shadow .2s}
+.pscreen.hint .hs{box-shadow:0 0 0 3px var(--accent);animation:pulse 1.6s infinite}
+.hs:hover,.hs:focus-visible{box-shadow:0 0 0 3px var(--accent)}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(232,84,26,.35)}}
+.pnote{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:15px;color:var(--ink2)}
+.pnote button{font:500 14px var(--head);background:none;border:0;color:var(--accentInk);cursor:pointer;text-decoration:underline}
+
+/* anatomy */
+.anat{position:relative;margin-top:36px}
+.anat img{width:100%;border-radius:12px;box-shadow:0 24px 60px rgba(18,20,23,.16)}
+.pin{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--accent);color:#fff;font:700 14px/30px var(--head);text-align:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}
+.pin.on{background:var(--ink)}
+.parts{display:grid;grid-template-columns:1fr 1fr;gap:0 48px;margin-top:40px;counter-reset:p}
+.part{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:18px 0;border-top:1px solid var(--line);transition:background .2s}
+.part.on{background:#fff4ee}
+.part i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font:700 14px/30px var(--head);text-align:center}
+.part h4{font-size:18px;margin-bottom:2px}
+.part p{font-size:16px;color:var(--ink2)}
+.part p b{color:var(--ink);font-weight:700}
+
+/* screens */
+.scr{display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,4vw,56px);align-items:center;padding-block:40px;border-top:1px solid var(--line)}
+.scr:first-of-type{border-top:0}
+.scr img{border-radius:10px;box-shadow:0 18px 44px rgba(18,20,23,.14);width:100%}
+.scr h3{font-size:26px;margin-bottom:10px}
+.scr ul{list-style:none;margin-top:12px}
+.scr li{padding-left:20px;position:relative;font-size:16px;color:var(--ink2);margin-top:8px}
+.scr li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.scr li b{color:var(--ink)}
+.tag{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.04em;background:var(--bg2);border-radius:6px;padding:3px 8px;margin-bottom:10px;color:var(--ink2)}
+
+/* iteration */
+.vers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+.vers img{border-radius:8px;border:1px solid var(--line);aspect-ratio:16/10;object-fit:cover;width:100%;background:#fff}
+.vers h3{margin:14px 0 4px}
+.vers p{font-size:16px;color:var(--ink2)}
+.vers .v3 h3{color:var(--accentInk)}
+.compare{position:relative;margin-top:40px;border-radius:12px;overflow:hidden;aspect-ratio:16/10;user-select:none;touch-action:none;box-shadow:0 24px 60px rgba(18,20,23,.14);max-width:100%}
+.compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.compare .before{clip-path:inset(0 calc(100% - var(--x,50%)) 0 0);background:#fff}
+.compare .handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:3px;background:var(--accent);transform:translateX(-1px)}
+.compare .handle::after{content:"↔";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font:700 20px/44px var(--head);text-align:center}
+.compare .lb{position:absolute;top:14px;font-family:var(--mono);font-size:12px;background:var(--ink);color:#fff;padding:4px 10px;border-radius:6px}
+.compare .l{left:14px}.compare .r{right:14px}
+.findings{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px}
+.find{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff}
+.find small{font-family:var(--mono);font-size:12px;color:var(--accentInk)}
+.find p{font-size:16px;margin-top:4px}
+.find p+p{color:var(--ink2);margin-top:8px}
+
+/* validation */
+.vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:36px}
+.vcard{border-radius:12px;padding:24px;background:#1b1e22;border:1px solid #2c3036}
+.vcard .st{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:12px}
+.done{background:#1f3b2a;color:#7fd39b}
+.next{background:#3b2a1f;color:#ffb27f}
+.vcard h3{color:#fff;margin-bottom:8px}
+.vcard p{color:#c9ced4;font-size:16px}
+.vcard ul{margin:10px 0 0 18px;color:#c9ced4;font-size:16px}
+.sev{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px}
+.sev span{font-family:var(--mono);font-size:13px;color:#c9ced4}
+.sev b{font-family:var(--head);font-size:22px;color:#fff;margin-right:4px}
+.honest{margin-top:28px;padding:18px 20px;border-left:4px solid #ff8a4c;background:#1b1e22;color:#fff;font-size:17px;border-radius:0 10px 10px 0}
+
+/* reflection + credits */
+.credits{margin-top:48px;border-top:1px solid var(--line);padding-top:20px;font-size:13px;color:var(--ink3);columns:2;column-gap:40px}
+.credits p{margin:0 0 6px;break-inside:avoid}
+.end{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px}
+.btn{display:inline-block;font:700 16px var(--head);text-decoration:none;padding:12px 20px;border-radius:99px;background:var(--ink);color:#fff}
+.btn.o{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+
+/* lightbox */
+.lbx{position:fixed;inset:0;background:rgba(10,12,14,.9);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;cursor:zoom-out}
+.lbx.open{display:flex}
+.lbx img{max-width:96vw;max-height:92vh;border-radius:6px}
+.zoom{cursor:zoom-in}
+
+@media (max-width:900px){
+  .story,.what,.cols2,.ob,.ob:nth-child(even),.scr{grid-template-columns:1fr}
+  .ob:nth-child(even) figure{order:0}
+  .cols3,.glance,.fails,.princ,.vers{grid-template-columns:1fr 1fr}
+  .meta,.nums{grid-template-columns:1fr 1fr}
+  .parts,.findings,.vgrid{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  body{font-size:17px}
+  .cols3,.glance,.fails,.princ,.vers{grid-template-columns:1fr}
+  .ins li{grid-template-columns:32px 1fr}.ins li span{grid-column:2}
+  .dup{grid-template-columns:1fr}
+  .layer{grid-template-columns:1fr;gap:6px}
+  .credits{columns:1}
+  .top .wrap{gap:12px}.back{font-size:15px}
+  .pin{width:22px;height:22px;margin:-11px 0 0 -11px;font-size:11px;line-height:22px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pscreen.hint .hs{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="back" href="/"><span aria-hidden="true"></span>Back to Portfolio</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#story">Story</a><a href="#research">Research</a><a href="#what">What it is</a><a href="#screens">Screens</a><a href="#validation">Validation</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO + PROTOTYPE GLIMPSE -->
+<section class="hero">
+  <div class="wrap">
+    <div class="ml" lang="ml">ഒഴുക്ക് · “flow”</div>
+    <h1>Ozhukku</h1>
+    <p class="one">A map-based console for a district flood control room. It shows where people are waiting, picks out the three things that need someone right now, and helps one shift hand over to the next.</p>
+    <dl class="meta">
+      <div><dt>My role</dt><dd>Solo · research, UX &amp; UI, prototype, expert review</dd></div>
+      <div><dt>Timeline</dt><dd>4 weeks, 2026</dd></div>
+      <div><dt>Type</dt><dd>Self-initiated concept</dd></div>
+      <div><dt>Tools</dt><dd>Figma, FigJam, Google Sheets</dd></div>
+    </dl>
+    <div class="video">
+      <video src="images/projects/ozhukku/prototype.mp4" poster="images/projects/ozhukku/prototype-poster.webp" autoplay muted loop playsinline aria-label="Prototype walkthrough: logging a call, catching a duplicate, merging it and handing over the shift"></video>
+    </div>
+    <div class="vbar"><p class="cap">30-second walkthrough of the clickable Figma prototype. A call comes in, Ozhukku flags it as a likely duplicate, the operator merges it, and the morning lead takes over.</p><a class="cap" href="#prototype">Try it yourself ↓</a></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="wrap">
+    <div class="story">
+      <div>
+        <p class="lab">Why I took this on</p>
+        <p class="q">What does a control room look like when nine thousand people are in relief camps and the phones won’t stop?</p>
+      </div>
+      <div>
+        <p>I moved to Kozhikode to teach design. In my first monsoon here, every conversation about the rain came back to <strong>August 2018</strong>. People talk about it the way you talk about a year you lived through. I wasn’t in Kerala then, so I started reading: news reports, the CAG audit, volunteers’ accounts of running rescue spreadsheets through the night.</p>
+        <p>One detail stayed with me. <strong>About a quarter of the rescue requests were duplicates.</strong> The same family was posted on WhatsApp, typed into a Google Sheet, and phoned in by three relatives. Requests that had already been met kept circulating because none of them had a timestamp.</p>
+        <p>Most of the coverage was about the rescuers. I wanted to design for the people in the district control room who had to decide, every few minutes, which of those requests to act on.</p>
+      </div>
+    </div>
+    <div class="glance">
+      <div><h3>The challenge</h3><p>Four streams of information (calls, camps, rescue requests, dam levels) arriving through five or more tools, with no single trusted picture.</p></div>
+      <div><h3>What I found</h3><p>The data failed in the same six ways every time: duplicated, stale, missing, silent, miscounted, owned by someone else.</p></div>
+      <div><h3>What I designed</h3><p>A console with a shared map, a limit of three items that need action, duplicate merging that keeps every caller, and a structured handover.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUGUST 2018 -->
+<section class="alt">
+  <div class="wrap">
+    <p class="lab">Kerala, August 2018</p>
+    <h2>The worst flood in a century</h2>
+    <p class="lead">Heavy rain filled the reservoirs, 35 dams opened their shutters, and the Periyar overflowed through Ernakulam district, where this project is set.</p>
+    <figure class="hero-photo">
+      <img class="zoom" src="images/projects/ozhukku/photo-navy-aerial-1.webp" alt="Aerial view of houses and trees surrounded by brown floodwater">
+      <figcaption class="cap">Aerial survey during Operation Madad, August 2018. <i>Photo: Indian Navy, GODL-India.</i></figcaption>
+    </figure>
+    <div class="nums">
+      <div><b>164%</b><span>more rain than normal in August</span></div>
+      <div><b>35 of 54</b><span>dams opened, a first for the state</span></div>
+      <div><b>3,274+</b><span>relief camps set up</span></div>
+      <div><b>~12.5 lakh</b><span>people sheltered in camps</span></div>
+    </div>
+    <div class="strip">
+      <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-navy-rooftop.webp" alt="Family looking out from under a tin roof, waiting for rescue"><figcaption class="cap">Waiting under a roof. <i>Indian Navy</i></figcaption></figure>
+      <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-angamaly-2.webp" alt="Flooded road in front of a college in Angamaly"><figcaption class="cap">Angamaly, Ernakulam. <i>Er.jose1589</i></figcaption></figure>
+      <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-navy-aerial-2.webp" alt="Flooded apartment complex with people gathered on the roof"><figcaption class="cap">People gathered on rooftops. <i>Indian Navy</i></figcaption></figure>
+      <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-kottayam-house.webp" alt="Blue house standing in floodwater"><figcaption class="cap">Kottayam district. <i>Tonynirappathu</i></figcaption></figure>
+    </div>
+    <div class="dup">
+      <b>≈ 25%</b>
+      <p>of rescue requests were duplicates, arriving through WhatsApp, Slack, Google Docs and spreadsheets at once. <span class="small">Sources: official figures summarised on Wikipedia; The News Minute; CAG audit via Down To Earth.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- OBSERVATIONS -->
+<section id="research">
+  <div class="wrap">
+    <p class="lab">What the photos and reports showed</p>
+    <h2>Coordination ran on phones, paper and goodwill</h2>
+    <p class="lead">I couldn’t visit a control room during a flood, so I studied what was recorded: news photographs, official releases and volunteers’ write-ups. Four patterns kept coming up.</p>
+    <div class="obs">
+      <div class="ob">
+        <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-boats-trucks.webp" alt="Fishing boat loaded on a lorry, surrounded by people"><figcaption class="cap">Fishing boats from Kollam on their way to Chengannur. <i>Kannan Shanmugam, CC BY-SA 4.0</i></figcaption></figure>
+        <div><div class="n">01</div><h3>Help arrived faster than anyone could track it</h3><p>Fishermen drove their own boats to flooded towns on lorries. Thousands of rescues happened, but no one held a live list of which boat was where.</p><p class="so">In Ozhukku: every request has a state on the map (waiting, en route, reached).</p></div>
+      </div>
+      <div class="ob">
+        <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-kollam-meeting.webp" alt="Officials and volunteers in a crowded office meeting at night with files on the desks"><figcaption class="cap">A rescue-operation meeting at night, Kollam. <i>Kannan Shanmugam, CC BY-SA 4.0</i></figcaption></figure>
+        <div><div class="n">02</div><h3>Decisions were made in rooms full of files</h3><p>Briefings happened standing up, from notebooks and memory. Whoever had been awake longest held the most context.</p><p class="so">In Ozhukku: a handover built from the shift log, so the context lives in the tool.</p></div>
+      </div>
+      <div class="ob">
+        <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-kottayam-wading.webp" alt="Two men wading through floodwater, one on a mobile phone"><figcaption class="cap">Wading through a flooded lane in Kottayam. <i>Tonynirappathu, CC BY-SA 4.0</i></figcaption></figure>
+        <div><div class="n">03</div><h3>The same family was reported many times</h3><p>Relatives, neighbours and strangers all called or posted about the same people. Each report looked new.</p><p class="so">In Ozhukku: likely duplicates are flagged while the call is being typed, and merged without losing any caller.</p></div>
+      </div>
+      <div class="ob">
+        <figure><img class="zoom" loading="lazy" src="images/projects/ozhukku/photo-collection-centre.webp" alt="Crowded relief collection centre with stacks of cardboard boxes"><figcaption class="cap">A relief collection centre, Thiruvananthapuram. <i>Navaneeth Krishnan S, CC BY-SA 3.0</i></figcaption></figure>
+        <div><div class="n">04</div><h3>Supplies piled up in one place and ran out in another</h3><p>Collection centres overflowed while some camps went silent for hours. Silence often meant the worst was happening.</p><p class="so">In Ozhukku: camps that stop reporting are flagged, and low supplies show on the desk.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH DETAIL -->
+<section class="alt">
+  <div class="wrap">
+    <p class="lab">Desk research</p>
+    <h2>Five threads I followed</h2>
+    <div class="cols3" style="margin-top:28px">
+      <div class="card"><h3>The 2018 timeline</h3><p>Day-by-day dam releases, camp numbers and rescue counts for Ernakulam.</p><p class="src">KSEB bulletins · CAG audit · news archives</p></div>
+      <div class="card"><h3>How a district responds</h3><p>India’s Incident Response System: who commands, who plans, who logs.</p><p class="src">NDMA IRS guidelines · Kerala SDMA</p></div>
+      <div class="card"><h3>Citizen tech</h3><p>keralarescue.in, helplines and volunteer call centres that filled the gaps.</p><p class="src">Volunteer write-ups · GitHub repo</p></div>
+      <div class="card"><h3>Other control rooms</h3><p>Air traffic control, hospitals and process plants, which already handle alarms and shift changes.</p><p class="src">FAA JO 7110.65 · I-PASS · EEMUA 191</p></div>
+      <div class="card"><h3>Existing tools</h3><p>Ushahidi, Sahana Eden and SACHET: what they solve and where they stop.</p><p class="src">Product docs · public deployments</p></div>
+      <div class="card"><h3>A realistic dataset</h3><p>300 requests and 40 camps built from 2018 figures, so the screens face real volumes.</p><p class="src">Built in Google Sheets</p></div>
+    </div>
+
+    <h3 style="margin-top:72px">Six ways the data failed</h3>
+    <div class="fails">
+      <div><h4>Fragmented</h4><p>The same request on several channels.</p></div>
+      <div><h4>Stale</h4><p>No timestamps, so met requests kept circulating.</p></div>
+      <div><h4>Invisible</h4><p>Citizen-run camps missing from official lists.</p></div>
+      <div><h4>Silent</h4><p>The worst-hit places stopped reporting.</p></div>
+      <div><h4>Miscounted</h4><p>Registered and actual camp numbers differed.</p></div>
+      <div><h4>Owned upstream</h4><p>Dam data held by another agency or state.</p></div>
+    </div>
+
+    <h3 style="margin-top:72px">Insight → what the design should do</h3>
+    <ol class="ins">
+      <li><b>Every number arrives with a hidden age.</b><span>Show how old each figure is.</span></li>
+      <li><b>The loudest channel isn’t the most urgent.</b><span>One intake for all calls, and rank what comes in.</span></li>
+      <li><b>Silence is a signal.</b><span>Flag camps that stop reporting.</span></li>
+      <li><b>The control room coordinates; it doesn’t command.</b><span>Track requested → acknowledged → done.</span></li>
+      <li><b>Context dies at the shift change.</b><span>Build the handover from the log.</span></li>
+      <li><b>Typing competes with the emergency.</b><span>Log a call in a few taps.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- PEOPLE + PRINCIPLES -->
+<section>
+  <div class="wrap">
+    <p class="lab">Who it’s for</p>
+    <h2>Three people in one room</h2>
+    <p class="lead">Proto-personas based on desk research. They’re assumptions to test, not interview findings.</p>
+    <div class="cols3" style="margin-top:32px">
+      <div class="persona"><small>Night-shift lead · primary</small><h3>Anjana</h3><dl><dt>Needs</dt><dd>One picture she can trust, and a clean handover.</dd><dt>Fears</dt><dd>Missing the one alert that mattered.</dd></dl></div>
+      <div class="persona"><small>Call operator</small><h3>Rafeeq</h3><dl><dt>Needs</dt><dd>Log calls fast and know if someone already reported it.</dd><dt>Fears</dt><dd>Being blamed for a request that fell through.</dd></dl></div>
+      <div class="persona"><small>District Collector</small><h3>Thomas</h3><dl><dt>Needs</dt><dd>A two-minute brief: what got worse, what’s next.</dd><dt>Fears</dt><dd>Being surprised by a dam release.</dd></dl></div>
+    </div>
+    <h3 style="margin-top:72px">Design principles</h3>
+    <ul class="princ">
+      <li><b>Quiet by default</b><span>Colour appears only where a person is needed.</span></li>
+      <li><b>Every number shows its age</b><span>Old data looks old. Missing is never zero.</span></li>
+      <li><b>Rank, group, never hide</b><span>Three items ask for action; the rest stay one click away.</span></li>
+      <li><b>Track acknowledgement</b><span>A request isn’t handled until someone says so.</span></li>
+      <li><b>Entry is part of the emergency</b><span>Logging a call must take seconds.</span></li>
+      <li><b>Readable when exhausted</b><span>Large type, high contrast, a typeface built for legibility.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- WHAT IT IS -->
+<section id="what" class="alt">
+  <div class="wrap">
+    <div class="what">
+      <div>
+        <p class="lab">What exactly is Ozhukku?</p>
+        <p class="answer">A web app for the control room. It isn’t a plug-in for Google Maps, but it works on top of any base map.</p>
+        <p>Ozhukku is its own tool, open on the desks and the wall of the district control room. Underneath, it uses whatever map the district already has: Google Maps, OpenStreetMap or the state’s GIS. On top of that map it draws its own layer of rescue requests, boats, camps and dams.</p>
+        <p>In these mockups the base map is simplified on purpose, so the data layer reads clearly.</p>
+      </div>
+      <div class="stack" aria-label="How Ozhukku is put together">
+        <div class="layer l1"><b>What comes in</b><span class="inputs"><i>Phone calls</i><i>WhatsApp forwards</i><i>Helpline</i><i>Camp reports</i><i>Dam bulletins</i><i>IMD alerts</i></span></div>
+        <p class="arrow">operators log it once ↓</p>
+        <div class="layer l2"><b>Ozhukku layer</b><span>Requests with people count and state, boats en route, camps and supplies, river and dam levels, acknowledgements</span></div>
+        <div class="layer l3"><b>Base map</b><span>Google Maps · OpenStreetMap · Kerala GIS (whichever the district licenses)</span></div>
+        <p class="arrow">↓ shown on three surfaces</p>
+        <div class="layer l1"><b>Screens</b><span class="inputs"><i>Operator desk</i><i>Wall display</i><i>Handover</i></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW + INTERACTIVE PROTOTYPE -->
+<section id="prototype">
+  <div class="wrap">
+    <p class="lab">How the screens connect</p>
+    <h2>Six screens, three journeys</h2>
+    <p class="lead">It can look like one screen because everything happens over the same map. Each action opens a drawer or a dialog on top of it, so the operator never loses the picture.</p>
+    <div class="flow" aria-label="Screen flow">
+      <div class="frow"><span class="node">Before the flood</span><span class="edge"><em>dam alert / IMD red</em></span><span class="node start">Desk · flood mode</span></div>
+      <div class="frow"><span class="node start">Desk</span><span class="edge"><em>+ Log call</em></span><span class="node">Log call drawer</span><span class="edge"><em>Review</em></span><span class="node">Merge review</span><span class="edge"><em>Merge</em></span><span class="node">Merged · back on desk</span></div>
+      <div class="frow"><span class="node start">Desk</span><span class="edge"><em>Handover</em></span><span class="node">Handover drawer</span><span class="edge"><em>Take over desk</em></span><span class="node start">Desk</span></div>
+      <div class="frow"><span class="node">Wall display</span><span class="edge"><em>same data, read-only</em></span><span class="node">Whole room</span></div>
+    </div>
+
+    <div class="proto">
+      <h3 style="margin:56px 0 14px">Try the prototype</h3>
+      <div class="ptabs" role="group" aria-label="Choose a screen set">
+        <button type="button" data-set="desk" aria-pressed="true">Flood night · desk</button>
+        <button type="button" data-set="normal" aria-pressed="false">Before the flood</button>
+        <button type="button" data-set="wall" aria-pressed="false">Wall display</button>
+      </div>
+      <div class="pscreen" id="pscreen"><img id="pimg" src="images/projects/ozhukku/screen-desk.webp" alt="Operator desk"></div>
+      <div class="pnote"><span id="pstep">Click <b>+ Log call</b> or <b>Handover</b> to start.</span><span><button type="button" id="phint">Show clickable areas</button> · <button type="button" id="preset">Restart</button></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ANATOMY -->
+<section class="alt">
+  <div class="wrap">
+    <p class="lab">Anatomy of the desk</p>
+    <h2>Why each part is there</h2>
+    <p class="lead">Hover a number to find it on the screen. Everything on the desk earns its place by answering one question the operator has at 2 am.</p>
+    <div class="anat" id="anat">
+      <img class="zoom" src="images/projects/ozhukku/screen-desk.webp" alt="Operator desk with numbered parts">
+      <button class="pin" data-n="1" style="left:3.5%;top:17%">1</button>
+      <button class="pin" data-n="2" style="left:31%;top:4.7%">2</button>
+      <button class="pin" data-n="3" style="left:71.5%;top:4.7%">3</button>
+      <button class="pin" data-n="4" style="left:87.5%;top:10.5%">4</button>
+      <button class="pin" data-n="5" style="left:95%;top:10.5%">5</button>
+      <button class="pin" data-n="6" style="left:26.5%;top:44%">6</button>
+      <button class="pin" data-n="7" style="left:69.5%;top:39%">7</button>
+      <button class="pin" data-n="8" style="left:74%;top:12.3%">8</button>
+      <button class="pin" data-n="9" style="left:30%;top:81.8%">9</button>
+      <button class="pin" data-n="10" style="left:47.5%;top:92%">10</button>
+      <button class="pin" data-n="11" style="left:94.5%;top:93.3%">11</button>
+    </div>
+    <div class="parts" id="parts">
+      <div class="part" data-n="1"><i>1</i><div><h4>Side rail</h4><p>Switches between map, list, camps, rivers and the shift log. <b>Why:</b> the map is home; other views are one click away, never stacked on it.</p></div></div>
+      <div class="part" data-n="2"><i>2</i><div><h4>Search</h4><p>Finds a place, request number or camp, in English or Malayalam. <b>Why:</b> callers name landmarks, not coordinates.</p></div></div>
+      <div class="part" data-n="3"><i>3</i><div><h4>Mode and time</h4><p>Shows “Flood mode” or “Normal” and the current time. <b>Why:</b> the whole room should know which mode they’re in at a glance; it replaced an alert-rate gauge in v2.</p></div></div>
+      <div class="part" data-n="4"><i>4</i><div><h4>Handover</h4><p>Opens the shift handover drawer. <b>Why:</b> handover was the biggest gap in 2018, so it’s a top-level action.</p></div></div>
+      <div class="part" data-n="5"><i>5</i><div><h4>Log call</h4><p>The primary action, in blue. <b>Why:</b> most of an operator’s night is incoming calls.</p></div></div>
+      <div class="part" data-n="6"><i>6</i><div><h4>Map markers</h4><p>The number is <b>people</b>, not calls. Red is waiting, amber is en route, white is reached, black squares are camps. <b>Why:</b> colour means state and nothing else.</p></div></div>
+      <div class="part" data-n="7"><i>7</i><div><h4>Selected request</h4><p>Place, people, situation, who it was sent to and how long it has gone unacknowledged, with Escalate and Call. <b>Why:</b> the operator can act without leaving the map.</p></div></div>
+      <div class="part" data-n="8"><i>8</i><div><h4>Needs attention</h4><p>Only the top three items, each with one action. The other 11 are grouped. <b>Why:</b> process plants call more than 10 alarms in 10 minutes a flood (EEMUA 191).</p></div></div>
+      <div class="part" data-n="9"><i>9</i><div><h4>Legend</h4><p>Four states, always visible. <b>Why:</b> new volunteers join mid-crisis and need to read the map on day one.</p></div></div>
+      <div class="part" data-n="10"><i>10</i><div><h4>Four numbers, each with its age</h4><p>Waiting for rescue, people in camps, dam headroom, lowest supply. <b>Why:</b> these are what the Collector asks for; the age shows whether to trust them.</p></div></div>
+      <div class="part" data-n="11"><i>11</i><div><h4>Zoom</h4><p>Moves between district and street level. <b>Why:</b> the same map serves a whole district and a single lane.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER SCREENS -->
+<section id="screens">
+  <div class="wrap">
+    <p class="lab">The other screens</p>
+    <h2>What each screen is for</h2>
+    <div class="scr">
+      <img class="zoom" loading="lazy" src="images/projects/ozhukku/screen-logcall.webp" alt="Log call drawer over the map">
+      <div><span class="tag">Operator · during a call</span><h3>Log call</h3><p>A drawer slides over the map with three fields and quick tags for the situation.</p><ul><li><b>Pin on the map</b> confirms the place while the caller is still on the line.</li><li><b>Duplicate hint</b> appears as soon as place and head count match an open request.</li><li><b>Tags, not typing</b>: “On roof”, “Water rising”, “Medical”.</li></ul></div>
+    </div>
+    <div class="scr">
+      <img class="zoom" loading="lazy" src="images/projects/ozhukku/screen-merge.webp" alt="Merge review dialog comparing two requests">
+      <div><span class="tag">Operator · possible duplicate</span><h3>Merge review</h3><p>The new call and the open request side by side, row by row.</p><ul><li><b>Same / Adds info / 2nd caller</b> labels show what matches before asking.</li><li><b>Keep separate</b> is always possible. A person makes the call.</li></ul></div>
+    </div>
+    <div class="scr">
+      <img class="zoom" loading="lazy" src="images/projects/ozhukku/screen-merged.webp" alt="Merged confirmation on the desk">
+      <div><span class="tag">Operator · after merging</span><h3>Merged</h3><p>Back on the map, the merged marker is ringed and a toast confirms it.</p><ul><li><b>Two callers on one request</b>, so either can be called back.</li><li><b>Undo</b> in case of a wrong merge.</li></ul></div>
+    </div>
+    <div class="scr">
+      <img class="zoom" loading="lazy" src="images/projects/ozhukku/screen-handover.webp" alt="Handover drawer with three lists">
+      <div><span class="tag">Shift lead · 07:45</span><h3>Handover</h3><p>Three short lists, built from the night’s log: Watch, Since 00:00 and Waiting on you.</p><ul><li><b>Borrowed from air traffic control</b>: read first, talk only about exceptions, restate, then accept.</li><li><b>Take over desk</b> only works after the incoming lead restates the list.</li></ul></div>
+    </div>
+    <div class="scr">
+      <img class="zoom" loading="lazy" src="images/projects/ozhukku/screen-wall.webp" alt="Wall display with map, four large numbers and three alerts">
+      <div><span class="tag">Whole room · read-only</span><h3>Wall display</h3><p>The same map at 1920 × 1080, readable from six metres.</p><ul><li><b>Four big numbers</b> on the right for anyone walking in, the Collector included.</li><li><b>Top three alerts</b> along the bottom in large type.</li></ul></div>
+    </div>
+    <div class="scr">
+      <img class="zoom" loading="lazy" src="images/projects/ozhukku/screen-normal.webp" alt="Desk in normal mode before the flood">
+      <div><span class="tag">Any day · before a flood</span><h3>Normal mode</h3><p>The same desk on a quiet day: an empty map and a green “Normal” chip.</p><ul><li><b>Staff learn the tool before they need it.</b> Nobody should meet new software during a disaster.</li><li><b>Flood mode</b> switches on with a dam alert or an IMD red warning.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ITERATION -->
+<section class="alt">
+  <div class="wrap">
+    <p class="lab">Iteration</p>
+    <h2>Three versions, each quieter than the last</h2>
+    <p class="lead">v1 put every stream on one screen. A walkthrough found ten problems; v2 fixed nine. v3 then removed everything an operator didn’t need in the moment, and brought the map forward.</p>
+    <div class="vers">
+      <div><img loading="lazy" src="images/projects/ozhukku/skel-v1.webp" alt="v1 desk as a wireframe"><h3>v1 · Everything visible</h3><p>Lists, tables and badges for every stream.</p></div>
+      <div><img loading="lazy" src="images/projects/ozhukku/skel-v2.webp" alt="v2 desk as a wireframe"><h3>v2 · Calmer</h3><p>Fixed nine issues, but still 14 alert cards and a table.</p></div>
+      <div class="v3"><img loading="lazy" src="images/projects/ozhukku/screen-desk.webp" alt="v3 desk"><h3>v3 · Map-first</h3><p>A map, three actions, four numbers.</p></div>
+    </div>
+    <div class="compare" id="compare" aria-label="Drag to compare v2 and v3">
+      <img src="images/projects/ozhukku/screen-desk.webp" alt="v3 desk">
+      <img class="before" src="images/projects/ozhukku/skel-v2.webp" alt="v2 desk as a wireframe">
+      <div class="handle"></div><span class="lb l">v2</span><span class="lb r">v3</span>
+    </div>
+    <p class="cap">Drag to compare. v1 and v2 are shown as wireframes because their text density was the problem.</p>
+    <div class="findings">
+      <div class="find"><small>Finding 1 · severity 4</small><p>All three merge steps were visible at once, so the result showed before the choice.</p><p>Fix: merging is now three separate steps (log, compare, merge), with undo.</p></div>
+      <div class="find"><small>Finding 2 · severity 3</small><p>Two of three handover risks were pre-ticked, and Accept worked before the incoming lead restated them.</p><p>Fix: nothing is pre-ticked; Take over stays disabled until the risks are restated.</p></div>
+      <div class="find"><small>Finding 4 · severity 3</small><p>The flood-mode indicator reused a priority badge, so it read like another alert.</p><p>Fix: a separate indicator in v2, simplified to one quiet mode chip in v3.</p></div>
+      <div class="find"><small>Finding 5 · severity 3</small><p>The desk had no headline numbers, so the Collector’s questions could only be answered from the wall.</p><p>Fix: four numbers with their age at the bottom of the desk.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALIDATION -->
+<section id="validation" class="darkband">
+  <div class="wrap">
+    <p class="lab">How I validated it</p>
+    <h2>What I checked, and what still needs real users</h2>
+    <p class="lead">I couldn’t get into a district control room in four weeks, so I validated the design in three ways I could do honestly, and planned the study that comes next.</p>
+    <div class="vgrid">
+      <div class="vcard"><span class="st done">Done</span><h3>1 · Expert walkthrough with proxy personas</h3><p>I wrote five archetypes from first-hand 2018 accounts in The Caravan, The News Minute and freeCodeCamp: a remote helpline volunteer, a re-verification volunteer, a teacher running a camp, a volunteer liaison in a control room, and a revenue clerk deputed to the control room. I walked each one through four tasks (react to an alert flood, log and merge a duplicate call, brief the Collector, take over a shift) and asked at every step: will they know what to do, will they see how, will they understand what happened?</p><div class="sev"><span><b>1</b>severity 4</span><span><b>4</b>severity 3</span><span><b>3</b>severity 2</span><span><b>2</b>severity 1</span></div><p style="margin-top:10px">10 issues found, 9 fixed in v2. The tenth is covered in the test briefing.</p></div>
+      <div class="vcard"><span class="st done">Done</span><h3>2 · Stress test with realistic data</h3><p>I built a dataset in Google Sheets from public 2018 figures: 300 rescue requests (24.7% duplicates, close to the ~25% reported), 40 camps holding 9,169 people, and hourly dam levels. Then I checked that the screens still worked at that volume. For example, 14 live alerts collapse to three on the desk without hiding any.</p></div>
+      <div class="vcard"><span class="st done">Done</span><h3>3 · Checked against proven standards</h3><p>I compared decisions with practice from other control rooms:</p><ul><li>Alert volume against EEMUA 191 (process plants)</li><li>Handover steps against I-PASS (hospitals) and FAA position relief (air traffic)</li><li>Roles and logs against India’s Incident Response System</li></ul></div>
+      <div class="vcard"><span class="st next">Next</span><h3>4 · Usability test with real people</h3><p>Ready to run with five participants (ideally 2018 relief volunteers, NSS or NCC members). Each does the same four tasks twice, once with WhatsApp screenshots, a spreadsheet and a printed dam bulletin, and once with the Ozhukku prototype, in alternating order.</p><ul><li>Time on task, and whether they send a second boat to the same family</li><li>Situation awareness (SAGAT pause-and-ask probes)</li><li>Workload (NASA-TLX) and usability (SUS)</li></ul></div>
+    </div>
+    <p class="honest">No real control-room staff have tested Ozhukku yet. The walkthrough results above are predictions from proxy personas, not measurements, and I don’t report any scores.</p>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section>
+  <div class="wrap">
+    <p class="lab">Reflection</p>
+    <h2>What I’d do differently</h2>
+    <div class="cols3" style="margin-top:28px">
+      <div class="persona"><h3>What worked</h3><p class="cap" style="font-size:17px">Starting from the real failure (duplicates and lost context) instead of from a dashboard template. Every screen traces back to something that went wrong in 2018.</p></div>
+      <div class="persona"><h3>What I’d change</h3><p class="cap" style="font-size:17px">I’d talk to people who worked a control room or a volunteer desk in 2018 before designing v1. My first two versions were too dense because I designed for the data, not the person.</p></div>
+      <div class="persona"><h3>What’s next</h3><p class="cap" style="font-size:17px">Run the usability test, model how fast water travels down the Periyar, add Malayalam throughout, and design how camp records protect people’s privacy.</p></div>
+    </div>
+    <div class="end">
+      <a class="btn" href="/">← All projects</a>
+      <a class="btn o" href="/#contact">Get in touch</a>
+    </div>
+    <div class="credits">
+      <p><b>Photo credits</b> (Wikimedia Commons)</p>
+      <p>Indian Navy, Operation Madad 2018: aerial views, rooftop, raft, relief. GODL-India.</p>
+      <p>Kannan Shanmugam, Shanmugam Studio, Kollam: boats on lorries; night meeting. CC BY-SA 4.0.</p>
+      <p>Navaneeth Krishnan S: collection centre, Thiruvananthapuram. CC BY-SA 3.0.</p>
+      <p>Er.jose1589: Angamaly. CC BY-SA 4.0.</p>
+      <p>Tonynirappathu: Kottayam. CC BY-SA 4.0.</p>
+      <p>Scenario data is synthetic, modelled on public 2018 figures. Personas are fictional. Not affiliated with any government body.</p>
+    </div>
+  </div>
+</section>
+
+<div class="lbx" id="lbx" role="dialog" aria-modal="true" aria-label="Image preview"><img alt=""></div>
+
+<script>
+(()=>{
+  const P='images/projects/ozhukku/screen-';
+  // interactive prototype: screen -> hotspots [x,y,w,h in 1440x900 px, target, label]
+  const F={
+    desk:[[1316,24,92,36,'logcall','+ Log call'],[1213,24,95,36,'handover','Handover']],
+    logcall:[[1316,456,88,36,'merge','Review'],[1302,840,114,36,'merged','Save request'],[1212,840,70,36,'desk','Cancel'],[1392,30,28,28,'desk','Close']],
+    merge:[[960,588,88,36,'merged','Merge'],[828,588,124,36,'desk','Keep separate']],
+    merged:[[1212,24,95,36,'handover','Handover'],[1315,24,92,36,'logcall','+ Log call']],
+    handover:[[1290,840,126,36,'desk','Take over desk']],
+    normal:[[1285,24,92,36,'logcall','+ Log call']],
+    wall:[]
+  };
+  const STEP={desk:'Click <b>+ Log call</b> or <b>Handover</b>.',logcall:'A likely duplicate is flagged. Click <b>Review</b>.',merge:'Compare the two requests. Click <b>Merge</b>.',merged:'Merged, with undo. Try <b>Handover</b> next.',handover:'Read the three lists, then <b>Take over desk</b>.',normal:'A quiet day. Flood mode switches on with a dam alert.',wall:'The wall shows the same data, read-only, for the whole room.'};
+  const box=document.getElementById('pscreen'),img=document.getElementById('pimg'),step=document.getElementById('pstep');
+  function show(n){img.src=P+n+'.webp';img.alt=n;box.classList.toggle('wall',n==='wall');box.querySelectorAll('.hs').forEach(h=>h.remove());
+    const W=n==='wall'?1920:1440,H=n==='wall'?1080:900;
+    F[n].forEach(([x,y,w,h,t,l])=>{const b=document.createElement('button');b.type='button';b.className='hs';b.setAttribute('aria-label',l);b.style.cssText=`left:${x/W*100}%;top:${y/H*100}%;width:${w/W*100}%;height:${h/H*100}%`;b.onclick=()=>show(t);box.appendChild(b)});
+    step.innerHTML=STEP[n];}
+  document.querySelectorAll('.ptabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.ptabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));show(b.dataset.set)});
+  document.getElementById('phint').onclick=()=>box.classList.toggle('hint');
+  document.getElementById('preset').onclick=()=>{document.querySelector('.ptabs button').click()};
+  show('desk');
+  // anatomy pins
+  const parts=document.getElementById('parts');
+  const hl=(n,on)=>document.querySelectorAll(`.pin[data-n="${n}"],.part[data-n="${n}"]`).forEach(e=>e.classList.toggle('on',on));
+  document.querySelectorAll('.pin,.part').forEach(e=>{const n=e.dataset.n;e.addEventListener('mouseenter',()=>hl(n,true));e.addEventListener('mouseleave',()=>hl(n,false));e.addEventListener('focus',()=>hl(n,true));e.addEventListener('blur',()=>hl(n,false));
+    if(e.classList.contains('pin'))e.addEventListener('click',()=>parts.querySelector(`.part[data-n="${n}"]`).scrollIntoView({behavior:'smooth',block:'center'}))});
+  // compare slider
+  const c=document.getElementById('compare');let d=false;
+  const set=x=>{const r=c.getBoundingClientRect();c.style.setProperty('--x',Math.max(0,Math.min(100,(x-r.left)/r.width*100))+'%')};
+  c.addEventListener('pointerdown',e=>{d=true;c.setPointerCapture(e.pointerId);set(e.clientX)});
+  c.addEventListener('pointermove',e=>{if(d)set(e.clientX)});c.addEventListener('pointerup',()=>d=false);
+  // lightbox
+  const lb=document.getElementById('lbx'),li=lb.querySelector('img');
+  document.querySelectorAll('.zoom').forEach(i=>i.addEventListener('click',()=>{li.src=i.src;li.alt=i.alt;lb.classList.add('open')}));
+  lb.addEventListener('click',()=>lb.classList.remove('open'));
+  addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open')});
+})();
+</script>
+</body>
+</html>

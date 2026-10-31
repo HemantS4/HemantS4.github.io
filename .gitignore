@@ -387,3 +387,4 @@ dist-ssr/
 .claude/
 # graphify knowledge graph output
 graphify-out/
+_to_delete/
