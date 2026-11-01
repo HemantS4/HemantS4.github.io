@@ -68,6 +68,12 @@
     overflow-x: hidden;
   }
 
+  /* Embed mode: hide the page chrome so only the phone shows in an iframe */
+  html.embed body { background: transparent; }
+  html.embed .headerbar, html.embed .rail, html.embed .hint { display: none !important; }
+  html.embed .stage { padding-block: 10px; min-height: 0; }
+  html.embed .phone-wrap { gap: 0; }
+
   .stage {
     min-height: 100%;
     padding-block: 24px 40px;
@@ -1494,6 +1500,17 @@
     tourBtn.innerHTML = '<span class="dot pulse"></span><span>Auto-play tour</span>';
   }
   tourBtn.addEventListener('click', playTour);
+
+  // Embed mode: hide host chrome, show only the phone
+  if (new URLSearchParams(location.search).get('embed') === '1') {
+    document.documentElement.classList.add('embed');
+  }
+
+  // Auto-start the tour on load unless opened with #screen hash
+  const skipAutoTour = location.hash && location.hash !== '#welcome';
+  if (!skipAutoTour) {
+    setTimeout(() => { try { playTour(); } catch(e) {} }, 1200);
+  }
 
   // Theme toggle
   const themeBtn = document.getElementById('themeBtn');
