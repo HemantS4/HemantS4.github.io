@@ -3,7 +3,11 @@
 
 import { BASE_URL } from './schema.js'
 
-const img = (n) => `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/Nuclear ${n}.png`
+const img = (n) => {
+  // Nuclear 16 was exported as "Nuclear 16 (2).png"
+  const file = n === 16 ? 'Nuclear 16 (2).png' : `Nuclear ${n}.png`
+  return `${BASE_URL}images/projects/Nuclear Medicine-UI-UX/${file}`
+}
 
 /** @type {Project} */
 export const project = {
