@@ -33,6 +33,24 @@ export const project = {
 
   heroImages: [img(1)],
 
+  screens: [
+    { name: 'Welcome',          caption: 'A single line of intent. No CTA noise, no sign-in gates up front.',             image: 'images/projects/nmt-app/01-welcome.png' },
+    { name: 'Onboarding',       caption: 'Three skippable slides: know your isotope, build a routine, stay in touch.',    image: 'images/projects/nmt-app/02-onboard.png' },
+    { name: 'Sign in',          caption: 'Hospital SSO first, patient ID second, password last.',                         image: 'images/projects/nmt-app/03-login.png' },
+    { name: 'Treatment setup',  caption: 'Isotope, dose date, doctor, worries. Every later screen reads from this.',      image: 'images/projects/nmt-app/04-setup.png' },
+    { name: 'Today',            caption: 'Progress band, appointments, and four small tasks the patient can finish.',     image: 'images/projects/nmt-app/05-home.png' },
+    { name: 'Schedule',         caption: 'Dose check, follow-up, and the day isolation ends — marked green.',             image: 'images/projects/nmt-app/06-schedule.png' },
+    { name: 'Explore',          caption: 'The three therapeutic isotopes and short learning clips.',                      image: 'images/projects/nmt-app/07-explore.png' },
+    { name: 'Isotope detail',   caption: 'Half-life, radiation type, FAQs, and a real I-131 decay chart.',                image: 'images/projects/nmt-app/08-isotope.png' },
+    { name: 'FAQ answer',       caption: '"Can I hug my kids?" — day-by-day chips and three concrete precautions.',       image: 'images/projects/nmt-app/09-faq.png' },
+    { name: 'Hydration pacer',  caption: 'Eight glasses, 42-minute reminder ring, isolation-hour trade-off.',             image: 'images/projects/nmt-app/10-water.png' },
+    { name: 'Check-in',         caption: 'A small win, a doctor\'s note, and the day isolation ends.',                    image: 'images/projects/nmt-app/11-done.png' },
+    { name: 'Book appointment', caption: 'Three fields: doctor, date, time. Doctor comes first on purpose.',              image: 'images/projects/nmt-app/12-book.png' },
+    { name: 'Notifications',    caption: 'Plain English, dated. Safety check-in leads the morning.',                      image: 'images/projects/nmt-app/13-notifications.png' },
+    { name: 'Learning video',   caption: 'Clinician-authored clips with chapter tags and a chat row.',                    image: 'images/projects/nmt-app/14-video.png' },
+    { name: 'Profile',          caption: 'Care team, scan reports, and the chat routes patients already trust.',          image: 'images/projects/nmt-app/15-profile.png' },
+  ],
+
   links: {
     live: `${BASE_URL}nmt-prototype.html`,
   },
