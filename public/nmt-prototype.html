@@ -335,16 +335,16 @@
   /* Welcome */
   .welcome {
     position:absolute; inset:0;
-    background: linear-gradient(160deg, #4338ca 0%, #6366f1 50%, #22c55e 110%);
+    background: #10131f;
     color: white; padding: 70px 28px 40px; display:flex; flex-direction:column;
   }
   .welcome h1 { font-size: 32px; line-height: 1.05; margin: 0; letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
   .welcome h1 em { font-style: normal; display:block; opacity: 0.8; font-weight: 500; font-size: 15px; margin-top: 10px; letter-spacing: 0; }
   .welcome .spacer { flex: 1; }
   .welcome .orb {
-    width: 160px; height: 160px; border-radius: 50%; margin: 36px auto;
-    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5), transparent 60%), radial-gradient(circle at 60% 70%, #a7f3d0, #4338ca);
-    box-shadow: 0 0 80px rgba(167,243,208,0.5), inset 0 0 40px rgba(255,255,255,0.2);
+    width: 180px; height: 180px; border-radius: 50%; margin: 32px auto;
+    background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.4), transparent 55%), radial-gradient(circle at 55% 65%, #a7f3d0 0%, #38bdf8 70%, transparent 100%);
+    box-shadow: 0 0 90px rgba(56,189,248,0.35);
     animation: orb 6s ease-in-out infinite;
   }
   @keyframes orb { 0%,100%{ transform: translateY(0) scale(1);} 50%{ transform: translateY(-10px) scale(1.03);} }
@@ -384,7 +384,7 @@
   .notif .time { font-size: 10px; color:#a9abc3; margin-top: 4px; }
 
   /* Profile */
-  .profile-head { background: linear-gradient(135deg, #4338ca, #6366f1); color: white; margin: -56px -20px 0; padding: 70px 22px 30px; border-radius: 0 0 32px 32px; }
+  .profile-head { background: #10131f; color: white; margin: -56px -20px 0; padding: 70px 22px 30px; border-radius: 0 0 32px 32px; }
   .profile-head .big { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg,#f59e0b,#ef4444); display:grid; place-items:center; font-weight: 800; font-size: 26px; }
   .profile-head h3 { margin: 10px 0 2px; }
   .profile-head .meta { font-size: 12px; opacity: 0.9; }
@@ -516,8 +516,8 @@
             <h1>From isolation,<br/>to awareness.<em>A quiet companion through your nuclear-medicine therapy.</em></h1>
             <div class="orb"></div>
             <div class="spacer"></div>
-            <div class="cta" data-go="onboard">Get started</div>
-            <div class="mini" data-go="login">Already have an account? Sign in</div>
+            <div class="cta" data-go="onboard">Set up Lumen · 2 min</div>
+            <div class="mini" data-go="login">Already registered at the hospital? Sign in</div>
           </div>
         </div>
 
