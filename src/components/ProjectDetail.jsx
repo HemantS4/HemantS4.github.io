@@ -399,6 +399,46 @@ export default function ProjectDetail() {
           )}
 
           {/* Features */}
+          {/* Screens grid — placed after the chapters, at 'The screens that mattered most' */}
+          {project.screens && project.screens.length > 0 && (
+            <div className={styles.contentBlock}>
+              <h2 className={styles.blockTitle}>All {project.screens.length} screens</h2>
+              <p style={{ color: 'var(--color-fg-muted, #6b6d8a)', fontSize: 14, margin: '0 0 24px', lineHeight: 1.5, maxWidth: '65ch' }}>
+                The complete flow — splash through profile. Taps are wired in the prototype above; the walkthrough plays itself on load.
+              </p>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gap: '28px 20px',
+                }}
+              >
+                {project.screens.map((s, i) => (
+                  <figure key={i} style={{ margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <img
+                      src={`${import.meta.env.BASE_URL}${s.image.replace(/^\//, '')}`}
+                      alt={s.name}
+                      style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 24 }}
+                      loading="lazy"
+                    />
+                    <figcaption style={{ fontSize: 13, lineHeight: 1.4 }}>
+                      <span style={{
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        color: 'var(--color-accent, #4338ca)',
+                        marginRight: 6,
+                      }}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <strong>{s.name}</strong>
+                      <div style={{ color: 'var(--color-fg-muted, #6b6d8a)', marginTop: 2 }}>{s.caption}</div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
+
           {project.features && project.features.length > 0 && (
             <div className={styles.contentBlock}>
               <h2 className={styles.blockTitle}>Key Features</h2>
