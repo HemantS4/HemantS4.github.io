@@ -147,24 +147,6 @@ export default function ProjectDetail() {
             </div>
           </div>
 
-          {/* Interactive Prototype */}
-          {project.prototypeUrl && (
-            <div className={`${styles.contentBlock} ${styles.videoBlock}`}>
-              <h2 className={styles.blockTitle}>Interactive Prototype</h2>
-              <div className={styles.videoContainer} style={{ aspectRatio: '16 / 10', background: '#15172a' }}>
-                <iframe
-                  src={`${import.meta.env.BASE_URL}${project.prototypeUrl.replace(/^\//, '')}`}
-                  title={`${project.title} prototype`}
-                  style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
-                  loading="lazy"
-                />
-              </div>
-              <p style={{ color: '#8a8ca3', fontSize: 13, marginTop: 10, lineHeight: 1.5 }}>
-                Tap through 15 screens, or hit <strong>Auto-play tour</strong> for a hands-free walkthrough. Open in a new tab for a cleaner screen recording.
-              </p>
-            </div>
-          )}
-
           {/* Video Showcase */}
           {project.videoUrl && (
             <div className={`${styles.contentBlock} ${styles.videoBlock}`}>
@@ -407,6 +389,23 @@ export default function ProjectDetail() {
           )}
 
           {/* Gallery Images interspersed */}
+          {project.prototypeUrl && (
+            <div className={`${styles.contentBlock} ${styles.videoBlock}`}>
+              <h2 className={styles.blockTitle}>Try the prototype</h2>
+              <div className={styles.videoContainer} style={{ aspectRatio: '16 / 10', background: '#15172a' }}>
+                <iframe
+                  src={`${import.meta.env.BASE_URL}${project.prototypeUrl.replace(/^\//, '')}`}
+                  title={`${project.title} prototype`}
+                  style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
+                  loading="lazy"
+                />
+              </div>
+              <p style={{ color: '#8a8ca3', fontSize: 13, marginTop: 10, lineHeight: 1.5 }}>
+                Tap through 15 screens, or hit <strong>Auto-play tour</strong> for a hands-free walkthrough. Open in a new tab for a cleaner screen recording.
+              </p>
+            </div>
+          )}
+
           {project.gallery && project.gallery.length > 0 && (
             <div className={`${styles.contentBlock} ${styles.galleryBlock}`}>
               {project.overview && <h2 className={styles.blockTitle}>Gallery</h2>}

@@ -35,42 +35,43 @@ export const project = {
     {
       title: 'From isolation to awareness',
       content:
-        'Patients come home with photocopied sheets and a vague fear of hugging their kids. Doctors burn energy repeating the same safety script. Lumen is the layer in between.',
+        'Designing clarity for patients undergoing nuclear-medicine therapy. A six-week project with Sairaj and Tejas.',
       images: [img(1), img(2), img(3)],
     },
     {
-      title: 'What research told us',
+      title: 'Grounding the work in evidence',
       content:
-        "Five patient interviews, two endocrinologists. The sharp question was never *what is beta radiation?* — it was *when can I hold my child again?* Diet slips around day 10. Doctors are repeating themselves five times a morning. Hydration is the one lever patients can actually pull.",
-      images: [img(4), img(5), img(6), img(7)],
+        'We started by reading the research — isotope decay, safety measures, patient-education literature — so the app would speak from a foundation, not from guesses.',
+      images: [img(4), img(5), img(6)],
     },
     {
-      title: 'Design brief',
+      title: 'Mapping the gap between patient and doctor',
       content:
-        'Plain over precise. One quiet accent. Pace, don\'t nag. Clinical trust, consumer polish. Every piece of guidance carries the doctor\'s name.',
-      images: [img(8), img(9), img(10), img(11)],
+        'Patients carry confusion and anxiety; doctors carry fatigue from repeating the same safety script. The design brief lives in the gap between the two.',
+      images: [img(7), img(8), img(9), img(10)],
+    },
+    {
+      title: 'The brief',
+      content:
+        'Design a human-centred tracker that explains the isotope in plain words, paces the daily routine, and reduces the repeat-question load on the doctor.',
+      images: [img(11), img(12)],
     },
     {
       title: 'Moving towards the solution',
       content:
-        'A daily card for today\'s schedule and precautions, a calendar for what\'s next, and gentle reminders for scans, diet, and medication pauses. An Isotope Info tab gives patients plain-language answers and short learning clips.',
-      images: [img(12), img(13)],
+        'A daily card for today\'s schedule and precautions, a calendar for what\'s next, and an Isotope Info tab with plain-language answers and short learning clips.',
+      images: [img(13), img(14)],
     },
     {
       title: 'The screens that mattered most',
       content:
-        'Schedule, isotope detail, and the "Can I hug my kids?" answer. The decay chart reads 91.7% activity remaining at 24 h — the real value for I-131 at an 8-day half-life, not a stock curve.',
-      images: [img(14), img(15), img(16), img(17)],
+        'The isotope detail page, the schedule, and the "Can I hug my kids?" answer. The decay chart reads 91.7% remaining at 24 h — the real value for I-131 at an 8-day half-life, not a stock curve.',
+      images: [img(15), img(16), img(17)],
     },
     {
       title: 'What we added after the audit — the pre-home flow',
       content:
         "The first version launched straight into Home. Testing surfaced the gap: the app had never asked which isotope the patient was on. Four new screens close that:\n\n**Splash** — one line of intent, no CTA noise.\n**Onboarding** — three skippable slides: isotope · routine · care.\n**Sign in** — hospital SSO first, patient ID second, password last.\n**Treatment setup** — isotope, dose date, doctor, worries. Every later screen reads from this.",
-    },
-    {
-      title: 'Try the prototype',
-      content:
-        'Fifteen screens, every tap wired. Hit **Auto-play tour** inside the prototype above to screen-record a hands-free walkthrough.',
     },
   ],
 
@@ -94,5 +95,5 @@ export const project = {
     'Care-team chat row inside every anxious moment.',
   ],
 
-  gallery: [img(1)],
+  gallery: [],
 }
