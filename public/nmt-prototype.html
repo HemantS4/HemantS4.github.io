@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Lumen — NMT Companion Prototype</title>
+<style>
+  html, body { margin:0; padding:0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<style>
+  /* Layout: stage with one iPhone frame center; floating screen-chip rail on side; auto-play tour button on top */
+  :root {
+    --bg: #f3f2f8;
+    --stage: #e9e8f1;
+    --ink: #1a1b2e;
+    --ink-2: #4b4d6a;
+    --mute: #8a8ca3;
+    --line: #e3e3ee;
+    --card: #ffffff;
+    --soft: #f7f6fc;
+    --primary: #4338ca;
+    --primary-2: #6366f1;
+    --primary-ink: #ffffff;
+    --accent: #22c55e;
+    --accent-soft: #dcfce7;
+    --warn: #f59e0b;
+    --warn-soft: #fef3c7;
+    --iodine: #fecaca;
+    --iodine-ink: #991b1b;
+    --lutetium: #e0e7ff;
+    --lutetium-ink: #3730a3;
+    --yttrium: #d1fae5;
+    --yttrium-ink: #065f46;
+    --radius: 22px;
+    --radius-sm: 14px;
+    --shadow: 0 20px 60px -24px rgba(31, 24, 93, 0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0e1a;
+      --stage: #15172a;
+      --ink: #ecedf6;
+      --ink-2: #b8bad0;
+      --mute: #7a7d99;
+      --line: #26294a;
+      --card: #ffffff;
+      --soft: #f7f6fc;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0e1a;
+    --stage: #15172a;
+    --ink: #ecedf6;
+    --ink-2: #b8bad0;
+    --mute: #7a7d99;
+    --line: #26294a;
+    color-scheme: dark;
+  }
+
+  html, body { height: 100%; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 15% 0%, rgba(99,102,241,0.18), transparent 60%),
+      radial-gradient(900px 500px at 85% 100%, rgba(34,197,94,0.12), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .stage {
+    min-height: 100%;
+    padding-block: 24px 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    place-items: center;
+  }
+
+  .headerbar {
+    width: 100%;
+    max-width: 980px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #4338ca, #6366f1 60%, #22c55e);
+    display: grid; place-items: center; color: white; font-weight: 800;
+    box-shadow: 0 8px 22px -8px rgba(67,56,202,0.6);
+  }
+  .brand-name { font-weight: 800; letter-spacing: -0.01em; font-size: 17px; }
+  .brand-sub { font-size: 12px; color: var(--mute); }
+
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    appearance: none; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); border-radius: 999px; padding: 9px 14px;
+    font: inherit; font-weight: 600; font-size: 13px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn:hover { border-color: var(--primary-2); }
+  .btn.primary {
+    background: var(--primary); color: var(--primary-ink); border-color: var(--primary);
+    box-shadow: 0 10px 24px -12px rgba(67,56,202,0.7);
+  }
+  .btn.primary:hover { background: var(--primary-2); border-color: var(--primary-2); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; }
+  .pulse { animation: pulse 1.2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+  /* Phone frame */
+  .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .phone {
+    width: 390px; max-width: calc(100vw - 32px); aspect-ratio: 390 / 820;
+    background: #111;
+    border-radius: 54px;
+    padding: 14px;
+    box-shadow:
+      0 60px 120px -40px rgba(23,10,80,0.5),
+      0 0 0 2px #2a2a3a inset;
+    position: relative;
+  }
+  .phone::after {
+    content: ""; position: absolute; top: 8px; bottom: 8px; left: 8px; right: 8px;
+    border-radius: 48px; pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset;
+  }
+  .screen {
+    position: relative;
+    height: 100%; width: 100%;
+    border-radius: 42px;
+    background: #faf9ff;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .notch {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 28px; background: #0b0b14; border-radius: 20px; z-index: 10;
+  }
+  .statusbar {
+    position: absolute; top: 0; left: 0; right: 0; height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px 0;
+    font-size: 13px; font-weight: 700; color: #0b0b14; z-index: 9;
+  }
+  .statusbar.light { color: white; }
+  .statusbar .icons { display:flex; gap:6px; align-items:center; }
+  .statusbar .icons svg { display:block; }
+
+  /* Reusable inline icon helpers */
+  .i { display:inline-block; vertical-align: middle; }
+  .ic svg { width: 18px; height: 18px; }
+  .ic.sm svg { width: 16px; height: 16px; }
+  .ic.lg svg { width: 22px; height: 22px; }
+
+  /* Screens */
+  .view {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    animation: slideIn .35s ease both;
+  }
+  .view.active { display: flex; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 56px 20px 110px; }
+  .scroll::-webkit-scrollbar { width: 0; }
+
+  /* Common app styles */
+  .appbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 6px 2px 18px;
+  }
+  .appbar h2 { margin:0; font-size: 22px; letter-spacing: -0.01em; color:#0f0f1f; }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 12px; background: #fff; border: 1px solid #ececf6;
+    display: grid; place-items: center; cursor: pointer; color:#1a1b2e;
+  }
+  .icon-btn:hover { background: #f5f5fb; }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg,#f59e0b,#ef4444); display: grid; place-items: center; color: white; font-weight: 800; }
+
+  .greeting { display:flex; align-items:center; justify-content:space-between; margin-bottom: 14px; }
+  .greeting h3 { margin: 0; font-size: 20px; }
+  .greeting p { margin: 2px 0 0; color: #6b6d8a; font-size: 13px; }
+
+  .segmented {
+    display: inline-flex; padding: 4px; background: #efeef7; border-radius: 999px;
+    width: 100%;
+  }
+  .segmented button {
+    flex: 1; border: 0; background: transparent; padding: 9px 14px;
+    font: inherit; font-weight: 700; font-size: 13px; color: #5a5c7b; border-radius: 999px; cursor: pointer;
+  }
+  .segmented button.on { background: #fff; color: var(--primary); box-shadow: 0 4px 10px -4px rgba(0,0,0,.08); }
+
+  /* Date strip */
+  .dates { display:flex; gap: 8px; overflow-x:auto; padding: 14px 0 10px; }
+  .date {
+    min-width: 46px; height: 60px; border-radius: 14px; background: #fff; border: 1px solid #eceaf5;
+    display: grid; place-items: center; text-align: center; cursor: pointer;
+  }
+  .date .n { font-weight: 800; color:#1a1b2e; font-size: 17px; }
+  .date .d { font-size: 10px; color:#8a8ca3; letter-spacing: 0.08em; text-transform: uppercase; }
+  .date.on { background: #eeefff; border: 2px solid var(--primary); }
+  .date.on .n { color: var(--primary); }
+
+  .card { background: #fff; border-radius: 18px; padding: 14px; border: 1px solid #efeef7; }
+  .card + .card { margin-top: 12px; }
+  .section-title { font-size: 13px; font-weight: 700; color:#4d4f6b; margin: 18px 0 10px; letter-spacing: .02em; }
+
+  .progress {
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: white; border-radius: 18px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .progress .pct {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.18); display:grid; place-items:center;
+    font-weight: 800;
+  }
+  .progress .t1 { font-weight: 700; }
+  .progress .t2 { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+
+  .appt {
+    display:flex; align-items:center; gap: 12px; padding: 10px 2px;
+  }
+  .appt .ic {
+    width: 36px; height: 36px; border-radius: 10px; background: #eef2ff; color: var(--primary);
+    display:grid; place-items:center;
+  }
+  .appt .name { font-weight: 700; }
+  .appt .time { font-size: 12px; color: #6b6d8a; }
+  .appt .tag { margin-left: auto; font-size: 11px; color: var(--primary); font-weight: 700; }
+  .bar { height: 4px; background: #eceaf5; border-radius: 999px; margin-top: 6px; overflow: hidden; }
+  .bar > span { display:block; height:100%; background: var(--primary); border-radius: 999px; }
+
+  .task {
+    display:flex; align-items:center; gap: 12px; padding: 12px; border-radius: 14px;
+    background: #fff; border: 1px solid #efeef7; cursor: pointer;
+  }
+  .task + .task { margin-top: 10px; }
+  .task .ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-size: 18px; }
+  .task .t { font-weight: 700; }
+  .task .s { font-size: 12px; color:#6b6d8a; margin-top:2px; }
+  .task .chk { margin-left: auto; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #d6d6ea; display:grid; place-items:center; }
+  .task.done .chk { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* Tab bar */
+  .tabbar {
+    position: absolute; left: 14px; right: 14px; bottom: 14px;
+    background: #ffffffee; backdrop-filter: blur(10px);
+    border: 1px solid #eceaf5; border-radius: 26px;
+    padding: 10px 14px;
+    display:flex; justify-content: space-around; align-items: center;
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.2);
+    z-index: 8;
+  }
+  .tab { display:flex; flex-direction:column; align-items:center; gap: 3px; font-size: 10px; color:#8a8ca3; cursor:pointer; padding: 4px 10px; border-radius: 14px; font-weight:700; }
+  .tab.on { color: var(--primary); background: #eef0ff; }
+  .tab svg { width: 22px; height: 22px; }
+
+  /* Explore */
+  .isotope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .iso-card { border-radius: 16px; padding: 12px; cursor: pointer; }
+  .iso-card .letter { width: 32px; height: 32px; border-radius: 50%; background: white; color: inherit; display:grid; place-items:center; font-weight: 800; }
+  .iso-card .n { margin-top: 8px; font-weight: 800; font-size: 14px; color: #1a1b2e; }
+  .iso-card .m { font-size: 11px; color: #4b4d6a; margin-top: 2px; }
+  .iso-card.iodine { background: #ffe0e0; }
+  .iso-card.lutetium { background: #e0e7ff; }
+  .iso-card.yttrium { background: #d1fae5; }
+
+  .learn-row { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .learn {
+    position:relative; aspect-ratio: 4/5; border-radius: 16px; overflow:hidden; cursor:pointer;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7));
+    color: white;
+  }
+  .learn .thumb {
+    position:absolute; inset:0; z-index:-1;
+  }
+  .learn .thumb.a { background: radial-gradient(circle at 50% 40%, #a7b4ff, #4338ca); }
+  .learn .thumb.b { background: radial-gradient(circle at 50% 40%, #ffd166, #ef4444); }
+  .learn .lbl { position:absolute; left:10px; right:10px; bottom:10px; font-size:12px; font-weight:700; line-height:1.3; }
+  .learn .play {
+    position:absolute; top: 10px; left: 10px;
+    width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.9); color: #4338ca;
+    display:grid; place-items:center;
+  }
+
+  /* Isotope detail */
+  .iso-head { background: #fff; border-radius: 18px; padding: 12px; display:flex; gap:12px; align-items:center; border:1px solid #efeef7; }
+  .iso-head .pill { width: 52px; height: 52px; border-radius: 14px; background: #fde68a; color:#92400e; display:grid; place-items:center; font-weight:800; }
+  .stats { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .stat { background: #fff; border-radius: 14px; padding: 12px; border:1px solid #efeef7; }
+  .stat .lbl { font-size: 11px; color:#8a8ca3; font-weight:700; text-transform: uppercase; letter-spacing: .06em; }
+  .stat .v { font-size: 22px; font-weight: 800; color:#1a1b2e; margin-top:2px; }
+  .stat .ic { width: 28px; height: 28px; border-radius: 8px; background: #ecfdf5; color: #065f46; display:grid; place-items:center; margin-bottom: 6px; }
+  .stat.r .ic { background: #eef2ff; color: var(--primary); }
+
+  .faq { background: #fff; border-radius: 999px; padding: 12px 16px; display:flex; justify-content:space-between; align-items:center; border:1px solid #efeef7; cursor:pointer; }
+  .faq + .faq { margin-top: 8px; }
+  .faq .q { font-weight: 600; color:#1a1b2e; font-size: 13px; }
+  .faq .arrow { color: var(--primary); }
+
+  /* FAQ expanded answer */
+  .answer-card { background: linear-gradient(145deg, #eef0ff, #fff); border: 1px solid #e5e6ff; border-radius: 18px; padding: 16px; margin-top: 10px; }
+  .answer-card h4 { margin: 0 0 6px; font-size: 15px; color:#1a1b2e; }
+  .answer-card p { margin: 0; color:#4b4d6a; font-size: 13px; line-height: 1.55; }
+  .caution-row { display:flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chip { font-size: 11px; font-weight: 700; padding: 6px 10px; border-radius: 999px; background: #fff; border: 1px solid #eceaf5; color:#4b4d6a; }
+  .chip.good { background: #dcfce7; color:#065f46; border-color: #bbf7d0; }
+  .chip.bad { background: #fee2e2; color:#991b1b; border-color: #fecaca; }
+
+  /* Half life chart */
+  .chart-card { background: #fff; border-radius: 18px; padding: 14px; border: 1px solid #efeef7; margin-top: 10px; }
+  .chart-head { display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; }
+  .chart-head .t { font-weight: 800; }
+  .chart-head .s { font-size: 11px; color:#8a8ca3; }
+  .chart-svg { width: 100%; height: 150px; display:block; }
+
+  /* Welcome */
+  .welcome {
+    position:absolute; inset:0;
+    background: linear-gradient(160deg, #4338ca 0%, #6366f1 50%, #22c55e 110%);
+    color: white; padding: 70px 28px 40px; display:flex; flex-direction:column;
+  }
+  .welcome h1 { font-size: 32px; line-height: 1.05; margin: 0; letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
+  .welcome h1 em { font-style: normal; display:block; opacity: 0.8; font-weight: 500; font-size: 15px; margin-top: 10px; letter-spacing: 0; }
+  .welcome .spacer { flex: 1; }
+  .welcome .orb {
+    width: 160px; height: 160px; border-radius: 50%; margin: 36px auto;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5), transparent 60%), radial-gradient(circle at 60% 70%, #a7f3d0, #4338ca);
+    box-shadow: 0 0 80px rgba(167,243,208,0.5), inset 0 0 40px rgba(255,255,255,0.2);
+    animation: orb 6s ease-in-out infinite;
+  }
+  @keyframes orb { 0%,100%{ transform: translateY(0) scale(1);} 50%{ transform: translateY(-10px) scale(1.03);} }
+  .welcome .cta { background: white; color: var(--primary); padding: 16px; border-radius: 16px; font-weight: 800; text-align: center; cursor: pointer; }
+  .welcome .mini { text-align:center; margin-top: 10px; font-size: 12px; opacity: 0.9; }
+
+  /* Book appt */
+  .time-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .time { padding: 10px; text-align:center; border-radius: 12px; background: #fff; border: 1px solid #eceaf5; font-weight: 700; font-size: 13px; cursor:pointer; color:#1a1b2e; }
+  .time.on { background: var(--primary); color: white; border-color: var(--primary); }
+  .time.off { color:#c4c6d8; }
+
+  .doc-pick { display:flex; gap: 10px; overflow-x:auto; padding: 4px 0 10px; }
+  .doc {
+    min-width: 140px; background: #fff; border: 1px solid #efeef7; border-radius: 14px; padding: 12px; cursor: pointer; text-align:center;
+  }
+  .doc .av { width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 8px; display:grid; place-items:center; color:white; font-weight:800; }
+  .doc.on { border-color: var(--primary); box-shadow: 0 0 0 3px #eef0ff; }
+  .doc .n { font-weight: 700; font-size: 13px; }
+  .doc .s { font-size: 11px; color:#8a8ca3; }
+
+  .cta-bar {
+    position: absolute; left: 14px; right: 14px; bottom: 14px;
+    padding: 14px; border-radius: 20px;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: white; font-weight: 800; text-align: center; cursor:pointer;
+    box-shadow: 0 20px 40px -16px rgba(67,56,202,0.6);
+  }
+
+  /* Notifications */
+  .notif { background:#fff; border: 1px solid #efeef7; border-radius: 16px; padding: 12px; display:flex; gap:12px; margin-top: 8px; }
+  .notif .ic { width: 36px; height: 36px; border-radius: 10px; background:#fef3c7; color:#92400e; display:grid; place-items:center; flex-shrink:0; }
+  .notif.safety .ic { background:#fee2e2; color:#991b1b; }
+  .notif.good .ic { background:#dcfce7; color:#065f46; }
+  .notif .t { font-weight: 700; font-size: 13px; }
+  .notif .s { font-size: 12px; color:#6b6d8a; margin-top: 2px; line-height:1.4; }
+  .notif .time { font-size: 10px; color:#a9abc3; margin-top: 4px; }
+
+  /* Profile */
+  .profile-head { background: linear-gradient(135deg, #4338ca, #6366f1); color: white; margin: -56px -20px 0; padding: 70px 22px 30px; border-radius: 0 0 32px 32px; }
+  .profile-head .big { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg,#f59e0b,#ef4444); display:grid; place-items:center; font-weight: 800; font-size: 26px; }
+  .profile-head h3 { margin: 10px 0 2px; }
+  .profile-head .meta { font-size: 12px; opacity: 0.9; }
+
+  .stat-row { display:grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: -22px; position:relative; z-index:2; }
+  .pstat { background: #fff; border-radius: 14px; padding: 10px; text-align: center; border: 1px solid #efeef7; box-shadow: 0 10px 30px -16px rgba(0,0,0,0.1); }
+  .pstat .v { font-weight: 800; font-size: 18px; color:#1a1b2e; }
+  .pstat .l { font-size: 10px; color: #8a8ca3; margin-top: 2px; }
+
+  .menu-row { display:flex; align-items:center; gap: 12px; padding: 14px 2px; border-bottom: 1px solid #f0eff8; cursor: pointer; }
+  .menu-row:last-child { border-bottom: 0; }
+  .menu-row .ic { width: 36px; height: 36px; border-radius: 10px; background:#eef0ff; color: var(--primary); display:grid; place-items:center; }
+  .menu-row .n { font-weight: 700; font-size: 14px; flex:1; }
+  .menu-row .arrow { color:#c4c6d8; }
+
+  /* Side rail — screen chips */
+  .rail {
+    width: 100%; max-width: 980px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+  }
+  .chip-btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 12px; padding: 10px 12px; cursor: pointer; text-align:left;
+    font: inherit; font-weight:600; font-size: 12px;
+    display: flex; justify-content: space-between; align-items:center; gap: 6px;
+  }
+  .chip-btn:hover { border-color: var(--primary-2); }
+  .chip-btn.active { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+  .chip-btn .num { font-size: 10px; opacity: 0.6; font-variant-numeric: tabular-nums; }
+
+  .hint {
+    font-size: 12px; color: var(--mute); text-align:center;
+  }
+  .hint kbd { background: var(--card); border: 1px solid var(--line); padding: 2px 6px; border-radius: 6px; font-family: inherit; font-size: 11px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 600; z-index: 100;
+    opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .toast.show { opacity: 1; }
+
+  /* Water pacer */
+  .pacer { display:flex; gap: 6px; margin-top: 10px; }
+  .glass { flex: 1; height: 44px; border-radius: 8px; background: #eceaf5; position:relative; overflow:hidden; }
+  .glass.full { background: linear-gradient(180deg,#60a5fa, #2563eb); }
+  .glass.half::after { content:""; position:absolute; inset: 50% 0 0; background: linear-gradient(180deg,#60a5fa, #2563eb); }
+
+  /* Done check-in */
+  .celebrate { padding: 20px; text-align:center; }
+  .celebrate .big-check {
+    width: 100px; height: 100px; margin: 10px auto; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent); display:grid; place-items:center;
+    animation: pop .5s cubic-bezier(.2,1.4,.4,1) both;
+  }
+  @keyframes pop { from{transform:scale(.6); opacity:0} to{transform:scale(1); opacity:1} }
+
+  /* Onboarding */
+  .onb { position:absolute; inset:0; padding: 56px 24px 32px; display:flex; flex-direction:column; background: #faf9ff; }
+  .onb .skip { position:absolute; top:14px; right:20px; color:#6b6d8a; font-size:12px; font-weight:700; cursor:pointer; }
+  .onb .illus { flex:1; display:grid; place-items:center; }
+  .onb .illus-box { width: 220px; height: 220px; border-radius: 32px; background: linear-gradient(135deg, #eef0ff, #dcfce7); display:grid; place-items:center; box-shadow: 0 20px 50px -20px rgba(67,56,202,0.3); }
+  .onb h2 { margin: 24px 0 8px; font-size: 24px; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+  .onb p { margin: 0; color: #6b6d8a; font-size: 14px; line-height: 1.5; max-width: 300px; }
+  .onb .dots { display:flex; gap: 6px; justify-content:center; margin: 20px 0; }
+  .onb .dots span { width: 6px; height: 6px; border-radius: 999px; background: #d6d6ea; }
+  .onb .dots span.on { width: 20px; background: var(--primary); }
+
+  /* Login */
+  .form-group { display:flex; flex-direction:column; gap: 6px; margin-top: 14px; }
+  .form-group label { font-size: 12px; font-weight: 700; color: #4b4d6a; letter-spacing: 0.02em; }
+  .form-group input, .form-group select { width:100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e3e3ee; background: #fff; font: inherit; font-size: 14px; color: var(--ink); }
+  .form-group input:focus, .form-group select:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+  .form-group .hint-txt { font-size: 11px; color:#8a8ca3; }
+
+  .social-row { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .social { padding: 12px; border-radius: 12px; border: 1px solid #e3e3ee; background:#fff; display:flex; align-items:center; justify-content:center; gap:8px; font-weight:700; font-size:13px; cursor:pointer; }
+
+  .divider { display:flex; align-items:center; gap: 10px; margin: 18px 0 10px; color:#8a8ca3; font-size: 11px; }
+  .divider::before, .divider::after { content:""; flex:1; height:1px; background:#eceaf5; }
+
+  /* Treatment setup */
+  .choice-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .choice {
+    padding: 14px; border-radius: 14px; border: 1.5px solid #e3e3ee; background:#fff;
+    cursor: pointer; text-align:left;
+  }
+  .choice.on { border-color: var(--primary); background: #eef0ff; box-shadow: 0 0 0 3px #eef0ff; }
+  .choice .k { font-weight:800; font-size: 15px; color: var(--ink); }
+  .choice .v { font-size: 11px; color: #6b6d8a; margin-top: 2px; }
+  .step-head { display:flex; align-items:center; gap: 8px; margin-bottom: 14px; }
+  .step-pill { font-size: 11px; font-weight: 800; color: var(--primary); background: #eef0ff; padding: 4px 10px; border-radius: 999px; }
+
+  @media (max-width: 460px) {
+    .phone { width: calc(100vw - 32px); border-radius: 44px; padding: 10px; }
+    .screen { border-radius: 36px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="stage">
+  <div class="headerbar">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <div class="brand-name">Lumen — NMT Companion</div>
+        <div class="brand-sub">Clickable prototype · tap through 11 screens</div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="themeBtn" title="Toggle light/dark"><span>Theme</span></button>
+      <button class="btn primary" id="tourBtn"><span class="dot pulse"></span><span>Auto-play tour</span></button>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="screen" id="screen">
+        <div class="notch"></div>
+
+        <!-- 1. Welcome / Splash -->
+        <div class="view active" data-view="welcome">
+          <div class="statusbar light"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="welcome">
+            <h1>From isolation,<br/>to awareness.<em>A quiet companion through your nuclear-medicine therapy.</em></h1>
+            <div class="orb"></div>
+            <div class="spacer"></div>
+            <div class="cta" data-go="onboard">Get started</div>
+            <div class="mini" data-go="login">Already have an account? Sign in</div>
+          </div>
+        </div>
+
+        <!-- 1b. Onboarding -->
+        <div class="view" data-view="onboard">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="onb">
+            <div class="skip" data-go="login">Skip</div>
+            <div class="illus">
+              <div style="text-align:center;">
+                <div class="illus-box">
+                  <svg width="110" height="110" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 2v4"/><path d="M12 18v4"/><path d="M2 12h4"/><path d="M18 12h4"/>
+                    <path d="M4.9 4.9l2.8 2.8"/><path d="M16.3 16.3l2.8 2.8"/>
+                    <path d="M19.1 4.9l-2.8 2.8"/><path d="M7.7 16.3l-2.8 2.8"/>
+                  </svg>
+                </div>
+                <h2 id="onbTitle">Know your isotope</h2>
+                <p id="onbBody">Simple explanations of what's in your body, how long it stays, and what's safe.</p>
+              </div>
+            </div>
+            <div class="dots" id="onbDots"><span class="on"></span><span></span><span></span></div>
+            <div class="cta-bar" style="position:relative; left:0; right:0; bottom:0; margin-top: 10px;" id="onbNext">Next</div>
+          </div>
+        </div>
+
+        <!-- 1c. Login / Signup -->
+        <div class="view" data-view="login">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll" style="padding: 60px 24px 40px;">
+            <div class="brand-mark" style="width:44px; height:44px; border-radius:12px;">L</div>
+            <h2 style="margin: 20px 0 4px; font-size: 24px; letter-spacing:-0.01em;">Welcome back</h2>
+            <p style="margin:0; color:#6b6d8a; font-size: 13px;">Pick up where you left off in your recovery.</p>
+
+            <div class="form-group">
+              <label for="emailIn">Email or patient ID</label>
+              <input id="emailIn" type="text" value="tejas.rao@mail.com" />
+            </div>
+            <div class="form-group">
+              <label for="pwIn">Password</label>
+              <input id="pwIn" type="password" value="————————" />
+              <span class="hint-txt">Forgot password? Reset via your hospital.</span>
+            </div>
+
+            <div class="cta-bar" style="position:relative; left:0; right:0; bottom:0; margin-top: 20px;" data-go="setup">Sign in</div>
+
+            <div class="divider">OR</div>
+
+            <div class="social-row">
+              <div class="social" data-go="setup">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12A10 10 0 1 0 10.5 21.9v-7h-2.3V12h2.3V9.8c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.5.7-1.5 1.4V12h2.5l-.4 2.9h-2.1v7A10 10 0 0 0 22 12z"/></svg>
+                Hospital SSO
+              </div>
+              <div class="social" data-go="setup">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 10h8"/><path d="M8 14h5"/></svg>
+                Patient ID
+              </div>
+            </div>
+
+            <p style="text-align:center; margin-top: 20px; font-size: 13px; color:#6b6d8a;">New here? <span style="color: var(--primary); font-weight:700;" data-go="setup">Create account</span></p>
+          </div>
+        </div>
+
+        <!-- 1d. Treatment Setup -->
+        <div class="view" data-view="setup">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll" style="padding: 56px 20px 110px;">
+            <div class="step-head">
+              <div class="icon-btn" data-go="login" aria-label="Back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <div class="step-pill">Step 1 of 3</div>
+            </div>
+
+            <h2 style="margin: 0 0 4px; font-size: 22px; letter-spacing:-0.01em;">Which isotope?</h2>
+            <p style="margin:0 0 12px; color:#6b6d8a; font-size: 13px;">We'll tailor your plan around it. You can change this later.</p>
+
+            <div class="choice-grid">
+              <button type="button" class="choice on">
+                <div class="k">Iodine-131</div>
+                <div class="v">Thyroid · 8.0 d half-life</div>
+              </button>
+              <button type="button" class="choice">
+                <div class="k">Lutetium-177</div>
+                <div class="v">Neuroendocrine · 6.7 d</div>
+              </button>
+              <button type="button" class="choice">
+                <div class="k">Yttrium-90</div>
+                <div class="v">Liver · 2.7 d</div>
+              </button>
+              <button type="button" class="choice">
+                <div class="k">Other / Not sure</div>
+                <div class="v">We'll ask your care team</div>
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label for="doseDate">Treatment start date</label>
+              <input id="doseDate" type="text" value="Nov 2, 2026" />
+              <span class="hint-txt">Used to pace your isolation and reminders.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="docSel">Who's your doctor?</label>
+              <select id="docSel">
+                <option>Dr. Anoop Krishnan · Endocrinology</option>
+                <option>Dr. Priya Menon · Nuclear Medicine</option>
+                <option>Dr. Suresh Iyer · Radiology</option>
+                <option>Add later</option>
+              </select>
+            </div>
+
+            <div class="section-title">What matters to you?</div>
+            <div class="choice-grid">
+              <button type="button" class="choice on">
+                <div class="k">Family contact</div>
+                <div class="v">Hugs, kids, pets</div>
+              </button>
+              <button type="button" class="choice on">
+                <div class="k">Diet</div>
+                <div class="v">Low-iodine meals</div>
+              </button>
+              <button type="button" class="choice">
+                <div class="k">Work return</div>
+                <div class="v">When is it safe?</div>
+              </button>
+              <button type="button" class="choice">
+                <div class="k">Side effects</div>
+                <div class="v">Track and share</div>
+              </button>
+            </div>
+          </div>
+          <div class="cta-bar" data-go="home">Finish setup</div>
+        </div>
+
+        <!-- 2. Home / Today -->
+        <div class="view" data-view="home">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="schedule" title="Calendar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <div class="icon-btn" data-go="notifications" title="Notifications">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                <span style="position:absolute; width:6px; height:6px; background:#ef4444; border-radius:50%; margin: -10px 0 0 10px;"></span>
+              </div>
+            </div>
+
+            <div class="greeting">
+              <div>
+                <h3>Hi, Tejas.</h3>
+                <p>Let's heal, one habit at a time</p>
+              </div>
+              <div class="avatar" data-go="profile">T</div>
+            </div>
+
+            <div class="segmented">
+              <button class="on">Today</button>
+              <button data-go="schedule">Schedule</button>
+            </div>
+
+            <div class="dates">
+              <div class="date"><div class="n">1</div><div class="d">Thu</div></div>
+              <div class="date"><div class="n">2</div><div class="d">Fri</div></div>
+              <div class="date on"><div class="n">3</div><div class="d">Sat</div></div>
+              <div class="date"><div class="n">4</div><div class="d">Sun</div></div>
+              <div class="date"><div class="n">5</div><div class="d">Mon</div></div>
+              <div class="date"><div class="n">6</div><div class="d">Tue</div></div>
+              <div class="date"><div class="n">7</div><div class="d">Wed</div></div>
+            </div>
+
+            <div class="progress" data-go="isotope">
+              <div class="pct">25%</div>
+              <div>
+                <div class="t1">Just 3 days of isolation left</div>
+                <div class="t2">1 of 4 days completed · Iodine-131</div>
+              </div>
+            </div>
+
+            <div class="section-title">Appointment for today</div>
+            <div class="card">
+              <div class="appt" data-go="book">
+                <div class="ic">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div>
+                  <div class="name">Dr. Anoop · Endocrinology</div>
+                  <div class="time">02:00 pm · Lumen Clinic</div>
+                  <div class="bar"><span style="width:72%"></span></div>
+                </div>
+                <div class="tag">1 hr</div>
+              </div>
+              <div class="appt" data-go="book" style="border-top:1px dashed #eceaf5; padding-top:12px;">
+                <div class="ic" style="background:#fef3c7; color:#92400e;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M12 7v5l3 3"/></svg>
+                </div>
+                <div>
+                  <div class="name">Post-therapy scan</div>
+                  <div class="time">04:00 pm · Radiology room 2</div>
+                  <div class="bar"><span style="width:35%"></span></div>
+                </div>
+                <div class="tag">3 hr</div>
+              </div>
+            </div>
+
+            <div class="section-title">Daily tasks</div>
+            <div class="task" data-go="water">
+              <div class="ic" style="background:#dbeafe; color:#1d4ed8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s7 7.8 7 12.8a7 7 0 1 1-14 0c0-5 7-12.8 7-12.8z"/></svg></div>
+              <div>
+                <div class="t">Drink water</div>
+                <div class="s">500 / 2000 ml · flushes isotope faster</div>
+              </div>
+              <div class="chk"></div>
+            </div>
+            <div class="task done">
+              <div class="ic" style="background:#dcfce7; color:#065f46;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.8"/><path d="M4 22l4.5-9 3 3 3-5 5 7"/><path d="M11 11l-2 4"/></svg></div>
+              <div>
+                <div class="t">Walk 15 min</div>
+                <div class="s">Keep distance from others</div>
+              </div>
+              <div class="chk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="task">
+              <div class="ic" style="background:#fde68a; color:#92400e;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0A9 9 0 0 0 3 12z"/><path d="M3 12l4-4m14 4l-4-4M12 3l-4 4m4-4l4 4"/></svg></div>
+              <div>
+                <div class="t">Flush twice after use</div>
+                <div class="s">3 of 5 times today</div>
+              </div>
+              <div class="chk"></div>
+            </div>
+            <div class="task" data-go="done">
+              <div class="ic" style="background:#ede9fe; color:#6d28d9;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
+              <div>
+                <div class="t">Log how you feel</div>
+                <div class="s">Share today's symptoms</div>
+              </div>
+              <div class="chk"></div>
+            </div>
+          </div>
+
+          <div class="tabbar">
+            <div class="tab on" data-go="home"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>Home</div>
+            <div class="tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</div>
+            <div class="tab" data-go="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16 8 10 14 8 16 10 10"/></svg>Explore</div>
+            <div class="tab" data-go="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Me</div>
+          </div>
+        </div>
+
+        <!-- 3. Schedule -->
+        <div class="view" data-view="schedule">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="home">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <h2>Your schedule</h2>
+              <div class="icon-btn" data-go="book">+</div>
+            </div>
+
+            <div class="segmented">
+              <button data-go="home">Today</button>
+              <button class="on">Schedule</button>
+            </div>
+
+            <div class="section-title">November · 2026</div>
+            <!-- Mini month -->
+            <div class="card" style="padding:12px;">
+              <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; font-size:11px; color:#8a8ca3; text-align:center; font-weight:700;">
+                <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+              </div>
+              <div id="monthGrid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-top: 6px;"></div>
+            </div>
+
+            <div class="section-title">Upcoming</div>
+            <div class="card">
+              <div class="appt">
+                <div class="ic" style="background:#fee2e2; color:#991b1b;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div>
+                  <div class="name">I-131 dose check</div>
+                  <div class="time">Nov 5 · 10:30 am · Nuclear med lab</div>
+                </div>
+                <div class="tag">2 days</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="appt">
+                <div class="ic">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M12 7v5l3 3"/></svg>
+                </div>
+                <div>
+                  <div class="name">Follow-up with Dr. Anoop</div>
+                  <div class="time">Nov 12 · 02:00 pm</div>
+                </div>
+                <div class="tag">9 days</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="appt">
+                <div class="ic" style="background:#dcfce7; color:#065f46;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div>
+                  <div class="name">Isolation ends</div>
+                  <div class="time">Nov 6 · you can hug family again</div>
+                </div>
+                <div class="tag">good</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-bar" data-go="book">Book an appointment</div>
+        </div>
+
+        <!-- 4. Explore -->
+        <div class="view" data-view="explore">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <h2>Explore</h2>
+              <div class="icon-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+              </div>
+            </div>
+
+            <div style="color:#6b6d8a; font-size: 13px; margin: -8px 0 14px;">Understand what's happening inside your body — in plain words.</div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div class="section-title" style="margin:0;">Common therapeutic isotopes</div>
+              <div style="color:var(--primary); font-size: 11px; font-weight:800;">VIEW ALL</div>
+            </div>
+            <div class="isotope-grid" style="margin-top:10px;">
+              <div class="iso-card iodine" data-go="isotope">
+                <div class="letter" style="color:#991b1b;">I</div>
+                <div class="n">Iodine-131</div>
+                <div class="m">Half-life ~8 days</div>
+              </div>
+              <div class="iso-card lutetium">
+                <div class="letter" style="color:#3730a3;">L</div>
+                <div class="n">Lutetium-177</div>
+                <div class="m">Half-life ~6.7 days</div>
+              </div>
+              <div class="iso-card yttrium">
+                <div class="letter" style="color:#065f46;">Y</div>
+                <div class="n">Yttrium-90</div>
+                <div class="m">Half-life ~2.7 days</div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 20px;">
+              <div class="section-title" style="margin:0;">Learning</div>
+              <div style="color:var(--primary); font-size: 11px; font-weight:800;">VIEW ALL</div>
+            </div>
+            <div class="learn-row">
+              <div class="learn" data-go="video">
+                <div class="thumb a"></div>
+                <div class="play"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+                <div class="lbl">"What happens after radionuclide therapy?"</div>
+              </div>
+              <div class="learn" data-go="video">
+                <div class="thumb b"></div>
+                <div class="play"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+                <div class="lbl">"Understanding I-131 treatment in 5 min"</div>
+              </div>
+            </div>
+
+            <div class="section-title">Ask a question</div>
+            <div class="card" style="display:flex; align-items:center; gap:10px; cursor:pointer;" data-go="faq">
+              <div style="width:36px; height:36px; border-radius:10px; background:#eef0ff; color:var(--primary); display:grid; place-items:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9.09 9a3 3 0 1 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r="1"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size: 13px;">Can I hug my kids?</div>
+                <div style="font-size: 12px; color:#6b6d8a;">Common worries, answered simply</div>
+              </div>
+              <div style="color: var(--primary);">›</div>
+            </div>
+          </div>
+
+          <div class="tabbar">
+            <div class="tab" data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>Home</div>
+            <div class="tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</div>
+            <div class="tab on" data-go="explore"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>Explore</div>
+            <div class="tab" data-go="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Me</div>
+          </div>
+        </div>
+
+        <!-- 5. Isotope Detail -->
+        <div class="view" data-view="isotope">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="explore">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <h2>Details</h2>
+              <div class="icon-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.6l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.5-.6l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71"/></svg>
+              </div>
+            </div>
+
+            <div class="iso-head">
+              <div class="pill"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="2.4"/><path d="M12 2a10 10 0 0 1 8.66 5l-6.06 3.5a3 3 0 0 0-2.6-1.5V2zM12 2a10 10 0 0 0-8.66 5l6.06 3.5a3 3 0 0 1 2.6-1.5V2zM3.34 17A10 10 0 0 1 2 12a10 10 0 0 1 1.34-5l6.06 3.5a3 3 0 0 0 0 3L3.34 17zm17.32 0A10 10 0 0 0 22 12a10 10 0 0 0-1.34-5l-6.06 3.5a3 3 0 0 1 0 3L20.66 17zM12 22a10 10 0 0 0 7.3-3.2l-5-3.9a3 3 0 0 1-2.3 1.1V22zM12 22a10 10 0 0 1-7.3-3.2l5-3.9a3 3 0 0 0 2.3 1.1V22z"/></svg></div>
+              <div>
+                <div style="font-weight:800;">Iodine-131 (I-131)</div>
+                <div style="font-size:12px; color:#6b6d8a;">Isolation · 3 weeks</div>
+              </div>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="lbl">Half-life</div>
+                <div class="v">8.0 d</div>
+              </div>
+              <div class="stat r">
+                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></div>
+                <div class="lbl">Radiation</div>
+                <div class="v">Beta</div>
+              </div>
+            </div>
+
+            <div class="section-title">About</div>
+            <div class="card">
+              <p style="margin:0; font-size: 13px; color:#4b4d6a; line-height: 1.55;">
+                "Iodine-131 emits short-range radiation that destroys thyroid cells. Small amounts leave your body naturally — precautions protect others from trace exposure."
+              </p>
+            </div>
+
+            <div class="section-title">Common questions</div>
+            <div class="faq" data-go="faq"><span class="q">Can I hug my kids?</span><span class="arrow">›</span></div>
+            <div class="faq" data-go="faq"><span class="q">Is my food radioactive?</span><span class="arrow">›</span></div>
+            <div class="faq" data-go="faq"><span class="q">When can I share a bed?</span><span class="arrow">›</span></div>
+
+            <div class="section-title">Isotope decay</div>
+            <div class="segmented">
+              <button class="on">Day</button>
+              <button>Week</button>
+            </div>
+            <div class="chart-card">
+              <div class="chart-head">
+                <div><div class="t">Activity remaining</div><div class="s">Hour by hour · last 24h</div></div>
+                <div style="font-weight:800; color:var(--primary);">91.7%</div>
+              </div>
+              <svg class="chart-svg" viewBox="0 0 320 150" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="40" x2="320" y2="40" stroke="#eceaf5"/>
+                <line x1="0" y1="80" x2="320" y2="80" stroke="#eceaf5"/>
+                <line x1="0" y1="120" x2="320" y2="120" stroke="#eceaf5"/>
+                <path d="M 0 20 C 60 25, 100 40, 160 60 S 260 100, 320 125" stroke="#4338ca" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M 0 20 C 60 25, 100 40, 160 60 S 260 100, 320 125 L 320 150 L 0 150 Z" fill="url(#g1)"/>
+                <circle cx="160" cy="60" r="5" fill="#4338ca" stroke="white" stroke-width="2"/>
+                <text x="12" y="140" font-size="9" fill="#8a8ca3">0h</text>
+                <text x="150" y="140" font-size="9" fill="#8a8ca3">12h</text>
+                <text x="290" y="140" font-size="9" fill="#8a8ca3">24h</text>
+              </svg>
+            </div>
+
+            <div style="height:80px;"></div>
+          </div>
+          <div class="cta-bar" data-go="faq">Read full safety guide</div>
+        </div>
+
+        <!-- 6. FAQ expanded -->
+        <div class="view" data-view="faq">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="isotope">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <h2>Can I hug my kids?</h2>
+              <div class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            </div>
+
+            <div class="answer-card">
+              <h4>Not yet — give it a few days.</h4>
+              <p>For the first <strong>5 days</strong> of your isolation, keep <strong>at least 2 metres</strong> from young children and pregnant family. Short, calm conversations are fine. On day 6, brief hugs are safe for most people treated with I-131.</p>
+              <div class="caution-row">
+                <div class="chip bad">Avoid close contact · days 1–5</div>
+                <div class="chip">Brief hugs · day 6+</div>
+                <div class="chip good">Normal · day 10</div>
+              </div>
+            </div>
+
+            <div class="section-title">Simple precautions</div>
+            <div class="card">
+              <div style="display:flex; gap:12px; padding: 8px 0; align-items:flex-start;">
+                <div style="width:28px; height:28px; border-radius:8px; background:#eef0ff; color:var(--primary); display:grid; place-items:center; flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20V9h8v6h12v5"/><path d="M2 9V5"/><path d="M22 20v-7"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+                <div><div style="font-weight:700; font-size:13px;">Sleep in a separate bed</div><div style="font-size:12px; color:#6b6d8a; margin-top:2px;">For the first 7 nights after treatment.</div></div>
+              </div>
+              <div style="height:1px; background:#f0eff8; margin: 6px 0;"></div>
+              <div style="display:flex; gap:12px; padding: 8px 0; align-items:flex-start;">
+                <div style="width:28px; height:28px; border-radius:8px; background:#dcfce7; color:#065f46; display:grid; place-items:center; flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2v8a2 2 0 0 0 2 2h0v10"/><path d="M8 2v8"/><path d="M11 2v8a2 2 0 0 1-2 2"/><path d="M18 2c-1.5 0-3 2-3 5v4c0 1 .5 2 1.5 2H17v9"/></svg></div>
+                <div><div style="font-weight:700; font-size:13px;">Separate utensils</div><div style="font-size:12px; color:#6b6d8a; margin-top:2px;">Wash them alone for 5 days — then normal.</div></div>
+              </div>
+              <div style="height:1px; background:#f0eff8; margin: 6px 0;"></div>
+              <div style="display:flex; gap:12px; padding: 8px 0; align-items:flex-start;">
+                <div style="width:28px; height:28px; border-radius:8px; background:#fee2e2; color:#991b1b; display:grid; place-items:center; flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s7 7.8 7 12.8a7 7 0 1 1-14 0c0-5 7-12.8 7-12.8z"/></svg></div>
+                <div><div style="font-weight:700; font-size:13px;">Drink 2L of water a day</div><div style="font-size:12px; color:#6b6d8a; margin-top:2px;">Helps the isotope leave your body faster.</div></div>
+              </div>
+            </div>
+
+            <div class="section-title">Still worried?</div>
+            <div class="card" style="display:flex; gap:12px; align-items:center;">
+              <div class="avatar" style="width:38px; height:38px; font-size:14px;">A</div>
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size:13px;">Message Dr. Anoop</div>
+                <div style="font-size:12px; color:#6b6d8a;">Usually replies within an hour</div>
+              </div>
+              <div style="color:var(--primary); font-weight:800;">Chat ›</div>
+            </div>
+
+            <div style="height:80px;"></div>
+          </div>
+          <div class="cta-bar" data-go="isotope">Back to Iodine-131</div>
+        </div>
+
+        <!-- 7. Water pacer -->
+        <div class="view" data-view="water">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="home">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <h2>Hydration</h2>
+              <div class="icon-btn">⋯</div>
+            </div>
+
+            <div style="text-align:center; margin: 6px 0 10px; color:#6b6d8a; font-size: 13px;">Flushing I-131 faster · doctor-recommended</div>
+
+            <div class="card" style="text-align:center;">
+              <div style="font-size: 11px; color:#8a8ca3; font-weight:700; letter-spacing:.06em; text-transform:uppercase;">So far today</div>
+              <div style="font-size: 44px; font-weight: 800; color:#1a1b2e; margin-top: 4px; letter-spacing:-0.02em;">500<span style="font-size:16px; color:#8a8ca3; font-weight:700;"> / 2000 ml</span></div>
+              <div class="pacer">
+                <div class="glass full"></div>
+                <div class="glass half"></div>
+                <div class="glass"></div>
+                <div class="glass"></div>
+                <div class="glass"></div>
+                <div class="glass"></div>
+                <div class="glass"></div>
+                <div class="glass"></div>
+              </div>
+              <div style="font-size:11px; color:#8a8ca3; margin-top: 8px;">Each glass = 250 ml</div>
+            </div>
+
+            <div class="section-title">Why it matters</div>
+            <div class="card" style="display:flex; gap:12px;">
+              <div style="width:40px; height:40px; border-radius:10px; background:#dbeafe; color:#1d4ed8; display:grid; place-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s7 7.8 7 12.8a7 7 0 1 1-14 0c0-5 7-12.8 7-12.8z"/></svg></div>
+              <div>
+                <div style="font-weight:700; font-size:13px;">Each extra glass =</div>
+                <div style="font-size:12px; color:#6b6d8a; margin-top:2px;">~ <strong>2 hours less</strong> isolation needed.</div>
+              </div>
+            </div>
+
+            <div class="section-title">Pacing</div>
+            <div class="card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-weight:700;">Next reminder</div>
+                  <div style="font-size:12px; color:#6b6d8a;">in 42 minutes</div>
+                </div>
+                <div style="width:52px; height:52px; border-radius:50%; background: conic-gradient(var(--primary) 0 65%, #eceaf5 65% 100%); display:grid; place-items:center;">
+                  <div style="width:40px; height:40px; border-radius:50%; background:#fff; display:grid; place-items:center; font-weight:800; font-size:12px; color:var(--primary);">6/8</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="height:80px;"></div>
+          </div>
+          <div class="cta-bar" data-go="done">Log a glass</div>
+        </div>
+
+        <!-- 8. Done celebrate -->
+        <div class="view" data-view="done">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="celebrate">
+            <div class="big-check">
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 style="margin: 10px 0 6px; font-size: 22px;">Nice work, Tejas.</h2>
+            <p style="color:#6b6d8a; font-size: 14px; max-width:260px; margin: 0 auto; line-height: 1.5;">That's one more step toward going home. Isolation ends on <strong>Nov 6</strong>.</p>
+            <div class="card" style="margin-top: 22px; text-align:left;">
+              <div style="font-size:11px; color:#8a8ca3; font-weight:700; letter-spacing:.06em; text-transform:uppercase;">Progress today</div>
+              <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:10px;">
+                <div style="text-align:center;"><div style="font-weight:800; font-size:16px;">3/4</div><div style="font-size:10px; color:#8a8ca3;">tasks</div></div>
+                <div style="text-align:center;"><div style="font-weight:800; font-size:16px;">6/8</div><div style="font-size:10px; color:#8a8ca3;">glasses</div></div>
+                <div style="text-align:center;"><div style="font-weight:800; font-size:16px;">2.3k</div><div style="font-size:10px; color:#8a8ca3;">steps</div></div>
+                <div style="text-align:center;"><div style="font-weight:800; font-size:16px;">25%</div><div style="font-size:10px; color:#8a8ca3;">healed</div></div>
+              </div>
+            </div>
+            <div class="card" style="margin-top: 12px; display:flex; gap:12px; text-align:left; align-items:flex-start;">
+              <div style="width:36px; height:36px; border-radius:10px; background:#ede9fe; color:#6d28d9; display:grid; place-items:center; flex-shrink:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              <div style="font-size:13px; color:#4b4d6a; line-height:1.5;">"You're doing better than you think. Rest well." <br/><strong>— Dr. Anoop</strong></div>
+            </div>
+          </div>
+          <div class="cta-bar" data-go="home">Back to today</div>
+        </div>
+
+        <!-- 9. Book appointment -->
+        <div class="view" data-view="book">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="schedule">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <h2>Book an appointment</h2>
+              <div class="icon-btn">?</div>
+            </div>
+
+            <div class="section-title">Choose a doctor</div>
+            <div class="doc-pick">
+              <div class="doc on">
+                <div class="av" style="background: linear-gradient(135deg,#f59e0b,#ef4444);">A</div>
+                <div class="n">Dr. Anoop</div>
+                <div class="s">Endocrinology</div>
+              </div>
+              <div class="doc">
+                <div class="av" style="background: linear-gradient(135deg,#6366f1,#4338ca);">P</div>
+                <div class="n">Dr. Priya</div>
+                <div class="s">Nuclear Med.</div>
+              </div>
+              <div class="doc">
+                <div class="av" style="background: linear-gradient(135deg,#22c55e,#065f46);">S</div>
+                <div class="n">Dr. Suresh</div>
+                <div class="s">Radiology</div>
+              </div>
+            </div>
+
+            <div class="section-title">Pick a date</div>
+            <div class="dates" style="padding-top: 0;">
+              <div class="date"><div class="n">4</div><div class="d">Sun</div></div>
+              <div class="date on"><div class="n">5</div><div class="d">Mon</div></div>
+              <div class="date"><div class="n">6</div><div class="d">Tue</div></div>
+              <div class="date"><div class="n">7</div><div class="d">Wed</div></div>
+              <div class="date"><div class="n">8</div><div class="d">Thu</div></div>
+              <div class="date"><div class="n">9</div><div class="d">Fri</div></div>
+              <div class="date"><div class="n">10</div><div class="d">Sat</div></div>
+            </div>
+
+            <div class="section-title">Available times</div>
+            <div class="time-grid">
+              <div class="time off">09:00</div>
+              <div class="time">09:30</div>
+              <div class="time">10:00</div>
+              <div class="time off">10:30</div>
+              <div class="time on">11:00</div>
+              <div class="time">11:30</div>
+              <div class="time">02:00</div>
+              <div class="time">02:30</div>
+              <div class="time off">03:00</div>
+            </div>
+
+            <div class="section-title">Reason for visit</div>
+            <div class="card">
+              <div style="font-size:13px; color:#4b4d6a;">Routine follow-up after I-131 therapy. Share scan results.</div>
+            </div>
+
+            <div style="height:80px;"></div>
+          </div>
+          <div class="cta-bar" data-go="done">Confirm · Mon 11:00 am</div>
+        </div>
+
+        <!-- 10. Notifications -->
+        <div class="view" data-view="notifications">
+          <div class="statusbar"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="appbar">
+              <div class="icon-btn" data-go="home">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </div>
+              <h2>Notifications</h2>
+              <div class="icon-btn">⋯</div>
+            </div>
+
+            <div class="section-title">Today</div>
+            <div class="notif safety">
+              <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="2.4"/><path d="M12 2a10 10 0 0 1 8.66 5l-6.06 3.5a3 3 0 0 0-2.6-1.5V2zM12 2a10 10 0 0 0-8.66 5l6.06 3.5a3 3 0 0 1 2.6-1.5V2zM12 22a10 10 0 0 0 7.3-3.2l-5-3.9a3 3 0 0 1-2.3 1.1V22zM12 22a10 10 0 0 1-7.3-3.2l5-3.9a3 3 0 0 0 2.3 1.1V22z"/></svg></div>
+              <div style="flex:1;">
+                <div class="t">Safety check-in</div>
+                <div class="s">Day 2 of isolation. Keep 2m from family tonight — hugs come back soon.</div>
+                <div class="time">9:00 am</div>
+              </div>
+            </div>
+            <div class="notif">
+              <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s7 7.8 7 12.8a7 7 0 1 1-14 0c0-5 7-12.8 7-12.8z"/></svg></div>
+              <div style="flex:1;">
+                <div class="t">Time for water</div>
+                <div class="s">You're 1500 ml behind today's goal.</div>
+                <div class="time">11:12 am</div>
+              </div>
+            </div>
+            <div class="notif good">
+              <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div style="flex:1;">
+                <div class="t">Blood test cleared</div>
+                <div class="s">Dr. Anoop reviewed your TSH results.</div>
+                <div class="time">8:34 am</div>
+              </div>
+            </div>
+
+            <div class="section-title">Yesterday</div>
+            <div class="notif">
+              <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2v8a2 2 0 0 0 2 2v10"/><path d="M8 2v8"/><path d="M11 2v8a2 2 0 0 1-2 2"/><path d="M18 2c-1.5 0-3 2-3 5v4c0 1 .5 2 1.5 2H17v9"/></svg></div>
+              <div style="flex:1;">
+                <div class="t">Low-iodine diet reminder</div>
+                <div class="s">Avoid dairy and iodised salt until Nov 7.</div>
+                <div class="time">6:00 pm</div>
+              </div>
+            </div>
+            <div class="notif good">
+              <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></div>
+              <div style="flex:1;">
+                <div class="t">You hit your water goal</div>
+                <div class="s">Great pacing — keep it up.</div>
+                <div class="time">9:12 pm</div>
+              </div>
+            </div>
+            <div style="height:80px;"></div>
+          </div>
+        </div>
+
+        <!-- 11. Learning video -->
+        <div class="view" data-view="video">
+          <div class="statusbar light"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div style="position:absolute; inset:0; background: linear-gradient(180deg, #0b0b14 0%, #1a1a2e 50%, #0b0b14 100%); color:white; padding: 60px 20px 100px; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div class="icon-btn" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: white;" data-go="explore">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </div>
+              <div class="icon-btn" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: white;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+              </div>
+            </div>
+
+            <div style="aspect-ratio: 16/10; border-radius: 18px; background: radial-gradient(circle at 50% 40%, #a7b4ff, #4338ca); margin-top: 18px; position:relative; display:grid; place-items:center;">
+              <div style="width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,0.9); color:#4338ca; display:grid; place-items:center;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+              </div>
+              <div style="position:absolute; bottom:10px; left:12px; right:12px; display:flex; gap:8px; align-items:center;">
+                <div style="font-size:11px;">0:42</div>
+                <div style="flex:1; height:3px; background: rgba(255,255,255,0.3); border-radius: 999px; overflow:hidden;">
+                  <div style="width:28%; height:100%; background:white;"></div>
+                </div>
+                <div style="font-size:11px;">5:12</div>
+              </div>
+            </div>
+
+            <h2 style="margin: 20px 0 4px; font-size: 20px; letter-spacing: -0.01em;">What happens after radionuclide therapy?</h2>
+            <div style="color:#a9abc3; font-size: 12px;">Dr. Priya Menon · Nuclear Medicine · 5 min watch</div>
+
+            <div style="margin-top: 16px; font-size: 13px; color: #d6d7e5; line-height: 1.55;">
+              The next 2 weeks are the body's quiet work: short-range radiation does its job, and your kidneys clear what's left. Here's what to expect, day by day.
+            </div>
+
+            <div style="margin-top: 18px; display:flex; gap: 8px; flex-wrap:wrap;">
+              <div class="chip" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: white;">Side effects</div>
+              <div class="chip" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: white;">Isolation</div>
+              <div class="chip" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: white;">Diet</div>
+              <div class="chip" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: white;">Return to work</div>
+            </div>
+
+            <div style="margin-top: auto; display:flex; gap: 10px; align-items:center;">
+              <div class="avatar" style="width:36px; height:36px; font-size:13px;">P</div>
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size: 13px;">Ask a question in chat</div>
+                <div style="color:#a9abc3; font-size: 11px;">Replies in a few hours</div>
+              </div>
+              <div style="color: var(--accent); font-weight:800;">Open ›</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12. Profile -->
+        <div class="view" data-view="profile">
+          <div class="statusbar light"><span>9:41</span><span class="icons"><svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="0.5"/><rect x="4" y="5" width="3" height="6" rx="0.5"/><rect x="8" y="3" width="3" height="8" rx="0.5"/><rect x="12" y="1" width="3" height="10" rx="0.5"/></svg><svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor" aria-hidden="true"><path d="M8 1.5a9 9 0 0 1 7 3L13.5 6A7 7 0 0 0 8 3.6 7 7 0 0 0 2.5 6L1 4.5a9 9 0 0 1 7-3zm0 3.3a5.5 5.5 0 0 1 4.3 2L11 8.3A3.5 3.5 0 0 0 8 7a3.5 3.5 0 0 0-3 1.3L3.7 6.8a5.5 5.5 0 0 1 4.3-2z"/><circle cx="8" cy="9.5" r="1.3"/></svg><svg width="24" height="11" viewBox="0 0 24 11" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="0.5" y="1" width="20" height="9" rx="2.5"/><rect x="2" y="2.5" width="17" height="6" rx="1.2" fill="currentColor"/><rect x="21.5" y="3.5" width="1.5" height="4" rx="0.5" fill="currentColor"/></svg></span></div>
+          <div class="scroll">
+            <div class="profile-head">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="icon-btn" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;" data-go="home">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </div>
+                <div style="font-weight:700; font-size: 14px;">Profile</div>
+                <div class="icon-btn" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+              </div>
+              <div style="display:flex; gap: 14px; align-items:center; margin-top: 20px;">
+                <div class="big">T</div>
+                <div>
+                  <h3>Tejas Rao</h3>
+                  <div class="meta">Patient ID · T-1079 · DOB 1992</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-row">
+              <div class="pstat"><div class="v">4</div><div class="l">Days in</div></div>
+              <div class="pstat"><div class="v">25%</div><div class="l">Recovered</div></div>
+              <div class="pstat"><div class="v">A+</div><div class="l">Blood</div></div>
+            </div>
+
+            <div class="section-title">Care team</div>
+            <div class="card">
+              <div style="display:flex; gap:10px; align-items:center;">
+                <div class="avatar" style="width:38px; height:38px; font-size:14px; background: linear-gradient(135deg,#f59e0b,#ef4444);">A</div>
+                <div style="flex:1;"><div style="font-weight:700;">Dr. Anoop</div><div style="font-size:12px; color:#6b6d8a;">Endocrinology · Lumen Clinic</div></div>
+                <div style="color:var(--primary); font-weight:800; font-size: 13px;">Chat</div>
+              </div>
+              <div style="height:1px; background:#f0eff8; margin: 10px 0;"></div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <div class="avatar" style="width:38px; height:38px; font-size:14px; background: linear-gradient(135deg,#6366f1,#4338ca);">P</div>
+                <div style="flex:1;"><div style="font-weight:700;">Dr. Priya</div><div style="font-size:12px; color:#6b6d8a;">Nuclear Medicine</div></div>
+                <div style="color:var(--primary); font-weight:800; font-size: 13px;">Chat</div>
+              </div>
+            </div>
+
+            <div class="section-title">Health</div>
+            <div class="card" style="padding: 4px 14px;">
+              <div class="menu-row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/></svg></div><div class="n">Medications</div><div class="arrow">›</div></div>
+              <div class="menu-row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 2h6v4H9z"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg></div><div class="n">Scan reports</div><div class="arrow">›</div></div>
+              <div class="menu-row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l3-9 4 18 3-9h5"/></svg></div><div class="n">Symptom journal</div><div class="arrow">›</div></div>
+            </div>
+
+            <div class="section-title">Lumen</div>
+            <div class="card" style="padding: 4px 14px;">
+              <div class="menu-row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div><div class="n">Notification preferences</div><div class="arrow">›</div></div>
+              <div class="menu-row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="n">Privacy</div><div class="arrow">›</div></div>
+              <div class="menu-row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="n">Share feedback</div><div class="arrow">›</div></div>
+            </div>
+
+            <div style="height:80px;"></div>
+          </div>
+
+          <div class="tabbar">
+            <div class="tab" data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>Home</div>
+            <div class="tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</div>
+            <div class="tab" data-go="explore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>Explore</div>
+            <div class="tab on" data-go="profile"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Me</div>
+          </div>
+        </div>
+
+      </div><!-- /screen -->
+    </div><!-- /phone -->
+
+    <div class="hint">Tap anywhere in the phone — avatars, cards, chips. Press <kbd>←</kbd> <kbd>→</kbd> to step. <kbd>Space</kbd> plays the tour.</div>
+  </div>
+
+  <div class="rail" id="rail"></div>
+</div>
+
+<div class="toast" id="toast">Welcome</div>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;700&display=swap">
+
+<script>
+  const SCREENS = [
+    { id: 'welcome', label: 'Welcome' },
+    { id: 'onboard', label: 'Onboarding' },
+    { id: 'login', label: 'Sign in' },
+    { id: 'setup', label: 'Treatment setup' },
+    { id: 'home', label: 'Today' },
+    { id: 'schedule', label: 'Schedule' },
+    { id: 'explore', label: 'Explore' },
+    { id: 'isotope', label: 'Isotope · I-131' },
+    { id: 'faq', label: 'FAQ · hug kids?' },
+    { id: 'water', label: 'Hydration' },
+    { id: 'done', label: 'Check-in done' },
+    { id: 'book', label: 'Book appointment' },
+    { id: 'notifications', label: 'Notifications' },
+    { id: 'video', label: 'Learning video' },
+    { id: 'profile', label: 'Profile' },
+  ];
+
+  const rail = document.getElementById('rail');
+  SCREENS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip-btn';
+    b.innerHTML = `<span>${s.label}</span><span class="num">${String(i+1).padStart(2,'0')}</span>`;
+    b.addEventListener('click', () => go(s.id, true));
+    b.dataset.id = s.id;
+    rail.appendChild(b);
+  });
+
+  const toast = document.getElementById('toast');
+  let toastT;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => toast.classList.remove('show'), 1400);
+  }
+
+  const views = Array.from(document.querySelectorAll('.view'));
+  function go(id, fromRail) {
+    views.forEach(v => v.classList.toggle('active', v.dataset.view === id));
+    document.querySelectorAll('.chip-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+    // Reset scroll
+    const activeScroll = document.querySelector('.view.active .scroll');
+    if (activeScroll) activeScroll.scrollTop = 0;
+    // Update hash
+    try { history.replaceState(null, '', '#' + id); } catch(e) {}
+  }
+
+  // Click delegation: any element with data-go navigates
+  document.getElementById('screen').addEventListener('click', (e) => {
+    const t = e.target.closest('[data-go]');
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    go(t.dataset.go);
+  });
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    const current = views.find(v => v.classList.contains('active'))?.dataset.view;
+    const idx = SCREENS.findIndex(s => s.id === current);
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(SCREENS[Math.min(SCREENS.length-1, idx+1)].id); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); go(SCREENS[Math.max(0, idx-1)].id); }
+    if (e.key === ' ')          { e.preventDefault(); playTour(); }
+  });
+
+  // Deep link via hash
+  if (location.hash) {
+    const want = location.hash.slice(1);
+    if (SCREENS.find(s => s.id === want)) go(want);
+  }
+  // Initial rail highlight
+  go(views.find(v => v.classList.contains('active')).dataset.view);
+
+  // Auto-play tour: scripted path showing the core flow
+  const TOUR = [
+    { id: 'welcome',       t: 1800, msg: 'Opening Lumen'},
+    { id: 'onboard',       t: 2600, msg: 'Three-slide onboarding' },
+    { id: 'login',         t: 2200, msg: 'Hospital SSO or patient ID' },
+    { id: 'setup',         t: 2800, msg: 'Pick your isotope and date' },
+    { id: 'home',          t: 2800, msg: 'Hi, Tejas — today\'s plan' },
+    { id: 'water',         t: 2200, msg: 'Hydration pacer' },
+    { id: 'done',          t: 2000, msg: 'Nice work' },
+    { id: 'home',          t: 1600, msg: 'Back to today' },
+    { id: 'schedule',      t: 2400, msg: 'Upcoming schedule' },
+    { id: 'book',          t: 2800, msg: 'Booking an appointment' },
+    { id: 'notifications', t: 2400, msg: 'Gentle reminders' },
+    { id: 'explore',       t: 2200, msg: 'Learn about your isotope' },
+    { id: 'isotope',       t: 2600, msg: 'Iodine-131 at a glance' },
+    { id: 'faq',           t: 2800, msg: 'Simple answers' },
+    { id: 'video',         t: 2400, msg: 'Educational videos' },
+    { id: 'profile',       t: 2200, msg: 'Your care team' },
+    { id: 'home',          t: 1500, msg: 'Thanks for watching · loop restarts' },
+  ];
+  let tourOn = false, tourTimer = null;
+  const tourBtn = document.getElementById('tourBtn');
+  function playTour() {
+    if (tourOn) { stopTour(); return; }
+    tourOn = true;
+    tourBtn.innerHTML = '<span class="dot"></span><span>Stop tour</span>';
+    let i = 0;
+    const step = () => {
+      if (!tourOn) return;
+      const s = TOUR[i % TOUR.length];
+      go(s.id);
+      showToast(s.msg);
+      i++;
+      tourTimer = setTimeout(step, s.t);
+    };
+    step();
+  }
+  function stopTour() {
+    tourOn = false;
+    clearTimeout(tourTimer);
+    tourBtn.innerHTML = '<span class="dot pulse"></span><span>Auto-play tour</span>';
+  }
+  tourBtn.addEventListener('click', playTour);
+
+  // Theme toggle
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', () => {
+    const now = document.documentElement.getAttribute('data-theme');
+    const next = now === 'dark' ? 'light' : (now === 'light' ? '' : 'dark');
+    if (next) document.documentElement.setAttribute('data-theme', next);
+    else document.documentElement.removeAttribute('data-theme');
+    showToast('Theme: ' + (next || 'system'));
+  });
+
+  // Onboarding carousel
+  const ONB = [
+    { title: 'Know your isotope', body: "Simple explanations of what's in your body, how long it stays, and what's safe." },
+    { title: 'Build a safe routine', body: 'Daily tasks — hydration, walks, flushing — that get you home faster.' },
+    { title: 'Stay connected to care', body: 'Appointments, reminders, and your doctor one tap away.' }
+  ];
+  let onbStep = 0;
+  const onbTitle = document.getElementById('onbTitle');
+  const onbBody = document.getElementById('onbBody');
+  const onbDots = document.getElementById('onbDots');
+  const onbNext = document.getElementById('onbNext');
+  function renderOnb() {
+    if (!onbTitle) return;
+    onbTitle.textContent = ONB[onbStep].title;
+    onbBody.textContent = ONB[onbStep].body;
+    onbDots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('on', i === onbStep));
+    onbNext.textContent = onbStep === ONB.length - 1 ? 'Create account' : 'Next';
+  }
+  if (onbNext) {
+    onbNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (onbStep < ONB.length - 1) { onbStep++; renderOnb(); }
+      else { go('login'); }
+    });
+  }
+  renderOnb();
+
+  // Choice toggles on setup screen
+  document.querySelectorAll('.choice-grid').forEach(grid => {
+    grid.addEventListener('click', (e) => {
+      const c = e.target.closest('.choice');
+      if (!c) return;
+      e.stopPropagation();
+      // single-select for isotope row (first grid), multi for interests
+      const isFirst = grid === document.querySelectorAll('.choice-grid')[0];
+      if (isFirst) {
+        grid.querySelectorAll('.choice').forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+      } else {
+        c.classList.toggle('on');
+      }
+    });
+  });
+
+  // Build mini month grid for schedule
+  const grid = document.getElementById('monthGrid');
+  if (grid) {
+    const highlights = { 3: 'today', 5: 'appt', 6: 'end', 12: 'appt' };
+    // Nov 2026: starts Sunday. Just fill 35 cells, first row with 1-7
+    for (let d = 1; d <= 30; d++) {
+      const cell = document.createElement('div');
+      cell.style.cssText = 'aspect-ratio:1; display:grid; place-items:center; border-radius:8px; font-size:11px; font-weight:700;';
+      const h = highlights[d];
+      if (h === 'today') { cell.style.background = 'var(--primary)'; cell.style.color = 'white'; }
+      else if (h === 'appt') { cell.style.background = '#fef3c7'; cell.style.color = '#92400e'; }
+      else if (h === 'end') { cell.style.background = '#dcfce7'; cell.style.color = '#065f46'; }
+      else { cell.style.color = '#4b4d6a'; }
+      cell.textContent = d;
+      grid.appendChild(cell);
+    }
+  }
+</script>
+
+</body>
+</html>
