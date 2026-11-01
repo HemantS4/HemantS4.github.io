@@ -169,13 +169,14 @@ export default function ProjectDetail() {
               <p style={{ color: 'var(--color-fg-muted, #6b6d8a)', fontSize: 14, margin: '0 0 18px', lineHeight: 1.5, maxWidth: '65ch' }}>
                 Tap through 15 screens, or hit <strong>Auto-play tour</strong> for a hands-free walkthrough. The frame below sits inside the page — scroll past when you're done.
               </p>
-              <div style={{ width: '100%', background: 'transparent' }}>
+              <div style={{ width: '100%', background: 'transparent', display: 'flex', justifyContent: 'center' }}>
                 <iframe
-                  src={`${import.meta.env.BASE_URL}${project.prototypeUrl.replace(/^\//, '')}`}
+                  src={`${import.meta.env.BASE_URL}${project.prototypeUrl.replace(/^\//, '')}?embed=1`}
                   title={`${project.title} prototype`}
                   style={{
-                    width: '100%',
-                    height: 'min(1200px, 92vh)',
+                    width: 'min(440px, 100%)',
+                    height: 'min(900px, 95vh)',
+                    minHeight: 820,
                     border: 0,
                     display: 'block',
                     background: 'transparent',
