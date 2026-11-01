@@ -147,6 +147,21 @@ export default function ProjectDetail() {
             </div>
           </div>
 
+          {/* Hero images (shown before the prototype) */}
+          {project.heroImages && project.heroImages.length > 0 && (
+            <div className={styles.contentBlock}>
+              {project.heroImages.map((image, i) => (
+                <div
+                  key={i}
+                  className={styles.galleryImageBlock}
+                  onClick={() => openLightbox(image, i, project.heroImages)}
+                >
+                  <img src={image} alt={`${project.title} ${i + 1}`} />
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Interactive Prototype */}
           {project.prototypeUrl && (
             <div className={`${styles.contentBlock}`}>

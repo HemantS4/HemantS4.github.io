@@ -31,6 +31,8 @@ export const project = {
 
   prototypeUrl: 'nmt-prototype.html',
 
+  heroImages: [img(1)],
+
   links: {
     live: `${BASE_URL}nmt-prototype.html`,
   },
@@ -40,7 +42,7 @@ export const project = {
       title: 'From isolation to awareness',
       content:
         'Designing clarity for patients undergoing nuclear-medicine therapy. A six-week project with Sairaj and Tejas.',
-      images: [img(1), img(2), img(3)],
+      images: [img(2), img(3)],
     },
     {
       title: 'Grounding the work in evidence',
