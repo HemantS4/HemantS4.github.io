@@ -46,20 +46,16 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Photo with hand-drawn sketch frame */}
+        {/* Cut-out photo floating with sketch doodles */}
         <div className={styles.heroCharacter}>
           <div className={styles.photoWrap}>
-            <svg className={styles.photoFrame} viewBox="0 0 400 480" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M10 14 L 390 8 L 394 472 L 8 468 Z"
-                stroke="currentColor" strokeWidth="4.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
             <img
-              src={`${BASE_URL}images/hemant.jpg`}
+              src={`${BASE_URL}ME1.png`}
               alt="Hemant Sharma"
               className={styles.photo}
               onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
             />
-            {/* Doodles around the frame */}
+            {/* Doodles around the cutout */}
             <svg className={styles.photoDoodleArrow} viewBox="0 0 120 80" aria-hidden="true">
               <path d="M8 40 C 40 10, 80 60, 112 24" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
               <path d="M108 16 L 112 24 L 104 28" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
@@ -68,6 +64,10 @@ export default function Hero() {
             <svg className={styles.photoStar} viewBox="0 0 60 60" aria-hidden="true">
               <path d="M30 6 L 36 24 L 54 24 L 40 36 L 46 54 L 30 42 L 14 54 L 20 36 L 6 24 L 24 24 Z"
                 stroke="currentColor" strokeWidth="3" fill="none" strokeLinejoin="round" />
+            </svg>
+            <svg className={styles.photoScribble} viewBox="0 0 220 60" aria-hidden="true">
+              <path d="M10 42 C 50 10, 110 58, 160 20 S 210 48, 214 36"
+                stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
             </svg>
           </div>
         </div>
