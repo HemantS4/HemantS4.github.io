@@ -158,7 +158,7 @@
 .frameWrap {
   position: relative;
   width: 100%;
-  height: min(28vh, 260px);
+  aspect-ratio: 4 / 3;
 }
 
 .frameStroke {
