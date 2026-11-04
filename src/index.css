@@ -28,12 +28,12 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   overflow-y: auto;
-  background: var(--color-bg);
+  background: #ffffff;
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--color-bg);
+  background: #ffffff;
   color: var(--color-text);
   line-height: var(--leading-body);
   overflow-x: hidden;
@@ -52,5 +52,5 @@ h1, h2, h3, h4, h5 {
 
 #root {
   min-height: 100vh;
-  background: var(--color-bg);
+  background: #ffffff;
 }

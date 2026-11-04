@@ -19,11 +19,11 @@
 
 :root {
   /* -------- 1. Color -------- */
-  --color-bg:          #FBF3E7;   /* page background (cream) */
-  --color-bg-alt:      #F3E8D6;   /* alt section background */
-  --color-bg-dark:     #20232B;   /* inverted background */
+  --color-bg:          #FFFFFF;   /* page background */
+  --color-bg-alt:      #FFFFFF;   /* alt section background */
+  --color-bg-dark:     #FFFFFF;   /* inverted background (unused in sketch) */
   --color-surface:     #FFFFFF;   /* cards */
-  --color-surface-alt: #EEE3D2;   /* muted cards */
+  --color-surface-alt: #FFFFFF;   /* muted cards */
 
   --color-ink:         #20232B;   /* primary text / headings */
   --color-ink-soft:    #42465A;   /* secondary text */
