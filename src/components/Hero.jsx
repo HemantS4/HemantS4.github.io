@@ -55,11 +55,6 @@ export default function Hero() {
               className={styles.photo}
               onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
             />
-            {/* Doodles around the cutout */}
-            <svg className={styles.photoDoodleArrow} viewBox="0 0 120 80" aria-hidden="true">
-              <path d="M8 40 C 40 10, 80 60, 112 24" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
-              <path d="M108 16 L 112 24 L 104 28" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
             <span className={styles.photoCallout}>that&rsquo;s me</span>
             <svg className={styles.photoStar} viewBox="0 0 60 60" aria-hidden="true">
               <path d="M30 6 L 36 24 L 54 24 L 40 36 L 46 54 L 30 42 L 14 54 L 20 36 L 6 24 L 24 24 Z"
