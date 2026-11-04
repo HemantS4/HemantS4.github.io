@@ -13,83 +13,108 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
-        <div className={styles.footerMain}>
-          <h2 className={styles.footerTitle}>Let's Create Something Amazing</h2>
-          <p className={styles.footerSubtitle}>
-            I'm always interested in hearing about new projects and opportunities.
-          </p>
 
-          {/* Social Icons */}
-          <div className={styles.socialIcons}>
-            {/* Email */}
-            <button
-              onClick={handleEmailClick}
-              className={`${styles.socialIcon} ${styles.emailIcon}`}
-              title="Copy email to clipboard"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M22 6l-10 7L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {copied && <span className={styles.copyTooltip}>Copied!</span>}
-            </button>
+        {/* Big handwritten thanks title */}
+        <div className={styles.thanksBlock}>
+          <h2 className={styles.thanksTitle}>
+            Thank you
+            <svg className={styles.thanksUnderline} viewBox="0 0 420 22" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M6 12 C 90 2, 200 20, 300 10 S 400 2, 414 14"
+                stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </svg>
+          </h2>
+          <h2 className={styles.thanksTitleTwo}>for scrolling</h2>
+          <p className={styles.thanksNote}>that's the whole thing. if any of it stuck, say hi.</p>
 
-            {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/in/hemant-sharma-71247a150/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.socialIcon}
-              title="LinkedIn"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
+          {/* Doodles row */}
+          <div className={styles.doodleRow} aria-hidden="true">
+            {/* Person with pen */}
+            <svg viewBox="0 0 160 180" className={styles.doodlePerson}>
+              <circle cx="80" cy="42" r="26" stroke="currentColor" strokeWidth="4" fill="none" />
+              <circle cx="72" cy="40" r="2.2" fill="currentColor" />
+              <circle cx="88" cy="40" r="2.2" fill="currentColor" />
+              <path d="M70 52 Q 80 60 90 52" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <path d="M80 68 L 80 130" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              <path d="M80 82 C 100 78, 120 94, 128 112" stroke="currentColor" strokeWidth="4" strokeLinecap="round" fill="none" />
+              <path d="M126 110 L 142 128" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              <path d="M80 85 C 60 92, 52 110, 50 120" stroke="currentColor" strokeWidth="4" strokeLinecap="round" fill="none" />
+              <path d="M80 130 L 62 172" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              <path d="M80 130 L 100 172" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              <path d="M30 176 Q 80 170 140 178" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.5" />
+            </svg>
 
-            {/* Instagram */}
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.socialIcon}
-              title="Instagram"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
-              </svg>
-            </a>
+            {/* Floating paper 1 */}
+            <svg viewBox="0 0 80 100" className={`${styles.doodlePaper} ${styles.paperOne}`}>
+              <path d="M8 10 L 70 6 L 74 92 L 10 94 Z" stroke="currentColor" strokeWidth="3" fill="#fff" strokeLinejoin="round" />
+              <path d="M18 28 L 60 26 M 18 42 L 58 40 M 18 56 L 52 54 M 18 70 L 56 68" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+
+            {/* Floating paper 2 */}
+            <svg viewBox="0 0 80 100" className={`${styles.doodlePaper} ${styles.paperTwo}`}>
+              <path d="M6 12 L 72 8 L 70 90 L 8 94 Z" stroke="currentColor" strokeWidth="3" fill="#fff" strokeLinejoin="round" />
+              <path d="M16 30 L 56 28 M 16 44 L 60 42 M 16 58 L 50 56" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="58" cy="76" r="8" stroke="currentColor" strokeWidth="2.5" fill="none" />
+            </svg>
+
+            {/* Star doodle */}
+            <svg viewBox="0 0 60 60" className={styles.doodleStar}>
+              <path d="M30 6 L 36 24 L 54 24 L 40 36 L 46 54 L 30 42 L 14 54 L 20 36 L 6 24 L 24 24 Z"
+                stroke="currentColor" strokeWidth="3" fill="none" strokeLinejoin="round" />
+            </svg>
+
+            {/* Heart scribble */}
+            <svg viewBox="0 0 60 60" className={styles.doodleHeart}>
+              <path d="M30 50 C 10 36, 6 20, 18 14 C 24 11, 28 16, 30 20 C 32 16, 36 11, 42 14 C 54 20, 50 36, 30 50 Z"
+                stroke="currentColor" strokeWidth="3" fill="none" strokeLinejoin="round" />
+            </svg>
           </div>
-
-          <p className={styles.emailText}>sharmah677@gmail.com</p>
         </div>
 
-        <div className={styles.footerGrid}>
-          <div className={styles.footerColumn}>
-            <h4>Navigation</h4>
-            <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#projects">Projects</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div>
+        {/* Contact row — sketch chips */}
+        <div className={styles.contactRow}>
+          <button
+            type="button"
+            onClick={handleEmailClick}
+            className={styles.contactChip}
+            title="Copy email to clipboard"
+          >
+            <svg className={styles.chipFrame} viewBox="0 0 260 64" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M6 10 C 60 4, 180 2, 252 10 L 254 56 C 180 60, 60 58, 4 52 Z"
+                stroke="currentColor" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>{copied ? 'copied ✓' : 'sharmah677@gmail.com'}</span>
+          </button>
 
-          <div className={styles.footerColumn}>
-            <h4>Resources</h4>
-            <ul>
-              <li><a href={`${import.meta.env.BASE_URL}Resume.pdf`} target="_blank" rel="noopener noreferrer">Resume</a></li>
-            </ul>
-          </div>
+          <a
+            href="https://www.linkedin.com/in/hemant-sharma-71247a150/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.contactChip}
+          >
+            <svg className={styles.chipFrame} viewBox="0 0 160 64" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M6 10 C 40 4, 120 2, 154 8 L 156 56 C 120 60, 40 58, 4 52 Z"
+                stroke="currentColor" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>LinkedIn →</span>
+          </a>
+
+          <a
+            href={`${import.meta.env.BASE_URL}Resume.pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.contactChip}
+          >
+            <svg className={styles.chipFrame} viewBox="0 0 160 64" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M6 10 C 40 4, 120 2, 154 8 L 156 56 C 120 60, 40 58, 4 52 Z"
+                stroke="currentColor" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>Resume →</span>
+          </a>
         </div>
       </div>
 
       <div className={styles.footerBottom}>
-        <p>&copy; {new Date().getFullYear()} Hemant Sharma. All rights reserved.</p>
-        <p>Built with React & Vite</p>
+        <p>drawn &amp; coded by Hemant · {new Date().getFullYear()}</p>
       </div>
     </footer>
   )

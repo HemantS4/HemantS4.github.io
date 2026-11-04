@@ -1,77 +1,209 @@
 /* ============================================================
-   Hero component styles.
-   Scoped via CSS Modules. Global section shell (max-width,
-   padding, centering) still comes from App.css via .hero.
+   Hero — sketch / handwritten reskin.
+   Big marker-style name on the left, stick-figure doodle on the
+   right. White page, black ink, one accent color for CTA fill.
    ============================================================ */
+
 .hero {
   min-height: calc(100vh - var(--topnav-height));
   display: grid;
   place-items: center;
-  text-align: center;
-  padding-top: clamp(3rem, 8vw, 5rem);
+  padding: clamp(3rem, 7vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+  background: #ffffff;
+  color: #141414;
+  overflow: hidden;
 }
 
-.hero-content {
-  max-width: 780px;
+.heroInner {
+  width: 100%;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(1rem, 4vw, 4rem);
+  align-items: center;
 }
 
-.hero-eyebrow {
-  font-family: var(--font-heading);
-  font-size: 0.9rem;
-  font-weight: var(--weight-semi);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 1.5rem;
-}
+/* ---------- Left column: text ---------- */
 
-.hero-title {
-  font-family: var(--font-heading);
-  font-weight: var(--weight-bold);
-  color: var(--color-ink);
-  line-height: 1.05;
+.heroText {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1.5rem;
+  gap: 1.75rem;
 }
 
-.hero-title-small {
-  font-size: clamp(1.25rem, 3.5vw, 2rem);
-  color: var(--color-ink-muted);
-  font-weight: var(--weight-medium);
+.heroHi {
+  font-family: var(--font-handwrite);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  color: #141414;
+  letter-spacing: 0.02em;
+  margin: 0;
 }
 
-.hero-title-name {
-  font-size: clamp(2.5rem, 8vw, 5.5rem);
-  color: var(--color-ink);
-  letter-spacing: var(--tracking-tight);
+.heroName {
+  position: relative;
+  font-family: var(--font-sketch);
+  font-weight: 400;
+  font-size: clamp(4.5rem, 11vw, 9.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #141414;
+  margin: 0 0 0.5rem;
+  display: inline-block;
+  padding-bottom: 0.4rem;
 }
 
-.hero-subtitle {
-  font-size: clamp(1rem, 2.2vw, 1.25rem);
-  color: var(--color-ink-muted);
-  margin-bottom: 2.5rem;
+.nameUnderline {
+  position: absolute;
+  left: 2%;
+  right: 0;
+  bottom: -10px;
+  width: 84%;
+  height: 22px;
+  color: #141414;
 }
 
-.hero-cta-row {
+.heroBio {
+  font-family: var(--font-handwrite);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.5;
+  color: #1a1a1a;
   display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: 34rem;
 }
 
-@media (max-width: 600px) {
-  .hero {
-    min-height: auto;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+.heroBio p { margin: 0; }
+
+.heroBioFaint {
+  color: #6a6a6a;
+  margin-top: 0.75rem !important;
+  font-size: 0.95em;
+}
+
+.heroCtaRow {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+/* ---------- Sketch button ---------- */
+
+.sketchBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.65rem 1.1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-handwrite);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #141414;
+  letter-spacing: 0.01em;
+  isolation: isolate;
+  transform: translateZ(0);
+  transition: transform var(--dur-fast, 160ms) var(--ease-standard, ease);
+}
+
+.sketchBtnFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: #141414;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sketchBtn > span,
+.sketchBtn > svg:last-of-type {
+  position: relative;
+  z-index: 1;
+}
+
+.sketchBtn:hover {
+  transform: translate(-1px, -2px) rotate(-0.6deg);
+}
+
+.sketchBtn:active {
+  transform: translate(1px, 1px) rotate(0.3deg);
+}
+
+.heroInkLink {
+  font-family: var(--font-handwrite);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #141414;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  cursor: pointer;
+}
+
+.heroInkLink:hover {
+  color: #000;
+  text-decoration-color: currentColor;
+}
+
+/* ---------- Right column: stick figure ---------- */
+
+.heroCharacter {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stickFigure {
+  width: min(28vw, 320px);
+  height: auto;
+  color: #141414;
+}
+
+.floatingHi {
+  position: absolute;
+  top: 6%;
+  right: 6%;
+  font-family: var(--font-sketch);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #141414;
+  transform: rotate(-8deg);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    text-align: left;
   }
-  .hero-cta-row {
+  /* Mobile: character is removed entirely, not stacked above the text */
+  .heroCharacter {
+    display: none;
+  }
+  .heroName {
+    font-size: clamp(3.5rem, 15vw, 6rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .heroCtaRow {
     flex-direction: column;
     align-items: stretch;
+    gap: 1.25rem;
   }
-  /* CTA buttons stay global — target them via :global here so mobile
-     stacking is enforced even though the class is not in this module. */
-  .hero-cta-row :global(.cta-button) { justify-content: center; }
+  .sketchBtn {
+    justify-content: center;
+    width: 100%;
+    max-width: 320px;
+  }
 }

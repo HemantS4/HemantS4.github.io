@@ -1,139 +1,204 @@
 /* ============================================================
-   Footer band (dark closing section).
+   Footer — sketch / handwritten close.
+   White page, black ink. Big handwritten thanks, doodles row,
+   sketch chips for contact, hand-written sign-off.
    ============================================================ */
+
 .footer {
-  background: var(--color-bg-dark);
-  color: var(--color-text-inverse);
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+  background: #ffffff;
+  color: #141414;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  position: relative;
+  z-index: 1;
+  border-top: 2px solid #141414;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- Thanks block ---------- */
+
+.thanksBlock {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.thanksTitle {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-sketch);
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 0.95;
+  color: #141414;
+  margin: 0;
+  padding-bottom: 0.3rem;
+}
+
+.thanksUnderline {
+  position: absolute;
+  left: 2%;
+  right: 0;
+  bottom: -8px;
+  width: 92%;
+  height: 20px;
+  color: #141414;
+}
+
+.thanksTitleTwo {
+  font-family: var(--font-sketch);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  color: #141414;
+  margin: 0.8rem 0 0;
+  transform: rotate(-1.2deg);
+}
+
+.thanksNote {
+  font-family: var(--font-handwrite);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  color: #3a3a3a;
+  margin: 1.5rem auto 0;
+  max-width: 34rem;
+}
+
+/* ---------- Doodle row ---------- */
+
+.doodleRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(1rem, 3vw, 3rem);
+  margin: 2.5rem auto 0;
+  max-width: 720px;
+  color: #141414;
+}
+
+.doodlePerson {
+  width: clamp(110px, 14vw, 170px);
+  height: auto;
+  color: #141414;
+}
+
+.doodlePaper {
+  width: clamp(60px, 7vw, 86px);
+  height: auto;
+  color: #141414;
+}
+.paperOne {
+  transform: rotate(-8deg) translateY(-30px);
+}
+.paperTwo {
+  transform: rotate(6deg) translateY(-14px);
+}
+
+.doodleStar {
+  width: clamp(40px, 5vw, 56px);
+  height: auto;
+  color: #141414;
+  transform: rotate(-12deg) translateY(-60px);
+}
+
+.doodleHeart {
+  width: clamp(44px, 5.5vw, 60px);
+  height: auto;
+  color: #141414;
+  transform: rotate(10deg) translateY(-24px);
+}
+
+/* ---------- Contact chips ---------- */
+
+.contactRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.contactChip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.5rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-handwrite);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #141414;
+  text-decoration: none;
+  isolation: isolate;
+  transition: transform 0.15s ease;
+}
+
+.contactChip > span {
   position: relative;
   z-index: 1;
 }
 
-.footer * { color: inherit; }
-
-.footer-content {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.footer-main { margin-bottom: 3rem; }
-
-.footer-title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  color: var(--color-text-inverse);
-  margin-bottom: 0.75rem;
-}
-
-.footer-subtitle {
-  font-size: 1rem;
-  color: rgba(251, 243, 231, 0.7);
-  margin-bottom: 2rem;
-}
-
-.social-icons {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.social-icon {
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-pill);
-  background: rgba(251, 243, 231, 0.08);
-  border: 1px solid rgba(251, 243, 231, 0.14);
-  color: var(--color-text-inverse);
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.social-icon:hover {
-  background: var(--color-primary);
-  color: var(--color-ink);
-  transform: translateY(-2px);
-}
-
-.email-icon { background: none; border: none; padding: 0; position: relative; }
-
-.copy-tooltip {
+.chipFrame {
   position: absolute;
-  top: -34px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  color: var(--color-ink);
-  padding: 0.35rem 0.75rem;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: var(--weight-semi);
-  white-space: nowrap;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: #141414;
+  z-index: 0;
   pointer-events: none;
 }
 
-.email-text {
-  font-size: 0.95rem;
-  color: rgba(251, 243, 231, 0.7);
-  margin-top: 0.75rem;
+.contactChip:hover {
+  transform: translate(-1px, -2px) rotate(-0.6deg);
 }
 
-.contact-email {
-  font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  font-weight: var(--weight-bold);
-  color: var(--color-text-inverse);
-  text-decoration: none;
-  transition: color 0.15s ease;
+/* ---------- Bottom sign-off ---------- */
+
+.footerBottom {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #141414;
+  font-family: var(--font-handwrite);
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: #6a6a6a;
 }
 
-.contact-email:hover { color: var(--color-primary); }
+.footerBottom p { margin: 0; }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2.5rem;
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .doodleRow {
+    gap: 0.75rem;
+  }
+  .doodleStar { transform: rotate(-12deg) translateY(-30px); }
+  .paperOne { transform: rotate(-8deg) translateY(-14px); }
+  .contactRow {
+    flex-direction: column;
+    align-items: center;
+  }
+  .contactChip {
+    width: 100%;
+    max-width: 280px;
+  }
 }
 
-.footer-column h4 {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 1rem;
-}
-
-.footer-column ul { list-style: none; padding: 0; }
-
-.footer-column li { margin-bottom: 0.5rem; }
-
-.footer-column a {
-  color: rgba(251, 243, 231, 0.7);
-  text-decoration: none;
-  transition: color 0.15s ease;
-  font-size: 0.95rem;
-}
-
-.footer-column a:hover { color: var(--color-primary); }
-
-.footer-bottom {
-  padding-top: 2rem;
-  border-top: 1px solid rgba(251, 243, 231, 0.12);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: rgba(251, 243, 231, 0.6);
-}
-
-@media (max-width: 600px) {
-  .footer-bottom { flex-direction: column; text-align: center; }
+@media (prefers-reduced-motion: reduce) {
+  .contactChip,
+  .thanksTitleTwo,
+  .doodleStar,
+  .doodleHeart,
+  .paperOne,
+  .paperTwo {
+    transform: none !important;
+    transition: none !important;
+  }
 }

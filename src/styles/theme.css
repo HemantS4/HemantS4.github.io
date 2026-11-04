@@ -55,6 +55,12 @@
   --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono:    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
+  /* Sketch / handwritten family for the reskin.
+     --font-sketch     — big marker titles (name, project names, "Thank you")
+     --font-handwrite  — body-weight handwriting for bio lines, labels, nav */
+  --font-sketch:    'Caveat Brush', 'Permanent Marker', 'Kalam', sans-serif;
+  --font-handwrite: 'Caveat', 'Kalam', 'Patrick Hand', sans-serif;
+
   /* Type scale (fluid where useful, static otherwise) */
   --text-xs:    0.75rem;   /* 12px */
   --text-sm:    0.875rem;  /* 14px */
