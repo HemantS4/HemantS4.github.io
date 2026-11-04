@@ -18,8 +18,8 @@
   width: 100%;
   max-width: 1280px;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: clamp(1rem, 4vw, 4rem);
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(1rem, 3vw, 3rem);
   align-items: center;
 }
 
@@ -166,9 +166,10 @@
 
 .photoWrap {
   position: relative;
-  width: min(36vw, 420px);
+  width: min(50vw, 620px);
   aspect-ratio: 5 / 6;
   display: block;
+  margin-right: -4%;
 }
 
 .photo {
