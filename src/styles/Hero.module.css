@@ -168,6 +168,23 @@
   color: #141414;
 }
 
+/* Waving arm — rocks around the shoulder like a hand saying hi */
+.wavingArm {
+  transform-box: fill-box;
+  animation: wave 1.8s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(-4deg); }
+  25%      { transform: rotate(14deg); }
+  50%      { transform: rotate(-4deg); }
+  75%      { transform: rotate(14deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wavingArm { animation: none; }
+}
+
 .floatingHi {
   position: absolute;
   top: 6%;

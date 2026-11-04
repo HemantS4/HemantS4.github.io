@@ -119,5 +119,8 @@ export const project = {
     'Care-team chat row inside every anxious moment.',
   ],
 
-  gallery: [],
+  gallery: [
+    img(1), img(2), img(3), img(4), img(5), img(6), img(7), img(8),
+    img(9), img(10), img(11), img(12), img(13), img(14), img(15), img(16), img(17),
+  ],
 }

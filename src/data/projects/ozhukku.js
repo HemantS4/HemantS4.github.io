@@ -22,5 +22,18 @@ export const project = {
     platform: ['Desktop', 'Wall display'],
 
     extendedSections: [],
-    gallery: [],
+    gallery: [
+      `${BASE_URL}images/projects/ozhukku/screen-desk.webp`,
+      `${BASE_URL}images/projects/ozhukku/screen-wall.webp`,
+      `${BASE_URL}images/projects/ozhukku/screen-normal.webp`,
+      `${BASE_URL}images/projects/ozhukku/screen-logcall.webp`,
+      `${BASE_URL}images/projects/ozhukku/screen-merge.webp`,
+      `${BASE_URL}images/projects/ozhukku/screen-merged.webp`,
+      `${BASE_URL}images/projects/ozhukku/screen-handover.webp`,
+      `${BASE_URL}images/projects/ozhukku/skel-v1.webp`,
+      `${BASE_URL}images/projects/ozhukku/skel-v2.webp`,
+      `${BASE_URL}images/projects/ozhukku/photo-navy-aerial-1.webp`,
+      `${BASE_URL}images/projects/ozhukku/photo-navy-heli-rescue.webp`,
+      `${BASE_URL}images/projects/ozhukku/photo-kottayam-wading.webp`,
+    ],
 }

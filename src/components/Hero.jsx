@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from '../styles/Hero.module.css'
 
 export default function Hero() {
@@ -7,10 +7,41 @@ export default function Hero() {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
+  // Eyes follow cursor
+  const headRef = useRef(null)
+  const [pupil, setPupil] = useState({ lx: 0, ly: 0, rx: 0, ry: 0 })
+
+  useEffect(() => {
+    const handle = (e) => {
+      const head = headRef.current
+      if (!head) return
+      const rect = head.getBoundingClientRect()
+      // Eye centers in SVG coords: left (148,95), right (196,95); svg is 320x420
+      const cxL = rect.left + (148 / 320) * rect.width
+      const cyL = rect.top  + (95  / 420) * rect.height
+      const cxR = rect.left + (196 / 320) * rect.width
+      const cyR = rect.top  + (95  / 420) * rect.height
+      const maxShift = 3 // in svg units
+      const shift = (cx, cy) => {
+        const dx = e.clientX - cx
+        const dy = e.clientY - cy
+        const dist = Math.hypot(dx, dy) || 1
+        return {
+          x: (dx / dist) * maxShift,
+          y: (dy / dist) * maxShift,
+        }
+      }
+      const l = shift(cxL, cyL)
+      const r = shift(cxR, cyR)
+      setPupil({ lx: l.x, ly: l.y, rx: r.x, ry: r.y })
+    }
+    window.addEventListener('pointermove', handle)
+    return () => window.removeEventListener('pointermove', handle)
+  }, [])
+
   return (
     <section id="home" className={styles.hero}>
       <div className={styles.heroInner}>
-        {/* Left column — handwritten greeting, name, bio */}
         <div className={styles.heroText}>
           <p className={styles.heroHi}>hi,</p>
           <h1 className={styles.heroName}>
@@ -45,31 +76,41 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right column — stick-figure character */}
         <div className={styles.heroCharacter} aria-hidden="true">
-          <svg viewBox="0 0 320 420" className={styles.stickFigure}>
+          <svg viewBox="0 0 320 420" className={styles.stickFigure} ref={headRef}>
             {/* Head */}
-            <ellipse cx="170" cy="100" rx="78" ry="85" stroke="currentColor" strokeWidth="6" fill="none" />
-            {/* Eyes */}
-            <circle cx="148" cy="95" r="4.5" fill="currentColor" />
-            <circle cx="196" cy="95" r="4.5" fill="currentColor" />
+            <ellipse cx="170" cy="100" rx="78" ry="85" stroke="currentColor" strokeWidth="6" fill="#fff" />
+
+            {/* Eye whites */}
+            <circle cx="148" cy="95" r="9" fill="#fff" stroke="currentColor" strokeWidth="2" />
+            <circle cx="196" cy="95" r="9" fill="#fff" stroke="currentColor" strokeWidth="2" />
+            {/* Pupils — follow cursor */}
+            <circle cx={148 + pupil.lx} cy={95 + pupil.ly} r="3.5" fill="currentColor" />
+            <circle cx={196 + pupil.rx} cy={95 + pupil.ry} r="3.5" fill="currentColor" />
+
             {/* Smile */}
             <path d="M138 128 Q 170 152 202 128" stroke="currentColor" strokeWidth="5" fill="none" strokeLinecap="round" />
+
             {/* Body */}
             <path d="M170 185 L 170 310" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-            {/* Waving arm (right, holding a pen/stick) */}
-            <path d="M170 215 C 200 190, 240 150, 260 115" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
-            <circle cx="262" cy="110" r="14" stroke="currentColor" strokeWidth="5" fill="none" />
-            {/* Other arm (down/side) */}
+
+            {/* Waving arm — animated via CSS transform-origin at shoulder */}
+            <g className={styles.wavingArm} style={{ transformOrigin: '170px 215px' }}>
+              <path d="M170 215 C 200 190, 240 150, 260 115" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
+              <circle cx="262" cy="110" r="14" stroke="currentColor" strokeWidth="5" fill="#fff" />
+            </g>
+
+            {/* Other arm */}
             <path d="M170 220 C 140 250, 130 275, 118 288" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
+
             {/* Legs */}
             <path d="M170 310 L 135 400" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
             <path d="M170 310 L 210 400" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
+
             {/* Ground squiggle */}
             <path d="M80 408 Q 160 400 260 410" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.5" />
           </svg>
 
-          {/* floating "hi!" doodle near the waving hand */}
           <span className={styles.floatingHi}>hi!</span>
         </div>
       </div>
