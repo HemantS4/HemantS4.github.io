@@ -181,7 +181,7 @@
   object-position: center top;
   display: block;
   margin-left: -20%;
-  margin-top: -6%;
+  margin-top: 8%;
   z-index: 1;
   animation: photoBob 5s ease-in-out infinite;
 }
