@@ -138,13 +138,17 @@ export default function ProjectDetail() {
             </div>
 
             <h1 className={styles.projectTitleLarge}>{project.title}</h1>
-            <p className={styles.projectTagline}>{project.description}</p>
+            {!project.hideDetailHeroText && project.description && (
+              <p className={styles.projectTagline}>{project.description}</p>
+            )}
 
-            <div className={styles.projectToolsList}>
-              {project.tools.map((tool, index) => (
-                <span key={index} className={styles.toolBadge}>{tool}</span>
-              ))}
-            </div>
+            {!project.hideDetailHeroText && project.tools && project.tools.length > 0 && (
+              <div className={styles.projectToolsList}>
+                {project.tools.map((tool, index) => (
+                  <span key={index} className={styles.toolBadge}>{tool}</span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Hero images (shown before the prototype) */}
@@ -227,27 +231,37 @@ export default function ProjectDetail() {
             </div>
           )}
 
-          {/* Quick Info Cards */}
-          <div className={styles.contentBlock}>
-            <div className={styles.infoCardsInline}>
-              <div className={styles.infoCardInline}>
-                <span className={styles.infoLabel}>Role</span>
-                <span className={styles.infoValue}>{project.role}</span>
-              </div>
-              <div className={styles.infoCardInline}>
-                <span className={styles.infoLabel}>Duration</span>
-                <span className={styles.infoValue}>{project.duration}</span>
-              </div>
-              <div className={styles.infoCardInline}>
-                <span className={styles.infoLabel}>Team Size</span>
-                <span className={styles.infoValue}>{project.teamSize}</span>
-              </div>
-              <div className={styles.infoCardInline}>
-                <span className={styles.infoLabel}>Platform</span>
-                <span className={styles.infoValue}>{project.platform.join(', ')}</span>
+          {/* Quick Info Cards — skipped when project has no meta set */}
+          {Boolean(project.role || project.duration || project.teamSize || (project.platform && project.platform.length > 0)) && (
+            <div className={styles.contentBlock}>
+              <div className={styles.infoCardsInline}>
+                {project.role && (
+                  <div className={styles.infoCardInline}>
+                    <span className={styles.infoLabel}>Role</span>
+                    <span className={styles.infoValue}>{project.role}</span>
+                  </div>
+                )}
+                {project.duration && (
+                  <div className={styles.infoCardInline}>
+                    <span className={styles.infoLabel}>Duration</span>
+                    <span className={styles.infoValue}>{project.duration}</span>
+                  </div>
+                )}
+                {project.teamSize && (
+                  <div className={styles.infoCardInline}>
+                    <span className={styles.infoLabel}>Team Size</span>
+                    <span className={styles.infoValue}>{project.teamSize}</span>
+                  </div>
+                )}
+                {project.platform && project.platform.length > 0 && (
+                  <div className={styles.infoCardInline}>
+                    <span className={styles.infoLabel}>Platform</span>
+                    <span className={styles.infoValue}>{project.platform.join(', ')}</span>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          )}
 
           {/* Overview */}
           {project.overview && (

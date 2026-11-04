@@ -9,7 +9,7 @@ import { project as nmt_app       } from './nmt-app.js'
 import { project as ozhukku       } from './ozhukku.js'
 import { project as introsense    } from './introsense.js'
 import { project as neurosense    } from './neurosense.js'
-import { project as pack_less     } from './pack-less.js'
+import { project as landing       } from './landing.js'
 import { project as ammo_batics   } from './ammo-batics.js'
 import { project as flow_and_hold } from './flow-and-hold.js'
 import { project as moti          } from './moti.js'
@@ -24,7 +24,7 @@ export const projectsData = [
   ozhukku,
   introsense,
   neurosense,
-  pack_less,
+  landing,
   ammo_batics,
   flow_and_hold,
   moti,
