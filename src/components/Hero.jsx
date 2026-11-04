@@ -1,43 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import styles from '../styles/Hero.module.css'
+
+const BASE_URL = import.meta.env.BASE_URL
 
 export default function Hero() {
   const scrollToProjects = () => {
     const el = document.getElementById('projects')
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
-
-  // Eyes follow cursor
-  const headRef = useRef(null)
-  const [pupil, setPupil] = useState({ lx: 0, ly: 0, rx: 0, ry: 0 })
-
-  useEffect(() => {
-    const handle = (e) => {
-      const head = headRef.current
-      if (!head) return
-      const rect = head.getBoundingClientRect()
-      // Eye centers in SVG coords: left (148,95), right (196,95); svg is 320x420
-      const cxL = rect.left + (148 / 320) * rect.width
-      const cyL = rect.top  + (95  / 420) * rect.height
-      const cxR = rect.left + (196 / 320) * rect.width
-      const cyR = rect.top  + (95  / 420) * rect.height
-      const maxShift = 3 // in svg units
-      const shift = (cx, cy) => {
-        const dx = e.clientX - cx
-        const dy = e.clientY - cy
-        const dist = Math.hypot(dx, dy) || 1
-        return {
-          x: (dx / dist) * maxShift,
-          y: (dy / dist) * maxShift,
-        }
-      }
-      const l = shift(cxL, cyL)
-      const r = shift(cxR, cyR)
-      setPupil({ lx: l.x, ly: l.y, rx: r.x, ry: r.y })
-    }
-    window.addEventListener('pointermove', handle)
-    return () => window.removeEventListener('pointermove', handle)
-  }, [])
 
   return (
     <section id="home" className={styles.hero}>
@@ -76,42 +46,30 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className={styles.heroCharacter} aria-hidden="true">
-          <svg viewBox="0 0 320 420" className={styles.stickFigure} ref={headRef}>
-            {/* Head */}
-            <ellipse cx="170" cy="100" rx="78" ry="85" stroke="currentColor" strokeWidth="6" fill="#fff" />
-
-            {/* Eye whites */}
-            <circle cx="148" cy="95" r="9" fill="#fff" stroke="currentColor" strokeWidth="2" />
-            <circle cx="196" cy="95" r="9" fill="#fff" stroke="currentColor" strokeWidth="2" />
-            {/* Pupils — follow cursor */}
-            <circle cx={148 + pupil.lx} cy={95 + pupil.ly} r="3.5" fill="currentColor" />
-            <circle cx={196 + pupil.rx} cy={95 + pupil.ry} r="3.5" fill="currentColor" />
-
-            {/* Smile */}
-            <path d="M138 128 Q 170 152 202 128" stroke="currentColor" strokeWidth="5" fill="none" strokeLinecap="round" />
-
-            {/* Body */}
-            <path d="M170 185 L 170 310" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-
-            {/* Waving arm — animated via CSS transform-origin at shoulder */}
-            <g className={styles.wavingArm} style={{ transformOrigin: '170px 215px' }}>
-              <path d="M170 215 C 200 190, 240 150, 260 115" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
-              <circle cx="262" cy="110" r="14" stroke="currentColor" strokeWidth="5" fill="#fff" />
-            </g>
-
-            {/* Other arm */}
-            <path d="M170 220 C 140 250, 130 275, 118 288" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
-
-            {/* Legs */}
-            <path d="M170 310 L 135 400" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
-            <path d="M170 310 L 210 400" stroke="currentColor" strokeWidth="6" strokeLinecap="round" fill="none" />
-
-            {/* Ground squiggle */}
-            <path d="M80 408 Q 160 400 260 410" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.5" />
-          </svg>
-
-          <span className={styles.floatingHi}>hi!</span>
+        {/* Photo with hand-drawn sketch frame */}
+        <div className={styles.heroCharacter}>
+          <div className={styles.photoWrap}>
+            <svg className={styles.photoFrame} viewBox="0 0 400 480" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M10 14 L 390 8 L 394 472 L 8 468 Z"
+                stroke="currentColor" strokeWidth="4.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <img
+              src={`${BASE_URL}images/hemant.jpg`}
+              alt="Hemant Sharma"
+              className={styles.photo}
+              onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+            />
+            {/* Doodles around the frame */}
+            <svg className={styles.photoDoodleArrow} viewBox="0 0 120 80" aria-hidden="true">
+              <path d="M8 40 C 40 10, 80 60, 112 24" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <path d="M108 16 L 112 24 L 104 28" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className={styles.photoCallout}>that&rsquo;s me</span>
+            <svg className={styles.photoStar} viewBox="0 0 60 60" aria-hidden="true">
+              <path d="M30 6 L 36 24 L 54 24 L 40 36 L 46 54 L 30 42 L 14 54 L 20 36 L 6 24 L 24 24 Z"
+                stroke="currentColor" strokeWidth="3" fill="none" strokeLinejoin="round" />
+            </svg>
+          </div>
         </div>
       </div>
     </section>
