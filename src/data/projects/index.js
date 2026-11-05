@@ -20,11 +20,11 @@ import { project as artwork       } from './artwork.js'
 
 /** @type {Project[]} */
 export const projectsData = [
-  nmt_app,
   ozhukku,
   introsense,
-  neurosense,
   landing,
+  nmt_app,
+  neurosense,
   ammo_batics,
   flow_and_hold,
   moti,
