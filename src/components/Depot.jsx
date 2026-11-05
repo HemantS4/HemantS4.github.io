@@ -108,7 +108,7 @@ export default function Depot() {
         queueRef.current = nextId
         return
       }
-      const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms))
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms))
 
       // Step 1 — put the currently-held container back.
       if (picked && phase === 'open') {
@@ -310,10 +310,9 @@ function Claw({ x, top, fingersOpen, width, reduceMotion }) {
     <div
       className={styles.claw}
       style={{
-        '--x': `${x}px`,
+        transform: `translateX(${x}px) translateY(-18px)`,
         '--top': `${top}px`,
         '--span': `${span}px`,
-        '--rodLen': `${Math.max(top, 0)}px`,
       }}
       aria-hidden="true"
       data-reduce={reduceMotion ? 'true' : 'false'}
@@ -348,8 +347,9 @@ const Container3D = React.forwardRef(function Container3D(
       ref={ref}
       className={styles.boxWrap}
       style={{
-        '--x': `${x}px`,
-        '--y': `${y}px`,
+        transform: `translate3d(${x}px, ${y}px, 0)`,
+        width: `${w}px`,
+        height: `${h}px`,
         '--w': `${w}px`,
         '--h': `${h}px`,
         '--d': `${d}px`,
@@ -361,10 +361,12 @@ const Container3D = React.forwardRef(function Container3D(
         zIndex,
       }}
     >
-      <button
-        type="button"
+      <div
+        role="button"
+        tabIndex={0}
         className={styles.boxBtn}
         onClick={onClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
         aria-label={`Open ${def.label.join(' ')}`}
       >
         <div className={styles.box}>
@@ -396,12 +398,13 @@ const Container3D = React.forwardRef(function Container3D(
             <div
               className={`${styles.contentPanel} ${activeContent ? styles.contentPanelOn : ''}`}
               inert={activeContent ? undefined : ''}
+              onClick={(e) => e.stopPropagation()}
             >
               {activeContent && content}
             </div>
           </div>
         </div>
-      </button>
+      </div>
     </div>
   )
 })
@@ -521,15 +524,11 @@ function WorkCarousel({ navigate }) {
           <img
             src={p.thumbnail}
             alt={p.title}
-            onError={(e) => {
-              e.currentTarget.style.background = '#14264a'
-              e.currentTarget.removeAttribute('src')
-            }}
+            onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
           />
         </div>
         <div className={styles.workMeta}>
           <h1>{p.title}</h1>
-          <p>{p.shortDescription || p.category}</p>
           <span className={styles.workCta}>open project →</span>
         </div>
       </button>
