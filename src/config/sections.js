@@ -15,7 +15,11 @@
 //     unless it's a standalone anchor.
 // ============================================================
 
-import Depot from '../components/Depot'
+import Hero     from '../components/Hero'
+import Projects from '../components/Projects'
+import About    from '../components/About'
+import Contact  from '../components/Contact'
+import Footer   from '../components/Footer'
 
 /**
  * @typedef {Object} HomepageSection
@@ -25,7 +29,11 @@ import Depot from '../components/Depot'
 
 /** @type {HomepageSection[]} */
 export const homepageSections = [
-  { component: Depot, sectionId: 'home' },
+  { component: Hero,     sectionId: 'home'     },
+  { component: Projects, sectionId: 'projects' },
+  { component: About,    sectionId: 'about'    },
+  { component: Contact,  sectionId: 'contact'  },
+  { component: Footer                          },
 ]
 
 /**

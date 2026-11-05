@@ -4,8 +4,7 @@
    to change colors, spacing, typography, radii, shadows, motion.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat+Brush&family=Caveat:wght@400;700&family=Kalam:wght@400;700&family=Instrument+Serif:ital@1&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@400,500,700,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat+Brush&family=Caveat:wght@400;700&family=Kalam:wght@400;700&display=swap');
 @import './styles/theme.css';
 
 * {

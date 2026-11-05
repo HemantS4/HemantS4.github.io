@@ -5,13 +5,16 @@ import ProjectDetail from './components/ProjectDetail'
 import { homepageSections, observedSectionIds } from './config/sections'
 import './App.css'
 
-function HomePage() {
+function HomePage({ activeSection, setActiveSection }) {
   return (
-    <main className="main-content" style={{ marginLeft: 0, paddingTop: 0 }}>
-      {homepageSections.map(({ component: Section }, i) => (
-        <Section key={i} />
-      ))}
-    </main>
+    <>
+      <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+      <main className="main-content">
+        {homepageSections.map(({ component: Section }, i) => (
+          <Section key={i} />
+        ))}
+      </main>
+    </>
   )
 }
 
@@ -42,7 +45,10 @@ function AppContent() {
         <Route
           path="/"
           element={
-            <HomePage />
+            <HomePage
+              activeSection={activeSection}
+              setActiveSection={setActiveSection}
+            />
           }
         />
         <Route path="/project/:projectId" element={<ProjectDetail />} />
