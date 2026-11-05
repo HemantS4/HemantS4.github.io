@@ -28,6 +28,7 @@ export default function Hero() {
             <p>Biologist turned game &amp; UX designer.</p>
             <p>I draw systems, pick the one that breaks the least,</p>
             <p>and build until someone else can use it.</p>
+            <p>Also fluent in <strong>3D modelling (Maya, Blender)</strong> and <strong>Arduino / IoT</strong> prototyping.</p>
             <p className={styles.heroBioFaint}>Based in Bangalore. Open to UX/UI and product roles.</p>
           </div>
 

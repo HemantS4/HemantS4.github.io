@@ -3,12 +3,15 @@ import styles from '../styles/About.module.css'
 
 export default function About() {
   const tools = [
-    { name: 'Unity', category: 'Engine' },
-    { name: 'Blender', category: '3D' },
+    { name: 'Figma',     category: 'Design' },
+    { name: 'Maya',      category: '3D' },
+    { name: 'Blender',   category: '3D' },
+    { name: 'Unity',     category: 'Engine' },
+    { name: 'Unreal',    category: 'Engine' },
+    { name: 'Arduino',   category: 'IoT' },
+    { name: 'IoT',       category: 'Hardware' },
     { name: 'Photoshop', category: 'Adobe' },
-    { name: 'Figma', category: 'Design' },
-    { name: 'Unreal', category: 'Engine' },
-    { name: 'AI', category: 'Tech' }
+    { name: 'AI',        category: 'Tech' },
   ]
 
   const handleResumeClick = () => {
@@ -33,6 +36,11 @@ export default function About() {
           <p className={styles.aboutDescription}>
             With expertise in level design, game balancing, and player psychology, I craft experiences
             that keep players engaged through well-designed feedback loops and meaningful choices.
+          </p>
+          <p className={styles.aboutDescription}>
+            Outside of screens I build in 3D with <strong>Maya</strong> and <strong>Blender</strong>, and prototype
+            physical interactions with <strong>Arduino</strong> and <strong>IoT</strong> hardware —
+            bringing systems off the screen and into the room.
           </p>
 
           {/* Resume Button */}
