@@ -190,15 +190,6 @@ export default function Projects() {
         ))}
       </div>
 
-      <div className={styles.artworkRow}>
-        <button
-          type="button"
-          className={styles.artworkLink}
-          onClick={() => navigate('/project/artwork')}
-        >
-          or see the artwork &rarr;
-        </button>
-      </div>
     </section>
   )
 }

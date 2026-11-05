@@ -1,9 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from '../styles/Hero.module.css'
 
 const BASE_URL = import.meta.env.BASE_URL
 
 export default function Hero() {
+  const navigate = useNavigate()
   const scrollToProjects = () => {
     const el = document.getElementById('projects')
     if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -43,6 +45,13 @@ export default function Hero() {
             <a className={styles.heroInkLink} href="#contact">
               or just say hi &rarr;
             </a>
+            <button
+              type="button"
+              className={styles.heroInkLink}
+              onClick={() => navigate('/project/artwork')}
+            >
+              or see the artwork &rarr;
+            </button>
           </div>
         </div>
 
