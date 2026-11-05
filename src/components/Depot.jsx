@@ -418,31 +418,9 @@ function ContainerContent({ id, navigate }) {
         </Panel>
       )
 
-    case 'work': {
-      const visible = projectsData.filter((p) => !p.isHidden).slice(0, 6)
-      return (
-        <Panel kicker="02 / SELECTED WORK" color="#ffd1a8">
-          <h1>The <em>work</em>.</h1>
-          <ul className={styles.workList}>
-            {visible.map((p) => (
-              <li key={p.id}>
-                <button
-                  type="button"
-                  className={styles.workLink}
-                  onClick={() => {
-                    if (p.externalPage) window.location.href = p.externalPage
-                    else navigate(`/project/${p.id}`)
-                  }}
-                >
-                  <span className={styles.workTitle}>{p.title}</span>
-                  <span className={styles.workBlurb}>{p.shortDescription || p.category}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </Panel>
-      )
-    }
+    case 'work':
+      return <WorkCarousel navigate={navigate} />
+
 
     case 'about':
       return (
@@ -501,6 +479,69 @@ function ContainerContent({ id, navigate }) {
     default:
       return null
   }
+}
+
+function WorkCarousel({ navigate }) {
+  const items = useMemo(() => projectsData.filter((p) => !p.isHidden), [])
+  const [i, setI] = useState(0)
+  const p = items[i]
+  const go = (dir) => (e) => {
+    e.stopPropagation()
+    setI((n) => (n + dir + items.length) % items.length)
+  }
+  const open = (e) => {
+    e.stopPropagation()
+    if (p.externalPage) window.location.href = p.externalPage
+    else navigate(`/project/${p.id}`)
+  }
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft')  setI((n) => (n - 1 + items.length) % items.length)
+      if (e.key === 'ArrowRight') setI((n) => (n + 1) % items.length)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [items.length])
+
+  return (
+    <div className={styles.workCarousel}>
+      <div className={styles.workHead}>
+        <span className={styles.kicker} style={{ color: '#ffd1a8' }}>02 / SELECTED WORK · {i + 1} / {items.length}</span>
+      </div>
+
+      <button
+        type="button"
+        className={`${styles.carouselArrow} ${styles.carouselArrowLeft}`}
+        onClick={go(-1)}
+        aria-label="Previous project"
+      >‹</button>
+
+      <button type="button" className={styles.workCard} onClick={open} aria-label={`Open ${p.title}`}>
+        <div className={styles.workThumb}>
+          <img
+            src={p.thumbnail}
+            alt={p.title}
+            onError={(e) => {
+              e.currentTarget.style.background = '#14264a'
+              e.currentTarget.removeAttribute('src')
+            }}
+          />
+        </div>
+        <div className={styles.workMeta}>
+          <h1>{p.title}</h1>
+          <p>{p.shortDescription || p.category}</p>
+          <span className={styles.workCta}>open project →</span>
+        </div>
+      </button>
+
+      <button
+        type="button"
+        className={`${styles.carouselArrow} ${styles.carouselArrowRight}`}
+        onClick={go(1)}
+        aria-label="Next project"
+      >›</button>
+    </div>
+  )
 }
 
 function Panel({ kicker, color, children }) {
